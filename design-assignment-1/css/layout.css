@@ -1,0 +1,102 @@
+.main-page{
+    background-color: #f3f3f3;
+}
+
+}
+
+.info img {
+    padding-bottom: 40px;
+}
+
+.info p {
+    color: #fff8ff;
+}
+
+.info ul li {
+    list-style-type: none;
+    color: #fff8ff;
+}
+
+.info ul li a {
+    text-decoration-line: none;
+    padding-right:5px;
+}
+
+.company-menu {
+    float: left;
+    padding:40px;
+}
+
+.company-menu h3 {
+    text-align: left;
+}
+
+.company-menu ul{
+    padding-left: 30px;
+    list-style-type: none;
+    
+}
+
+.company-menu ul li {
+    color: #fff8ff;
+    padding-right: 20px;
+}
+
+.company-menu ul li a {
+    text-decoration-line: none;
+    color: #fff8ff;
+}
+
+.from-blog {
+    float: left;
+    
+    padding:40px;
+    width: 230px;
+}
+
+.blog-image, .blog-detail {
+    float: left;
+}
+
+.blog-image {
+    padding-right: 20px;
+}
+
+.blog-head a {
+    text-decoration-line: none;
+    display: block;
+    padding-bottom: 10px;
+}
+
+.footer-bottom {
+    background-color: #6bb4ad;
+    padding-left: 172px;
+    padding-right: 172px;
+    line-height: 50px;
+}
+
+.footer-left {
+    float: left;
+}
+
+.footer-right {
+    float: right;
+    padding-top: 12px;
+}
+
+.footer-right ul li {
+    line-height: 50px;
+    list-style: none;
+    float: left;
+    padding-left: 26px;
+}
+
+
+
+
+
+
+
+
+
+

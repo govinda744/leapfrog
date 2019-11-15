@@ -1,0 +1,27 @@
+*{
+    padding: 0px;
+    margin: 0px;
+    color: #7e807f;
+}
+
+h2 {
+    color: #e34e48;
+}
+
+h3 {
+    padding-bottom: 40px;
+}
+
+p {
+    color : #7e807f;
+}
+
+.clear:before, .clear:after {
+	content:"";
+	display:table;
+}
+
+.clear:after {
+    clear: both;
+}
+
