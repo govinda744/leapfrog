@@ -5,7 +5,7 @@
 
 .header-wrapper-top {
     background-color:#76c7c1;
-    background-image: url('images/header-scale-image.png');
+    background-image: image('images/header-scale-image.png');
     background-position: left bottom;
     background-repeat: repeat-x;
 }
@@ -40,7 +40,7 @@
 }
 
 .header-wrapper-top .menu ul li:hover a, .header-wrapper-top .menu ul li:hover img{
-    background-image: url('images/menu-item-hover-left.png'), url('images/menu-item-hover-right.png'), url('images/menu-item-hover-background.png');
+    background-image: image('images/menu-item-hover-left.png'), image('images/menu-item-hover-right.png'), image('images/menu-item-hover-background.png');
     background-position: left,right,bottom left;
     background-repeat: no-repeat,no-repeat, repeat-x;
 }
@@ -151,25 +151,25 @@
 }
 
 .col3-left .main-wrapper .main .chart ul li ._50 {
-    background-image: url('images/50.png');
+    background-image: image('images/50.png');
     background-repeat: no-repeat;
     background-position: center;
 }
 
 .col3-left .main-wrapper .main .chart ul li ._70 {
-    background-image: url('images/70.png');
+    background-image: image('images/70.png');
     background-repeat: no-repeat;
     background-position: center;
 }
 
 .col3-left .main-wrapper .main .chart ul li ._80 {
-    background-image: url('images/80.png');
+    background-image: image('images/80.png');
     background-repeat: no-repeat;
     background-position: center;
 }
 
 .col3-left .main-wrapper .main .chart ul li ._100 {
-    background-image: url('images/100.png');
+    background-image: image('images/100.png');
     background-repeat: no-repeat;
     background-position: center;
 }
@@ -202,7 +202,7 @@
 /* our team layout */
 .our-team-container {
     background-color: #f3f3f3;
-    background-image: url('images/background-our-team-image.png');
+    background-image: image('images/background-our-team-image.png');
     background-repeat: repeat-x;
 }
 
@@ -221,7 +221,7 @@
 
 .team-member-image {
     background-color: #f8f8f8;
-    background-image: url('images/background-team-image.png');
+    background-image: image('images/background-team-image.png');
     background-repeat: no-repeat;
     background-position: center;
 }
@@ -230,7 +230,7 @@
     display: none;
     line-height: 27px;
     color: #fcffff;
-    background-image: url('images/frame-team-member-details.png');
+    background-image: image('images/frame-team-member-details.png');
     background-color: #90d1cb;
     background-repeat: no-repeat;
     background-position: center;
@@ -277,7 +277,7 @@
 
 .team-member:hover .team-member-button-inactive {
     background-color: #e9645b;
-    background-image: url('images/button-team-member-hover.png');
+    background-image: image('images/button-team-member-hover.png');
 }
 
 .team-member-button-inactive {
@@ -289,7 +289,7 @@
     line-height: 54px;
     width: 200px;
     background-color: #99a3a4;
-    background-image: url('images/button-team-member.png');
+    background-image: image('images/button-team-member.png');
     background-repeat: no-repeat;
 }
 
@@ -331,7 +331,7 @@
 }
 
 .clients .separator {
-    background-image: url('images/separator-background.png');
+    background-image: image('images/separator-background.png');
     background-position: right;
     background-repeat: repeat-x;
     width: 900px;
@@ -382,7 +382,7 @@
     padding-bottom: 20px;
     padding-top: 45px;
     background-color: #76c7c1;
-    background-image: url('images/scale-footer.png');
+    background-image: image('images/scale-footer.png');
     background-position: top left;
     background-repeat: repeat-x;
 }
