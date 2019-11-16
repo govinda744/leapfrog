@@ -138,6 +138,12 @@
     padding: 0px 5px 0px;
 }
 
+.col3-left .main-wrapper .main .chart ul li h3 {
+    text-align: center;
+    padding-top:23px ;
+}
+
+
 .col3-left .main-wrapper .main .chart ul li span {
     display: block;
     text-align: center;
