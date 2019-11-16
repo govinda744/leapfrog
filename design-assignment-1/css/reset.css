@@ -4,6 +4,16 @@
     color: #7e807f;
 }
 
+img {
+    width:auto;
+    height: auto; 
+    display: block;
+}
+
+a{
+    cursor: pointer;
+}
+
 h2 {
     color: #e34e48;
 }
