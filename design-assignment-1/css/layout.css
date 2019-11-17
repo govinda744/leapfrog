@@ -49,13 +49,23 @@
 
 .header-wrapper-top .search-text-input {
     display: none;
-    background-image: url('https://govinda744.github.io/leapfrog/design-assignment-1/images/search-text-here-frame.png');
+    background-image: url('https://govinda744.github.io/leapfrog/design-assignment-1/images/search-text-here-frame.png'), url('/images/search-text-here-frame-fix.png');
+    background-position: center,top left;
+    background-repeat: no-repeat, repeat-x;
     position: absolute;
     background-color: white;
     right: 0px;
     top:50px;
     width: 200px;
+}
+
+.header-wrapper-top .search-text-input input {
+    align-content: center;
     line-height: 47px;
+    border: 0px;
+    background:none;
+    display: block;
+    margin: 0 auto;
 }
 
 .header-wrapper-top .menu ul li:hover img {
@@ -69,11 +79,6 @@
 
 .header-wrapper-top img {
     display: inline;
-}
-
-.header-wrapper-top .search-text-input input {
-    margin-left: 3px;
-    padding: 4px 15px 11px 10px;
 }
 
 .header-wrapper-buttom {
