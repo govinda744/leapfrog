@@ -51,6 +51,7 @@
     display: none;
     background-image: url('https://govinda744.github.io/leapfrog/design-assignment-1/images/search-text-here-frame.png');
     position: absolute;
+    background-color: white;
     right: 0px;
     top:50px;
     width: 200px;
