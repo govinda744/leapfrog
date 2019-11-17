@@ -1,0 +1,19 @@
+* {
+    padding: 0px;
+    margin: 0px;
+}
+
+img {
+    width: auto;
+    height: auto;
+    display: block;
+}
+
+.clear:after, .clear:before {
+    content: "";
+    display: table;
+}
+
+.clear:after {
+    clear: both;
+}
