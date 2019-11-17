@@ -27,7 +27,7 @@
 .header-wrapper-top .menu ul li {
     line-height: 80px;
     float: left;
-    font-size: 14sp;
+    font-size: 14xp;
     list-style-type: none;
 }
 
@@ -173,7 +173,7 @@
     display: block;
     text-align: center;
     padding-top: 20px;
-    font-size: 36sp;
+    font-size: 36px;
 }
 
 .col3-left .main-wrapper .main p .danger{
