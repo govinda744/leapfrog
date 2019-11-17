@@ -4,6 +4,7 @@
 }
 
 .header-wrapper-top {
+    position: relative;
     background-color:#76c7c1;
     background-image: url('https://govinda744.github.io/leapfrog/design-assignment-1/images/header-scale-image.png');
     background-position: left bottom;
@@ -39,15 +40,39 @@
     text-decoration-line: none;
 }
 
-.header-wrapper-top .menu ul li:hover a, .header-wrapper-top .menu ul li:hover img{
+.header-wrapper-top .menu ul li:hover a {
     background-image: url('https://govinda744.github.io/leapfrog/design-assignment-1/images/menu-item-hover-left.png'), url('https://govinda744.github.io/leapfrog/design-assignment-1/images/menu-item-hover-right.png'), url('https://govinda744.github.io/leapfrog/design-assignment-1/images/menu-item-hover-background.png');
     background-position: left,right,bottom left;
     background-repeat: no-repeat,no-repeat, repeat-x;
 }
 
+
+.header-wrapper-top .search-text-input {
+    display: none;
+    background-image: url('/images/search-text-here-frame.png');
+    position: absolute;
+    right: 0px;
+    top:50px;
+    width: 200px;
+    line-height: 47px;
+}
+
+.header-wrapper-top .menu ul li:hover img {
+    cursor: pointer;
+    background-color: #ea5044;
+}
+
+.header-wrapper-top .menu ul li:hover .search-text-input {
+    display: block;
+}
+
 .header-wrapper-top img {
     display: inline;
-    padding-left:10px;
+}
+
+.header-wrapper-top .search-text-input input {
+    margin-left: 3px;
+    padding: 4px 15px 11px 10px;
 }
 
 .header-wrapper-buttom {
