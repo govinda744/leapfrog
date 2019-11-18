@@ -53,7 +53,7 @@
 .header-wrapper-top .menu .search-text-input {
     display: none;
     background-color: white;
-    background-image: url('https://govinda744.github.io/leapfrog/design-assignment-1/images/search-text-here-frame-left.png'),url('https://govinda744.github.io/leapfrog/design-assignment-1/images/search-text-here-frame-right.png'),url('https://govinda744.github.io/leapfrog/design-assignment-1/images/search-text-here-frame-comment.png'), url('https://govinda744.github.io/leapfrog/design-assignment-1/images/search-text-here-frame-fix-top.png'), url('https://govinda744.github.io/leapfrog/design-assignment-1/images/search-text-here-frame-fix-bottom.png');
+    background-image: url('https://govinda744.github.io/leapfrog/design-assignment-1/images/search-text-here-frame-left.png'),url('https://govinda744.github.io/leapfrog/design-assignment-1/images/search-text-here-frame-right.png'),url('https://govinda744.github.io/leapfrog/design-assignment-1/images/search-text-here-frame-comment.png'), url('/images/search-text-here-frame-fix-top.png'), url('https://govinda744.github.io/leapfrog/design-assignment-1/images/search-text-here-frame-fix-bottom.png');
     background-position: left,right,top right,top left, bottom left;
     background-repeat: no-repeat,no-repeat,no-repeat, repeat-x, repeat-x;
     position: absolute;
