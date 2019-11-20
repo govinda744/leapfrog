@@ -1,0 +1,308 @@
+.header-components {
+    background: url('../images/header-components-background.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: #000000;
+}
+
+nav .company-logo {
+    float: left;
+}
+
+nav .menu {
+    float: right;
+}
+
+nav a{
+    padding:0px 25px 0px 25px;
+    font-size:14px;
+    font-family: 'Open Sans semibold', sans-serif;
+    display: inline-block;
+    text-decoration-line: none;
+    color: #ffffff;
+    line-height: 70px;
+}
+
+nav .company-logo a {
+    padding-top:21px;
+    padding-left: 0px;
+}
+
+nav a:hover {
+    color:#ff8b38;
+}
+
+.header-container {
+    padding-top: 72px;
+    padding-bottom: 140px;
+    padding-right: 25px;
+    
+}
+
+header .download-section {
+    width: 45.3744%;
+    float: left;
+    color: #ffffff;
+}
+
+header .download-section figure {
+    margin-bottom: 32px;
+}
+
+header .download-section .separator img{
+    margin: 38px 0px;
+}
+
+header .download-section h1{
+    font-family: 'Raleway', sans-serif;
+    font-weight: bold;
+    font-size: 36px;
+}
+
+header .download-section p{
+    font-family: 'Raleway', sans-serif;
+    font-weight: initial;
+    color: #86878b;
+    line-height: 24px;
+}
+
+.download-button {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: bold;
+    font-size: 15px;
+    color: #ffffff;
+    width: 135px;
+    line-height: 42px;
+    text-align: center;
+    background: url('../images/download-background-image.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    margin-top: 47px;
+}
+
+.download-button:hover {
+    cursor: pointer;
+    background-color: #ff8b38;
+}
+
+header .signup-form {
+    float: right;
+    width: 31.7180%;
+}
+
+header .signup-form h2 {
+    font-family: 'open sans', sans-serif;
+    font-size: 20px;
+    font-weight: bold;
+    border-top-left-radius: 9px;
+    border-top-right-radius: 9px;
+    text-align: center;
+    display: block;
+    line-height: 54px;
+    margin-top: 30px;
+}
+
+header .signup-form h2 span {
+    color: #ff8b38;
+}
+
+header .signup-form form {
+    border-bottom-right-radius: 15px;
+    border-bottom-left-radius: 15px;
+    background: #fff;
+    width: 100%;
+}
+
+header .signup-form form input {
+    box-shadow: 0px 3px 1px #bdbdbd;
+    background-color: #ffffff;
+    border: 0px;
+    width: 79.1666%;
+    font-size: 14px;
+    font-family: "Open Sans", sans-serif;
+    color: #bdbdbd;
+    line-height: 31px;
+    text-align: left;
+    margin-left: 38px;
+    margin-top: 35px;
+    margin-bottom: 35px;
+}
+
+header .signup-form form input:last-child {
+    box-shadow: none;
+    background-color: #ff8b38;
+    border-bottom-right-radius: 9px;
+    border-bottom-left-radius: 9px;
+    color: #ffffff;
+    font-weight: bold;
+    width: 100%;
+    line-height: 54px;
+    text-align: center;
+    margin: 0px;
+}
+
+
+header .signup-form form input:last-child:hover {
+    cursor: pointer;
+    background-color: #fb9348;
+}
+
+.social-media-links-container {
+    box-shadow: 3px 3px 1px #bdbdbd;
+    margin-bottom: 3px;
+}
+
+.social-media-links-container .social-media {
+    padding-right: 18px;
+}
+
+.social-media-links-container .social-media .social-media-intro{
+    width: 31.7180%;
+    float: left;
+}
+
+.social-media-links-container .social-media h3{
+    font-family: 'open Sans',sans-serif;
+    font-weight: bold;
+    font-size: 20px;
+    line-height: 42px;
+}
+
+.social-media-links-container .social-media p{
+    font-family: 'open Sans',sans-serif;
+    font-weight: normal;
+    color: #86878b;
+    font-size: 14px;
+    line-height: 20px;
+}
+
+.social-media-links-container .social-media-links {
+    float: right;
+}
+
+.social-media-links-container .social-media-links ul li {
+    margin: 5px 5px 0px 5px;
+    list-style-type: none;
+    float: left;
+}
+
+.social-media-links-container .social-media-links ul li a {
+    display: block;
+}
+
+.social-media-links-container .social-media-links ul li figure {
+    padding: 20px 24px;
+}
+
+.social-media-links-container .social-media-links ul li a:hover {
+    background-color: #f5f5f5;
+}
+
+.transition-block-container .col2-left {
+    padding-bottom: 116px;
+    padding-top: 145px;
+}
+
+.transition-block-container .col2-left .left{
+    width: 9.69162%;
+    line-height: 110px;
+    float: left;
+}
+
+.transition-block-container .col2-left .left ul {
+    display: block;
+}
+
+.transition-block-container .col2-left .left ul li{
+    background-color: #333333;
+    border: 1px solid #dad8d8;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 15px;
+    font-weight: bold;
+    list-style-type: none;
+    text-align: center;
+}
+
+.transition-block-container .col2-left .left ul li:first-child {
+    border-top-right-radius: 9px;
+    border-top-left-radius: 9px;
+}
+
+.transition-block-container .col2-left .left ul li:last-child {
+    border-bottom-right-radius: 9px;
+    border-bottom-left-radius: 9px;
+}
+
+.transition-block-container .col2-left .left ul .selected, .transition-block-container .col2-left .left ul li:hover {
+    background-color: #fb9348;
+}
+
+.transition-block-container .col2-left .left ul li a {
+    display: block;
+    text-decoration-line: none;
+    color: #ffffff;
+}
+
+
+.transition-block-container .col2-left .main {
+    padding-top:8px;
+    width: 85.0572%;
+    float: right;
+}
+
+.transition-block-container .col2-left .main section {
+    width: 42.2907%;
+    float: left;
+}
+
+.transition-block-container .col2-left .main section h3 {
+    padding-bottom: 32px;
+    font-family: 'Opne sans', sans-serif;
+    font-weight: bold;
+    font-size: 20px;
+    color: #000000;
+}
+
+.transition-block-container .col2-left .main section p{
+    padding-top: 25px;
+    line-height: 20px;
+    font-family: 'Opne Sans', sans-serif;
+    font-weight: normal;
+    font-size: 14px;
+    color: #86878b;
+}
+
+.transition-block-container .col2-left .main section .download-button {
+    background-color: #333333;
+    border-radius: 9px;
+}
+
+.transition-block-container .col2-left .main section .download-button:hover {
+    background-color: #fb9348;
+}
+
+.transition-block-container .col2-left .main figure {
+    margin-top: 16px;
+    float: right;
+}
+
+.sublist-section-container .sublist-section figure{
+    float: left;
+}
+
+.sublist-section-container .sublist-section section {
+    text-align: justify;
+    width: 38.7665%;
+    float: right;
+}
+
+.sublist-section-container .sublist-section section ul li section {
+    width: 100%;
+    float: none;
+}
+
+.sublist-section-container .sublist-section section ul li {
+    list-style: none;
+}
+
