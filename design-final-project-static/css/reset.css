@@ -35,6 +35,6 @@ header, footer ,nav {
 }
 
 .align-content {
-    width: 1135px;
+    min-width: 1135px;
     margin: 0 auto;
 }

@@ -6,7 +6,6 @@
     background-color: #000000;
 }
 
-
 nav .company-logo {
     float: left;
 }
@@ -396,7 +395,6 @@ header .signup-form form input:last-child:hover {
 }
 
 .wrapper {
-    width: 1135px;
     font-family: 'Open Sans', sans-serif;
     padding-top: 108px;
     padding-bottom: 65px;
