@@ -24,6 +24,10 @@ nav a{
     line-height: 70px;
 }
 
+nav .hamburger {
+    display: none;
+}
+
 nav .company-logo a {
     padding-top:21px;
     padding-left: 0px;
@@ -665,4 +669,110 @@ header .signup-form form input:last-child:hover {
 
 .footer-container footer ul li:hover {
     background-color:#333333;
+}
+
+@media screen and (max-width:769px) {
+    .header-components .header-container .signup-form {
+        display: none;
+    }
+
+    .header-components .header-container .download-section {
+        width: 100%;
+    }
+
+    .social-media-links-container {
+        display: none;
+    }
+
+    .transition-block-container .col2-left .left {
+        display: none;
+    }
+
+    .transition-block-container .col2-left .main {
+        width: 100%;
+    }
+
+    .sublist-section-container {
+        display: none;
+    }
+
+    .picture-section {
+        display: none;
+    }
+
+    .promote-container .wrapper .options section{
+        box-shadow: 3px 3px 5px grey;
+        margin-right: 16px;
+        width: 30.8370%;
+    }
+    .promote-container .wrapper .options section p {
+        padding: 5px;
+        text-align: justify;
+    }
+
+    .pricing-option-container .wrapper .option table {
+        margin-right: 15px;
+    }
+
+    .customer-feedback-container {
+        display: none;
+    }
+}
+
+@media screen and (max-width:360px) {
+    .header-components .nav-container nav .menu{
+        display: none;
+    }
+
+    .header-components .nav-container nav .hamburger .menu {
+        display: block;
+    }
+
+    .header-components .nav-container nav .hamburger {
+        display: inline-block;
+        float: right;
+    }
+
+    .header-components .nav-container nav .hamburger img {
+        padding-top: 20px;
+        padding-left: 40px;
+        padding-right: 30px;
+    }
+
+    .header-components .nav-container nav .hamburger .hamburger-menu {
+        display: none;
+    }
+
+    .header-components .nav-container nav .hamburger:hover .hamburger-menu {
+        display: block;
+    }
+
+    .header-components .nav-container {
+        padding-bottom: 10px;
+    }
+
+    .transition-block-container .col2-left .main figure {
+        display: none;
+    }
+
+    .transition-block-container .col2-left .main section {
+        width: 100%;
+    }
+
+    .transition-block-container .col2-left {
+        padding-top: 20px;
+        padding-bottom: 20px;
+    }
+
+    .promote-container .wrapper .options {
+        display: none;
+    }
+
+    .pricing-option-container .wrapper .option {
+        display: none;
+    }
+
+    .contact-us-container {
+        display: none;
+    }
 }
