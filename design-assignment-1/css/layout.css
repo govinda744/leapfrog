@@ -1,3 +1,8 @@
+.main-page {
+    max-width: 73.3125em;
+    margin: 0 auto;
+}
+
 .header-wrapper-top {
     position: relative;
     background-color:#76c7c1;
