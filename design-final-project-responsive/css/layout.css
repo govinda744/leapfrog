@@ -115,7 +115,8 @@ header .signup-form form {
 }
 
 header .signup-form form input {
-    box-shadow: 0px 3px 1px #bdbdbd;
+    box-shadow: 0px 1px 1px #bdbdbd;
+    padding-left: 13px;
     background-color: #ffffff;
     border: 0px;
     width: 79.1666%;
@@ -149,7 +150,7 @@ header .signup-form form input:last-child:hover {
 }
 
 .social-media-links-container {
-    box-shadow: 3px 3px 1px #bdbdbd;
+    box-shadow: 0px 1px 2px #bdbdbd;
     margin-bottom: 3px;
 }
 
@@ -287,8 +288,21 @@ header .signup-form form input:last-child:hover {
     float: right;
 }
 
+.sublist-section-container .sublist-section {
+    padding-top: 108px;
+    padding-bottom: 137px;
+}
+
 .sublist-section-container .sublist-section figure{
     float: left;
+    box-shadow: 0px 10px 15px #888888;
+}
+
+.sublist-section-container .sublist-section section figure {
+    box-shadow: none;
+    margin-top: 22px;
+    margin-bottom: 22px;
+    float: none;
 }
 
 .sublist-section-container .sublist-section section {
@@ -297,12 +311,135 @@ header .signup-form form input:last-child:hover {
     float: right;
 }
 
-.sublist-section-container .sublist-section section ul li section {
-    width: 100%;
-    float: none;
+.sublist-section-container .sublist-section section h3 {
+    padding-bottom: 5px;
+    font-family: 'Open Sans', sans-serif;
+    color: #000000;
+    font-size: 20px;
+    font-weight: bolder;
+}
+
+.sublist-section-container .sublist-section section p {
+    margin-bottom: 32px;
+    line-height: 22px;
+    font-family: 'Open Sans', sans-serif;
+    color: #86878b;
+    font-size: 14px;
+    font-weight: lighter;
 }
 
 .sublist-section-container .sublist-section section ul li {
+    padding-left: 70px;
+    display: block;
     list-style: none;
 }
+
+.sublist-section-container .sublist-section section ul .download {
+    background-image: url('../images/download.png');
+    background-repeat: no-repeat;
+    background-position: top left;
+}
+
+.sublist-section-container .sublist-section section ul .upload {
+    background-image: url('../images/upload.png');
+    background-repeat: no-repeat;
+    background-position: top left;
+}
+
+.picture-section-container .picture-section {
+    padding-top: 108px;
+    padding-bottom: 137px;
+}
+
+.picture-section-container .picture-section figure{
+    float: right;
+    box-shadow: 0px 10px 15px #888888;
+}
+
+.picture-section-container .picture-section section figure {
+    box-shadow: none;
+    margin-top: 22px;
+    margin-bottom: 22px;
+    float: none;
+}
+
+.picture-section-container .picture-section section {
+    text-align: justify;
+    width: 38.7665%;
+    float: left;
+}
+
+.picture-section-container .picture-section section h3 {
+    padding-bottom: 5px;
+    font-family: 'Open Sans', sans-serif;
+    color: #000000;
+    font-size: 20px;
+    font-weight: bolder;
+}
+
+.picture-section-container .picture-section section p {
+    margin-bottom: 32px;
+    line-height: 22px;
+    font-family: 'Open Sans', sans-serif;
+    color: #86878b;
+    font-size: 14px;
+    font-weight: lighter;
+}
+
+.promote-container .promote-section {
+    padding-top: 108px;
+    padding-bottom: 65px;
+}
+
+.promote-container .promote-section .promote-heading h2{
+    text-align: center;
+}
+
+.promote-container .promote-section .promote-heading figure img {
+    margin: 0 auto;
+}
+
+.promote-container .promote-section .promote-heading h2 {
+    font-family: 'Raleway', sans-serif;
+    font-size: 36px;
+    font-weight: normal;
+}
+
+.promote-container .promote-section .promote-heading figure {
+    margin-top: 22px;
+    margin-bottom: 22px;
+}
+
+.promote-container .promote-section .promote-heading p, .promote-container .promote-section .promote-points p {
+    padding-bottom: 40px;
+    line-height: 17px;
+    text-align: center;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 14px;
+    font-weight: normal;
+    color: #86878b;
+}
+
+.promote-container .promote-section .promote-points h3{
+    line-height: 74px;
+    text-align: center;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 20px;
+    font-weight: bolder;
+}
+
+.promote-container .promote-section .promote-points section{
+    margin-right: 32px;
+    width: 30.8370%;
+    float: left;
+}
+
+.promote-container .promote-section .promote-points > section:last-child {
+    margin-right: 0px;
+}
+
+.promote-container .promote-section .promote-points section figure img {
+    margin: 0 auto;
+}
+
 
