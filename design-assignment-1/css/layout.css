@@ -1,14 +1,23 @@
-.main-page {
-    max-width: 73.3125em;
+.container {
+    width: 100%;
+    min-width: 1500px;
+}
+
+.wrapper {
+    max-width: 1171px;
     margin: 0 auto;
 }
 
+
 .header-wrapper-top {
-    position: relative;
     background-color:#76c7c1;
     background-image: url('https://govinda744.github.io/leapfrog/design-assignment-1/images/header-scale-image.png');
     background-position: left bottom;
     background-repeat: repeat-x;
+}
+
+.header-wrapper-top .wrapper {
+    position: relative;
 }
 
 .header-wrapper-top .logo {
@@ -99,6 +108,7 @@
 }
 
 .header-wrapper-buttom .breadcrums ul li {
+    margin:0px 5px 0px;
     line-height: 80px;
     list-style-type: none;
     float: left;
@@ -109,9 +119,12 @@
 }
 
 .header-wrapper-buttom .breadcrums ul li a {
-    padding:0px 10px 0px;
     text-decoration-line: none;
     color: #838c8b;
+}
+
+.body-wrapper {
+    background-color: #f3f3f3;
 }
 
 .company-info {
@@ -152,8 +165,9 @@
 }
 
 .col3-left .main-wrapper .main {
+    padding-right: 20px;
     text-align: justify;
-    width: 525px;
+    width: 560px;
     float: left;
 }
 
@@ -238,7 +252,6 @@
 
 /* our team layout */
 .our-team-container {
-    background-color: #f3f3f3;
     background-image: url('https://govinda744.github.io/leapfrog/design-assignment-1/images/background-our-team-image.png');
     background-repeat: repeat-x;
 }
@@ -336,10 +349,9 @@
     color: #fcffff;
 }
 /* our team layout end */
-
 .company-quote {
     align-content: center;
-    margin-top: 122px;
+    padding-top: 122px;
 }
 
 .company-quote h2 {
@@ -358,47 +370,41 @@
 }
 
 .clients {
-    margin-top: 60px;
+    padding-top: 60px;
 }
 
-.clients .client-feel {
+.clients .client-feel{
     margin-top: 10px;
+    display: none;
+    display: block;
+    padding-right: 10px;
     float: left;
-    margin-right: 20px;
 }
 
-.clients .separator {
-    background-image: url('https://govinda744.github.io/leapfrog/design-assignment-1/images/separator-background.png');
-    background-position: right;
+.clients .separator-dot {
+    margin-top: 11px;
+    float: left;
+    width: 885px;
+    max-width: 1032px;
+    background-image: url('../images/separator-background.png');
     background-repeat: repeat-x;
-    width: 900px;
-    margin-top: 16px;
-    float: left;
-    display: inline-block;
+    background-position: left center; 
 }
-
 
 .clients .slider {
     float: right;
 }
 
-.clients .slider ul li {
-    padding-left: 10px;
-    list-style-type: none;
+.clients .slider a {
+    display: block;
+    background-color: #99a3a4;
+    margin-left: 20px;
     float: left;
 }
 
-.clients .slider ul li img {
-    background-color: #99a3a4;
-}
-
-.clients .slider ul li:hover img {
+.clients .slider img:hover {
     cursor: pointer;
     background-color: #e8504d;
-}
-
-.user-list {
-    margin-top: 40px;
 }
 
 .user-list ul li{
@@ -411,11 +417,13 @@
     padding-right: 0px;
 }
 
-.footer-wrapper {
-    margin-top: 68px;
+.user-list{
+    padding-top: 68px;
+    padding-bottom: 40px;
 }
 
-.footer-wrapper .footer-top {
+.footer-top {
+    padding-top: 45px;
     padding-bottom: 20px;
     padding-top: 45px;
     background-color: #76c7c1;
@@ -424,105 +432,114 @@
     background-repeat: repeat-x;
 }
 
-.footer-wrapper .footer-top .info {
+.footer-top .info {
     float: left;
 }
 
-.footer-wrapper .footer-top .info p {
+.footer-top .info p {
     color: #f6f5ff;
     width: 360px;
     margin-top: 40px;
     line-height: 24px;
 }
 
-.footer-wrapper .footer-top .info ul {
+.footer-top .info ul {
     text-align: justify;
     margin-top: 36px;
     line-height: 30px;
 }
 
-.footer-wrapper .footer-top .info ul li {
+.footer-top .info ul li {
     color: #f6f5ff;
 }
 
-.footer-wrapper .footer-top .info ul li strong {
+.footer-top .info ul li strong {
     color: #f6f5ff;
 }
 
-.footer-wrapper .footer-top .company-menu {
+.footer-top .company-menu {
     float: left;
     margin-left: 36px;
 }
 
 
-.footer-wrapper .footer-top .company-menu ul {
+.footer-top .company-menu ul {
     list-style-type: none;
     margin-right: 20px;
 }
 
-.footer-wrapper .footer-top .company-menu ul li {
+.footer-top .company-menu ul li {
     line-height: 24px;
 }
 
-.footer-wrapper .footer-top .company-menu ul li a {
+.footer-top .company-menu ul li a {
     color: #f6f5ff;
     text-decoration-line: none;
     display: block;
 }
 
-.footer-wrapper .footer-top .company-menu ul li img {
+.footer-top .company-menu ul li img {
     margin-top: 6px;
     float: left;
 }
 
-.footer-wrapper .footer-top .from-blog {
+.footer-top .from-blog {
     margin-left: 80px;
     float: left;
 }
 
-.footer-wrapper .footer-top .from-blog .blog-image {
+.footer-top .from-blog .blog-image {
     margin: 0px 10px 20px 0px;
     float: left;
 }
 
-.footer-wrapper .footer-top .from-blog .blog-details {
+.footer-top .from-blog .blog-details {
     float: left;
 }
 
-.footer-wrapper .footer-top .from-blog .blog-details .blog-head {
+.footer-top .from-blog .blog-details .blog-head {
     width: 245px;
 }
 
-.footer-wrapper .footer-top .from-blog .blog-details .blog-time {
+.footer-top .from-blog .blog-details .blog-time {
     margin-top: 7px;
 }
 
-.footer-wrapper .footer-top .from-blog .blog-details a {
+.footer-top .from-blog .blog-details a {
     color: #f6f5ff;
     display: block;
     text-decoration-line: none;
 }
 
-.footer-wrapper .footer-bottom {
+.footer-bottom {
     background-color: #6bb4ad;
     line-height: 50px;
 }
 
-.footer-wrapper .footer-bottom .footer-left {
+.footer-bottom .footer-left {
     color: #f6f5ff;
     float: left;
 }
 
-.footer-wrapper .footer-bottom .footer-right {
+.footer-bottom .footer-right {
     float: right;
 }
 
-.footer-wrapper .footer-bottom  .footer-right ul li {
-    margin: 14px 20px 0px 0px;
+.footer-bottom  .footer-right ul li {
+    margin: 5px;
     list-style-type: none;
     float: left;
 }
 
-.footer-wrapper .footer-bottom  .footer-right ul li:last-child {
+.footer-bottom  .footer-right ul li img {
+    border-radius: 9px;
+    padding: 10px 10px;
+}
+
+.footer-bottom  .footer-right ul li img:hover {
+    background-color: #90d1cb;
+}
+
+.footer-bottom  .footer-right ul li:last-child {
     margin-right: 0px;
 }

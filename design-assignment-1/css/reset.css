@@ -35,3 +35,10 @@ p {
     clear: both;
 }
 
+ul {
+    list-style-type: none;
+}
+
+a {
+    text-decoration-line: none;
+}
