@@ -156,7 +156,7 @@ header .signup-form form input:last-child {
 
 header .signup-form form input:last-child:hover {
     cursor: pointer;
-    background-color: #fb9348;
+    background-color: #f89f5f;
 }
 
 .social-media-links-container {
@@ -341,9 +341,30 @@ header .signup-form form input:last-child:hover {
     font-weight: lighter;
 }
 
-.sublist-section-container .sublist-section section ul li {
-    padding-left: 70px;
+.sublist-section-container .sublist-section section ul .action {
+    display: inline-block;
+    float: left;
+}
+
+.sublist-section-container .sublist-section section ul .action:hover {
+    background-color: #f5f5f5;
+}
+
+.sublist-section-container .sublist-section section ul .action a{
+    text-indent: -100000px;
+    width: 40px;
+    height: 40px;
     display: block;
+}
+
+.sublist-section-container .sublist-section section ul li section {
+    float: left;
+    width: 75.4716%;
+    padding-left: 38px;
+}
+
+.sublist-section-container .sublist-section section ul li {
+    float: left;
     list-style: none;
 }
 
@@ -419,7 +440,7 @@ header .signup-form form input:last-child:hover {
 }
 
 .wrapper .heading p, .promote-container .wrapper .options p {
-    padding-bottom: 40px;
+    padding-bottom: 20px;
     line-height: 17px;
     text-align: center;
     font-size: 14px;
@@ -442,9 +463,20 @@ header .signup-form form input:last-child:hover {
 }
 
 .promote-container .wrapper .options section{
+    border-radius: 6px;
+    padding-top: 20px;
     margin-right: 32px;
     width: 30.8370%;
     float: left;
+}
+
+.promote-container .wrapper .options ul li {
+    list-style-type: none;
+    float: left;
+}
+
+.promote-container .wrapper .options section:hover {
+    background-color: #f5f5f5;
 }
 
 .promote-container .wrapper .options > section:last-child {
@@ -548,7 +580,7 @@ header .signup-form form input:last-child:hover {
 .customer-feedback-container .wrapper .option .testimonial figure img{
     background-image: url('../images/user.png');
     background-repeat: no-repeat;
-    background-position:center;
+    background-position:bottom center;
     float: left;
 }
 
@@ -563,6 +595,11 @@ header .signup-form form input:last-child:hover {
     font-family: 'Open Sans',sans-serif;
     font-size: 20px;
     font-weight: bolder;
+}
+
+.customer-feedback-container .wrapper .option .testimonial .user a {
+    text-decoration-line: none;
+    color: #000000;
 }
 
 .customer-feedback-container .wrapper .option .testimonial .user .post {
