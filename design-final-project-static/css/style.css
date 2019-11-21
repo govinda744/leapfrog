@@ -1,0 +1,434 @@
+.download-button {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: bold;
+    font-size: 15px;
+    color: #ffffff;
+    text-align: center;
+    background: url('../images/download-background-image.png');
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.header-components {
+    background: url('../images/header-components-background.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: #000000;
+    background-attachment: initial;
+}
+
+nav a {
+    font-size:14px;
+    font-family: 'Open Sans semibold', sans-serif;
+    text-decoration-line: none;
+    color: #ffffff;
+}
+
+nav a:hover {
+    color:#ff8b38;
+}
+
+header .download-section {
+    color: #ffffff;
+}
+
+header .download-section h1{
+    font-family: 'Raleway', sans-serif;
+    font-weight: bold;
+    font-size: 36px;
+}
+
+header .download-section p {
+    font-family: 'Raleway', sans-serif;
+    font-weight: initial;
+    color: #86878b;
+}
+
+.download-button a {
+    text-decoration-line: none;
+    color: #ffffff;
+}
+
+.download-button:hover {
+    cursor: pointer;
+    background-color: #ff8b38;
+}
+
+
+header .signup-form h2 {
+    font-family: 'open sans', sans-serif;
+    font-size: 20px;
+    font-weight: bold;
+    border-top-left-radius: 9px;
+    border-top-right-radius: 9px;
+    text-align: center;
+}
+
+
+header .signup-form h2 span {
+    color: #ff8b38;
+}
+
+header .signup-form form {
+    border-bottom-right-radius: 15px;
+    border-bottom-left-radius: 15px;
+    background: #fff;
+}
+
+header .signup-form h2 span {
+    color: #ff8b38;
+}
+
+header .signup-form form {
+    border-bottom-right-radius: 15px;
+    border-bottom-left-radius: 15px;
+    background: #fff;
+}
+
+header .signup-form form input {
+    box-shadow: 0px 1px 1px #bdbdbd;
+    text-align: left;
+    background-color: #ffffff;
+    font-size: 14px;
+    font-family: "Open Sans", sans-serif;
+    color: #bdbdbd;
+}
+
+header .signup-form form input:last-child {
+    box-shadow: none;
+    background-color: #ff8b38;
+    text-align: center;
+    border-bottom-right-radius: 9px;
+    border-bottom-left-radius: 9px;
+    color: #ffffff;
+    font-weight: bold;
+}
+
+header .signup-form form input:last-child:hover {
+    cursor: pointer;
+    background-color: #fb9348;
+}
+
+.social-media-links-container {
+    box-shadow: 0px 1px 2px #bdbdbd;
+}
+
+.social-media-links-container .social-media h3 {
+    font-family: 'open Sans',sans-serif;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.social-media-links-container .social-media p {
+    font-family: 'open Sans',sans-serif;
+    font-weight: normal;
+    color: #86878b;
+    font-size: 14px;
+}
+
+.social-media-links-container .social-media-links ul li a:hover {
+    background-color: #f5f5f5;
+}
+
+.transition-block-container .col2-left .left ul li{
+    background-color: #333333;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 15px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.transition-block-container .col2-left .left ul li:first-child {
+    border-top-right-radius: 9px;
+    border-top-left-radius: 9px;
+}
+
+.transition-block-container .col2-left .left ul li:last-child {
+    border-bottom-right-radius: 9px;
+    border-bottom-left-radius: 9px;
+}
+
+.transition-block-container .col2-left .left ul li a {
+    color: #ffffff;
+}
+
+
+.transition-block-container .col2-left .left ul .selected, .transition-block-container .col2-left .left ul li:hover {
+    background-color: #fb9348;
+}
+
+.transition-block-container .col2-left .main section h3 {
+    font-family: 'Opne sans', sans-serif;
+    font-weight: bold;
+    font-size: 20px;
+    color: #000000;
+}
+
+.transition-block-container .col2-left .main section p {
+    font-family: 'Opne Sans', sans-serif;
+    font-weight: normal;
+    font-size: 14px;
+    color: #86878b;
+}
+
+.transition-block-container .col2-left .main section .download-button {
+    background-color: #333333;
+    border-radius: 9px;
+}
+
+
+.transition-block-container .col2-left .main section .download-button:hover {
+    background-color: #fb9348;
+}
+
+.transition-block-container .download-button {
+    background-image: none;
+}
+
+.sublist-section-container .sublist-section figure {
+    box-shadow: 0px 10px 15px #888888;
+}
+
+.sublist-section-container .sublist-section section figure {
+    box-shadow: none;
+}
+
+.sublist-section-container .sublist-section section {
+    text-align: justify;
+}
+
+.sublist-section-container .sublist-section section h3 {
+    font-family: 'Open Sans', sans-serif;
+    color: #000000;
+    font-size: 20px;
+    font-weight: bolder;
+}
+
+.sublist-section-container .sublist-section section p {
+    font-family: 'Open Sans', sans-serif;
+    color: #86878b;
+    font-size: 14px;
+    font-weight: lighter;
+}
+
+.sublist-section-container .sublist-section section ul .action a {
+    text-indent: -10000px;
+}
+
+.sublist-section-container .sublist-section section ul .action:hover {
+    background-color: #f5f5f5;
+}
+
+.sublist-section-container .sublist-section section ul .download {
+    background-image: url('../images/download.png');
+    background-repeat: no-repeat;
+    background-position: top left;
+}
+
+.sublist-section-container .sublist-section section ul .upload {
+    background-image: url('../images/upload.png');
+    background-repeat: no-repeat;
+    background-position: top left;
+}
+
+.picture-section-container .picture-section figure {
+    box-shadow: 0px 10px 15px #888888;
+}
+
+.picture-section-container .picture-section section figure {
+    box-shadow: none;
+}
+
+.picture-section-container .picture-section section {
+    text-align: justify;
+}
+
+.picture-section-container .picture-section section h3 {
+    font-family: 'Open Sans', sans-serif;
+    color: #000000;
+    font-size: 20px;
+    font-weight: bolder;
+}
+
+.picture-section-container .picture-section section p {
+    font-family: 'Open Sans', sans-serif;
+    color: #86878b;
+    font-size: 14px;
+    font-weight: lighter;
+}
+
+.wrapper {
+    font-family: 'Open Sans', sans-serif;
+}
+
+
+.wrapper .heading h2{
+    text-align: center;
+}
+
+.wrapper .heading p, .promote-container .wrapper .options p {
+    text-align: center;
+    font-size: 14px;
+    font-weight: normal;
+    color: #86878b;
+}
+
+
+.promote-container .wrapper .options h2 {
+    font-family: 'Raleway', sans-serif;
+    font-size: 36px;
+    font-weight: normal;
+}
+
+.promote-container .wrapper .options h3 {
+    text-align: center;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 20px;
+    font-weight: bolder;
+}
+
+.promote-container .wrapper .options section:hover {
+    background-color: #f5f5f5;
+    border-radius: 6px;
+}
+
+.pricing-option-container .option table {
+    text-align: center;
+}
+
+.pricing-option-container .option table tr th {
+    font-family: "OpenSans",sans-serif;
+    font-weight: bold;
+    color: #ffffff;
+    background-color: #333333;
+}
+
+.pricing-option-container .option table tr th .price {
+    box-shadow: 0px 2px 3px #ff8b38;
+}
+
+.pricing-option-container .option table tr td {
+    font-family: "OpenSans",sans-serif;
+    font-weight: normal;
+    font-size: 14px;
+    color: #86878b;
+    background-color: #ffffff;
+}
+
+.pricing-option-container .option table tr .pop-up {
+    color: #ffffff;
+    background-color: #ff8b38;
+}
+
+.pricing-option-container .option table tr th .price .currency {
+    font-family: 'Raleway', sans-serif;
+    font-weight: bolder;
+    font-size: 20px;
+}
+
+.pricing-option-container .option table tr th .price .cost {
+    font-family: 'Raleway', sans-serif;
+    font-weight: bolder;
+    font-size: 60px;
+}
+
+.pricing-option-container .option table tr th .price .payment-plan {
+    font-family: 'Open Sans',sans-serif;
+    font-weight: bold;
+    font-size: 14px;
+    color: #86878b;
+}
+
+
+
+.customer-feedback-container .wrapper .option .testimonial .comment {
+    color: #86878b;
+    font-family: 'Open Sans',sans-serif;
+    font-size: 14px;
+    font-weight: normal;
+    border-radius: 7px;
+    background-color: #f5f5f5;
+}
+
+.customer-feedback-container .wrapper .option .testimonial figure img {
+    background-image: url('../images/user.png');
+    background-repeat: no-repeat;
+    background-position:bottom center;
+}
+
+.customer-feedback-container .wrapper .option .testimonial .user .name {
+    font-family: 'Open Sans',sans-serif;
+    font-size: 20px;
+    font-weight: bolder;
+}
+
+.customer-feedback-container .wrapper .option .testimonial .user a {
+    color: #000000;
+    text-decoration-line: none;
+}
+
+.customer-feedback-container .wrapper .option .testimonial .user .post {
+    color: #86878b;
+    font-family: 'Open Sans',sans-serif;
+    font-size: 14px;
+    font-weight: normal;
+}
+
+
+.download-container {
+    background-image: url('../images/download-section-background.png');
+    background-color: #000000;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.download-container .wrapper .heading h2 {
+    color: #ffffff;
+}
+
+.contact-us-container .wrapper .options input {
+    box-shadow: 0px 1px 1px #bdbdbd;
+    background-color: #ffffff;
+    font-size: 14px;
+    font-family: "Open Sans", sans-serif;
+    color: #bdbdbd;
+    text-align: left;
+}
+
+.contact-us-container .wrapper .options .input-field textarea {
+    box-shadow: 0px 1px 1px #bdbdbd;
+    background-color: #ffffff;
+    font-size: 14px;
+    font-family: "Open Sans", sans-serif;
+    color: #bdbdbd;
+    text-align: justify;
+}
+
+.contact-us-container .wrapper .options .button-field input {
+    border-radius: 5px;
+    background-color: #ff8b38;
+    color: #ffffff;
+    text-align: center;
+}
+
+.contact-us-container .wrapper .options .button-field input:hover {
+    background-color: #fb9348;
+    cursor: pointer;
+}
+
+.footer-container footer {
+    text-align: center;
+    color: #86878b;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: lighter;
+    font-size: 12px;
+}
+
+.footer-container footer ul li {
+    border-radius: 9px;
+}
+
+.footer-container footer ul li:hover {
+    background-color:#333333;
+}

@@ -38,3 +38,13 @@ header, footer ,nav {
     max-width: 70.9375em;
     margin: 0 auto;
 }
+
+ul {
+    display: block;
+    list-style-type: none;
+}
+
+a{
+    display: block;
+    text-decoration-line: none;
+}

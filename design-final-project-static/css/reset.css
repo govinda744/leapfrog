@@ -44,3 +44,13 @@ header, footer ,nav {
     min-width: 1400px;
     padding-right: 0px;
 }
+
+ul {
+    list-style-type:none;
+    display: block;
+}
+
+a {
+    text-decoration-line: none;
+    display: block;
+}
