@@ -1,0 +1,33 @@
+* {
+    padding: 0px;
+    margin: 0px;
+}
+
+.clear:after, .clear:before {
+    content: "";
+    display: table;
+}
+
+.clear:after {
+    clear: both;
+}
+
+.carousel-container {
+    /* position: relative;
+    margin: 0 auto; */
+    width: 900px;
+    height: 500px;
+    /* overflow: hidden; */
+}
+
+/* .carousel-image-wrapper {
+    position: absolute;
+}
+
+.carousel-container .carousel-image-wrapper {
+    width: max-content;
+}
+
+.carousel-container .carousel-image-wrapper figure{
+    float: left;
+} */
