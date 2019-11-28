@@ -186,16 +186,16 @@ function CarouselContainer(carouselContainer) {
         imageIndicatorWrapper.style.right = '0px';
         imageIndicatorWrapper.style.width = 'max-content';
         imageIndicatorWrapper.style.alignContent='center';
-        imageIndicatorWrapper.style.height = '50px';
+        imageIndicatorWrapper.style.height = '40px';
         imageIndicatorWrapper.style.margin = '0 auto';
         for (var index = 0; index < this.domImages.length; index++) {
             var imageIndicator = document.createElement('li');
             imageIndicator.id = index+'';
-            imageIndicator.style.border = '1px solid rgba(255, 255, 255, 255)';
-            imageIndicator.style.borderRadius = '5px';
+            imageIndicator.style.border = '0.5px solid rgba(255, 255, 255, 255)';
             imageIndicator.style.float = 'left';
-            imageIndicator.style.margin = '10px';
-            imageIndicator.style.padding = '5px';
+            imageIndicator.style.margin = '5px';
+            imageIndicator.style.padding = this.imageWidth / 200+'px';
+            imageIndicator.style.borderRadius = this.imageWidth / 200+'px';
             imageIndicator.onmouseover = function() {
                 this.style.cursor = 'pointer';
             };
@@ -226,14 +226,16 @@ function CarouselContainer(carouselContainer) {
     
 }
 
-var carouselContainers = document.getElementsByClassName('carousel-container');
+window.onload = function() {
+    var carouselContainers = document.getElementsByClassName('carousel-container');
 
-var carouselContainersObjects = []
+    var carouselContainersObjects = []
 
-for (var noOfCarouselContainers = 0; noOfCarouselContainers < carouselContainers.length; noOfCarouselContainers++) {
-    carouselContainersObjects.push(new CarouselContainer(carouselContainers.item(noOfCarouselContainers)));
+    for (var noOfCarouselContainers = 0; noOfCarouselContainers < carouselContainers.length; noOfCarouselContainers++) {
+        carouselContainersObjects.push(new CarouselContainer(carouselContainers.item(noOfCarouselContainers)));
+    }
+
+    carouselContainersObjects.forEach(function(obj) {
+        obj.init();
+    });
 }
-
-carouselContainersObjects.forEach(function(obj) {
-    obj.init();
-});
