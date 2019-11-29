@@ -85,6 +85,7 @@ function Ball(diameter, x, y, parentClass) {
             this.style.backgroundImage = 'url(./images/ant-dead.gif)';
             setTimeout(function() {
                 parentClass.boxElement.removeChild(this);
+                parentClass.removeElementObject(this);
             }.bind(this),100)
         }
         return this;
@@ -170,11 +171,11 @@ function Box(width, height, ballCount, ballDiameter) {
         }
     }
 
-    this.moveBoxes = function() {
+    this.moveBalls = function() {
         var that = this;
         
-        var interval = setInterval(function(){
-            for(var i = 0; i < that.ballCount; i++){
+        intervalId = setInterval(function(){
+            for(var i = 0; i < that.balls.length; i++){
                 if(that.balls[i].checkWallCollisionX()){
                     that.balls[i].reverseXDirection();
                 }
@@ -187,13 +188,19 @@ function Box(width, height, ballCount, ballDiameter) {
         },10)
     }
 
+    this.removeElementObject = function(ballElement) {
+        this.balls = this.balls.filter(function(element) {
+            return element.ballElement != ballElement;
+        })
+    }
+
 }
 
 window.onload = function() {
     var app = this.document.getElementsByClassName('app');
 
     var box = new Box(900,900,20,50);
-    box.moveBoxes();
+    box.moveBalls();
     app.item(0).appendChild(box.make().boxElement);
     var box = new Box(1500,2000,20,70);
     box.moveBoxes();
