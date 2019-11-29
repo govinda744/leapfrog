@@ -74,7 +74,7 @@ function Ball(diameter, x, y, parentClass) {
         this.ballElement.style.width = this.diameter + 'px';
         this.ballElement.style.height = this.diameter + 'px';
         this.ballElement.style.backgroundImage = 'url(./images/ant-alive.gif)';
-        this.ballElement.style.backgroundSize = 'cover';
+        this.ballElement.style.backgroundSize = '100% 100%';
         this.ballElement.style.backgroundRepeat = 'no-repeat';
         this.ballElement.style.borderRadius = '100%';
         this.ballElement.style.position = 'absolute';
@@ -97,9 +97,13 @@ function Ball(diameter, x, y, parentClass) {
     }
 }
 
-function Box(width, height, ballCount, ballDiameter) {
+function Box(width, height, ballCount ,ballDiameter) {
     this.MAX_HEIGHT = height - ballDiameter;
     this.MAX_WIDTH = width - ballDiameter;
+
+    this.ballSpeedRange = (width + height) / 500;
+    this.ballSpeedRange = this.ballSpeedRange < 3 ? 3 : this.ballSpeedRange;
+    this.ballSpeedRange = this.ballSpeedRange > 10? 10 : this.ballSpeedRange;
 
     this.balls = [];
 
@@ -133,8 +137,8 @@ function Box(width, height, ballCount, ballDiameter) {
                 }
             }
             if (collision === true) continue;
-            var dx = getRandomNumber(-3, 3);
-            var dy = getRandomNumber(-3, 3);
+            var dx = getRandomNumber(-this.ballSpeedRange, this.ballSpeedRange);
+            var dy = getRandomNumber(-this.ballSpeedRange, this.ballSpeedRange);
             ball.setDirections(dx, dy);
             this.balls.push(ball.make());
             ball.draw();
@@ -199,12 +203,14 @@ function Box(width, height, ballCount, ballDiameter) {
 window.onload = function() {
     var app = this.document.getElementsByClassName('app');
 
-    var box = new Box(900,900,20,50);
+    var box = new Box(900,900,77,50);
     box.moveBalls();
     app.item(0).appendChild(box.make().boxElement);
-    var box = new Box(1500,2000,20,70);
-    box.moveBoxes();
-    app.item(0).appendChild(box.make().boxElement);
+
+    // 1000 ants stress test
+    // var box = new Box(5000,5000,1000,70);
+    // box.moveBalls();
+    // app.item(0).appendChild(box.make().boxElement);
 
     
 }
