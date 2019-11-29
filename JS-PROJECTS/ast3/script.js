@@ -1,15 +1,10 @@
-var HEIGHT = 900;
-var WIDTH = 900;
-
-var MAX_DIRECTION = 4;
-
 function getRandomNumber(min,max){
     min = Math.ceil(min);
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min) ) + min;
 }
 
-function Ball(diameter, x, y) {
+function Ball(diameter, x, y, parentClass) {
 
     this.x = x;
     this.y = y;
@@ -18,8 +13,8 @@ function Ball(diameter, x, y) {
 
     this.ballElement = null;
 
-    this.dx = 0;
-    this.dy = 0;
+    this.dx = 1;
+    this.dy = 1;
 
     this.setDirections = function(dx, dy) {
         this.dx = dx;
@@ -35,7 +30,7 @@ function Ball(diameter, x, y) {
     }
 
     this.checkWallCollisionX = function(){
-        if(this.x +  this.diameter >= WIDTH || this.x <= 0){
+        if(this.x >= parentClass.MAX_WIDTH || this.x <= 0){
             return true;
         }
         else{
@@ -44,7 +39,7 @@ function Ball(diameter, x, y) {
     }
 
     this.checkWallCollisionY = function(){
-        if(this.y + this.diameter >= HEIGHT || this.y <= 0){
+        if(this.y >= parentClass.MAX_HEIGHT || this.y <= 0){
             return true;
         }
         else{
@@ -68,21 +63,30 @@ function Ball(diameter, x, y) {
     this.move = function(){
         this.x = this.x + this.dx;
         this.y = this.y + this.dy;
-        this.x = this.x >= WIDTH - this.ballDiameter? WIDTH - this.ballDiameter: this.x;
-        this.y = this.y >= HEIGHT - this.ballDiameter? HEIGHT - this.ballDiameter: this.y;
+        this.x = this.x >= parentClass.MAX_WIDTH ? parentClass.MAX_WIDTH: this.x;
+        this.y = this.y >= parentClass.MAX_HEIGHT? parentClass.MAX_HEIGHT: this.y;
         this.draw();
     }
 
     this.make = function() {
         this.ballElement = document.createElement('div');
+
         this.ballElement.style.width = this.diameter + 'px';
         this.ballElement.style.height = this.diameter + 'px';
-        this.ballElement.style.backgroundColor = "#"+((1<<24)*Math.random()|0).toString(16);
+        this.ballElement.style.backgroundImage = 'url(./images/ant-alive.gif)';
+        this.ballElement.style.backgroundSize = 'cover';
+        this.ballElement.style.backgroundRepeat = 'no-repeat';
         this.ballElement.style.borderRadius = '100%';
         this.ballElement.style.position = 'absolute';
         this.ballElement.onmouseover = function() {
             this.ballElement.style.cursor = 'pointer';
         }.bind(this);
+        this.ballElement.onclick = function() {
+            this.style.backgroundImage = 'url(./images/ant-dead.gif)';
+            setTimeout(function() {
+                parentClass.boxElement.removeChild(this);
+            }.bind(this),100)
+        }
         return this;
     }
 
@@ -117,18 +121,19 @@ function Box(width, height, ballCount, ballDiameter) {
     this.createBalls = function() {
         for (var i = 0; i < ballCount ; i++) {
             var collision = false;
-            var x = getRandomNumber(0, this.MAX_HEIGHT);
-            var y = getRandomNumber(0, this.MAX_WIDTH);
-            var ball = new Ball(ballDiameter, x, y);
+            var x = getRandomNumber(0, this.MAX_WIDTH);
+            var y = getRandomNumber(0, this.MAX_HEIGHT);
+            var ball = new Ball(ballDiameter, x, y, this);
             for (var j = 0; j < this.balls.length; j++) {
                 if(this.detectboxCollision(ball,this.balls[j])) {
                     i--;
+                    delete ball;
                     collision = true;
                 }
             }
             if (collision === true) continue;
-            var dx = getRandomNumber(2, 3);
-            var dy = getRandomNumber(2, 3);
+            var dx = getRandomNumber(-3, 3);
+            var dy = getRandomNumber(-3, 3);
             ball.setDirections(dx, dy);
             this.balls.push(ball.make());
             ball.draw();
@@ -187,10 +192,10 @@ function Box(width, height, ballCount, ballDiameter) {
 window.onload = function() {
     var app = this.document.getElementsByClassName('app');
 
-    var box = new Box(900,900,20,30);
+    var box = new Box(900,900,20,50);
     box.moveBoxes();
     app.item(0).appendChild(box.make().boxElement);
-    var box = new Box(900,900,50,30);
+    var box = new Box(1500,2000,20,70);
     box.moveBoxes();
     app.item(0).appendChild(box.make().boxElement);
 
