@@ -369,13 +369,15 @@ function StartScreen(parentElement) {
 
     this.init = function() {
         this.startScreenElement = document.createElement('div');
+        this.startScreenElement.style.position = 'relative';
 
         this.startScreenElement.style.width = '500px';
-        this.startScreenElement.style.height = '696px';
+        this.startScreenElement.style.height = '720px';
 
         this.startScreenElement.style.backgroundImage = 'url(./images/logo.png)';
-        this.startScreenElement.style.backgroundPosition = 'top center';
+        this.startScreenElement.style.backgroundPosition = 'center';
         this.startScreenElement.style.backgroundSize = 'contain';
+        this.startScreenElement.style.backgroundRepeat = 'repeat';
 
         this.startScreenElement.style.borderRadius = '10%';
         this.startScreenElement.style.boxShadow = '0px 0px 20px grey';
@@ -389,24 +391,24 @@ function StartScreen(parentElement) {
         input.placeholder = 'Your Name';
         input.textAlign = 'center';
         input.style.position = 'absolute';
-        input.style.top = '350px';
+        input.style.top = '450px';
         input.style.lineHeight = '44px';
         input.style.borderRadius = '10px';
-        input.style.left = '420px';
+        input.style.left = '165px';
         this.startScreenElement.appendChild(input);
 
         var button = document.createElement('div');
         button.innerHTML = 'Start Game';
         button.style.color = '#d3d3d3';
-        button.style.width = '180px';
+        button.style.width = '175px';
         button.style.textAlign = 'center';
         button.style.border = '0';
         button.style.paddingLeft = '10px';
         button.style.position = 'absolute';
         button.style.lineHeight = '44px';
-        button.style.top = '400px';
+        button.style.top = '500px';
         button.style.borderRadius = '10px';
-        button.style.left = '420px';
+        button.style.left = '165px';
         button.style.background = '#577425';
         button.onmouseover = function() {
             button.style.cursor = 'pointer';
@@ -418,7 +420,7 @@ function StartScreen(parentElement) {
         button.onclick = function() {
             this.playerName = input.value;
             if (this.playerName != '' && this.playerName.length <= 10) {
-                parentElement.appendChild(new Game(200, 696, this.playerName, parentElement).initGame());
+                parentElement.appendChild(new Game(200, 720, this.playerName, parentElement).initGame());
                 parentElement.removeChild(this.startScreenElement);
             } else {
                 window.alert('Please enter a name with character less than 10');
@@ -432,8 +434,6 @@ function StartScreen(parentElement) {
 
 window.onload = function() {
     var app = this.document.getElementsByClassName('app');
-
-    app.item(0).style.overflow = 'auto';
     app.item(0).style.background = 'url(./images/grass.jpeg)';
     
     app.item(0).appendChild(new this.StartScreen(app.item(0)).init());
