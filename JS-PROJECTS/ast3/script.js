@@ -189,7 +189,7 @@ function Box(width, height, ballCount ,ballDiameter) {
                 that.balls[i].move();
             }
             that.detectAllCollision();
-        },10)
+        },16)
     }
 
     this.removeElementObject = function(ballElement) {
@@ -203,7 +203,7 @@ function Box(width, height, ballCount ,ballDiameter) {
 window.onload = function() {
     var app = this.document.getElementsByClassName('app');
 
-    var box = new Box(900,900,77,50);
+    var box = new Box(900,900,25,50);
     box.moveBalls();
     app.item(0).appendChild(box.make().boxElement);
 
