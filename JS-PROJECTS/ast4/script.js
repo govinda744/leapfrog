@@ -23,7 +23,7 @@ function ScoreBoard(height, width, parentClass) {
 
     this.init = function() {
         this.scoreBoardElement = document.createElement('div');
-        this.scoreBoardElement.innerHTML = 'SCORE';
+        this.scoreBoardElement.innerHTML = parentClass.userName;
 
         this.scoreIndicatorElement = document.createElement('span');
         this.scoreIndicatorElement.style.display = 'block';
@@ -32,7 +32,7 @@ function ScoreBoard(height, width, parentClass) {
         this.scoreBoardElement.appendChild(this.scoreIndicatorElement);
 
         this.scoreBoardElement.style.height = this.height+'px';
-        this.scoreBoardElement.style.width = this.width+'px';
+        this.scoreBoardElement.style.minWidth = this.width+'px';
 
         this.scoreBoardElement.style.marginTop = '30px';
 
@@ -40,11 +40,10 @@ function ScoreBoard(height, width, parentClass) {
         this.scoreBoardElement.style.left = this.left+'px';
 
         this.scoreBoardElement.style.borderRadius = '50px';
-        this.scoreBoardElement.style.boxShadow = '0px 0px 15px grey';
-        background: '#66b6fc';
-        this.scoreBoardElement.style.background = '-webkit-linear-gradient(top, #66b6fc 15%,#b2e1ff 59%,#b2e1ff 59%,#b2e1ff 76%,#b2e1ff 76%,#b2e1ff 91%)';
+        this.scoreBoardElement.style.boxShadow = '0px 0px 15px green';
+        this.scoreBoardElement.style.background = 'rgba(98,125,77,1)';
+        this.scoreBoardElement.style.background = '-webkit-linear-gradient(left, rgba(98,125,77,1) 0%, rgba(31,59,8,1) 100%)';
 
-        this.scoreBoardElement.style.color = '#0e2c7a';
         this.scoreBoardElement.style.fontSize = '36px';
         this.scoreBoardElement.style.textAlign = 'center';
 
@@ -240,9 +239,11 @@ function GameBackground(height, width, scaleFactor, parentClass) {
 
 }
 
-function Game(width, height, parentElement) {
+function Game(width, height, userName, parentElement) {
 
     var that = this;
+
+    this.userName = userName;
 
     this.carHeight = 50;
     this.carWidth = 30;
@@ -341,13 +342,15 @@ function Game(width, height, parentElement) {
     }
 
     this.initInputsRead = function() {
-        document.addEventListener('keyup', function(event) {
-            if (event.code === 'ArrowRight' || event.code === 'KeyD') {
-                that.racerClass.moveRight();
-            } else if (event.code === 'ArrowLeft'|| event.code === 'KeyA') {
-                that.racerClass.moveLeft();
-            }
-        });
+        document.addEventListener('keyup', this.inputFunction);
+    }
+
+    this.inputFunction = function(event) {
+        if (event.code === 'ArrowRight' || event.code === 'KeyD') {
+            that.racerClass.moveRight();
+        } else if (event.code === 'ArrowLeft'|| event.code === 'KeyA') {
+            that.racerClass.moveLeft();
+        }
     }
 
     this.gameOver = function() {
@@ -356,6 +359,74 @@ function Game(width, height, parentElement) {
         this.pedestrians.forEach(function(element) {
             clearInterval(element.intervalId);
         });
+        document.removeEventListener('keyup',this.inputFunction);
+    }
+}
+
+function StartScreen(parentElement) {
+    this.startScreenElement;
+    this.playerName;
+
+    this.init = function() {
+        this.startScreenElement = document.createElement('div');
+
+        this.startScreenElement.style.width = '500px';
+        this.startScreenElement.style.height = '696px';
+
+        this.startScreenElement.style.backgroundImage = 'url(./images/logo.png)';
+        this.startScreenElement.style.backgroundPosition = 'top center';
+        this.startScreenElement.style.backgroundSize = 'contain';
+
+        this.startScreenElement.style.borderRadius = '10%';
+        this.startScreenElement.style.boxShadow = '0px 0px 20px grey';
+        this.startScreenElement.style.margin = '0 auto';
+
+        var input = document.createElement('input');
+        input.setAttribute ='required';
+        input.style.border = '0';
+        input.style.paddingLeft = '10px';
+        input.id = 'username';
+        input.placeholder = 'Your Name';
+        input.textAlign = 'center';
+        input.style.position = 'absolute';
+        input.style.top = '350px';
+        input.style.lineHeight = '44px';
+        input.style.borderRadius = '10px';
+        input.style.left = '420px';
+        this.startScreenElement.appendChild(input);
+
+        var button = document.createElement('div');
+        button.innerHTML = 'Start Game';
+        button.style.color = '#d3d3d3';
+        button.style.width = '180px';
+        button.style.textAlign = 'center';
+        button.style.border = '0';
+        button.style.paddingLeft = '10px';
+        button.style.position = 'absolute';
+        button.style.lineHeight = '44px';
+        button.style.top = '400px';
+        button.style.borderRadius = '10px';
+        button.style.left = '420px';
+        button.style.background = '#577425';
+        button.onmouseover = function() {
+            button.style.cursor = 'pointer';
+            button.style.background = '#5A8118';
+        }
+        button.onmouseout = function() {
+            button.style.background = '#577425';
+        }
+        button.onclick = function() {
+            this.playerName = input.value;
+            if (this.playerName != '' && this.playerName.length <= 10) {
+                parentElement.appendChild(new Game(200, 696, this.playerName, parentElement).initGame());
+                parentElement.removeChild(this.startScreenElement);
+            } else {
+                window.alert('Please enter a name with character less than 10');
+            }
+        }.bind(this);
+        this.startScreenElement.appendChild(button);
+
+        return this.startScreenElement;
     }
 }
 
@@ -363,8 +434,8 @@ window.onload = function() {
     var app = this.document.getElementsByClassName('app');
 
     app.item(0).style.overflow = 'auto';
-    app.item(0).style.background = '#007300';
-
-    app.item(0).appendChild(new Game(200, 696, app.item(0)).initGame());
+    app.item(0).style.background = 'url(./images/grass.jpeg)';
+    
+    app.item(0).appendChild(new this.StartScreen(app.item(0)).init());
 
 }
