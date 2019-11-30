@@ -4,6 +4,63 @@ function getRandomNumber(min,max){
     return Math.floor(Math.random() * (max - min) ) + min;
 }
 
+function HighScoreBoard(height, width, parentClass) {
+
+}
+
+function ScoreBoard(height, width, parentClass) {
+    this.height = height;
+    this.width = width;
+
+    this.stepIncrement = 10;
+
+    this.score = 0;
+
+    this.left = 50;
+
+    this.scoreBoardElement;
+    this.scoreIndicatorElement;
+
+    this.init = function() {
+        this.scoreBoardElement = document.createElement('div');
+        this.scoreBoardElement.innerHTML = 'SCORE';
+
+        this.scoreIndicatorElement = document.createElement('span');
+        this.scoreIndicatorElement.style.display = 'block';
+        this.scoreIndicatorElement.innerHTML = this.score;
+
+        this.scoreBoardElement.appendChild(this.scoreIndicatorElement);
+
+        this.scoreBoardElement.style.height = this.height+'px';
+        this.scoreBoardElement.style.width = this.width+'px';
+
+        this.scoreBoardElement.style.marginTop = '30px';
+
+        this.scoreBoardElement.style.position = 'absolute';
+        this.scoreBoardElement.style.left = this.left+'px';
+
+        this.scoreBoardElement.style.borderRadius = '50px';
+        this.scoreBoardElement.style.boxShadow = '0px 0px 15px grey';
+        background: '#66b6fc';
+        this.scoreBoardElement.style.background = '-webkit-linear-gradient(top, #66b6fc 15%,#b2e1ff 59%,#b2e1ff 59%,#b2e1ff 76%,#b2e1ff 76%,#b2e1ff 91%)';
+
+        this.scoreBoardElement.style.color = '#0e2c7a';
+        this.scoreBoardElement.style.fontSize = '36px';
+        this.scoreBoardElement.style.textAlign = 'center';
+
+        return this.scoreBoardElement;
+    }
+
+    this.updateScore = function() {
+        this.score += this.stepIncrement;
+        this.draw();
+    }
+
+    this.draw = function() {
+        this.scoreIndicatorElement.innerHTML = this.score;
+    }
+}
+
 function Pedestrian(height, width ,parentClass) {
     this.height = height;
     this.width = width;
@@ -14,7 +71,7 @@ function Pedestrian(height, width ,parentClass) {
 
     this.genrateInLane = getRandomNumber(1, 4);
 
-    this.top = 0;
+    this.top = - this.height;
     this.left = this.genrateInLane === 1 ? parentClass.racerClass.MIN_LEFT : ((this.genrateInLane - 1) * parentClass.racerClass.offSetValue) + parentClass.racerClass.MIN_LEFT;
 
     this.init = function() {
@@ -50,8 +107,10 @@ function Pedestrian(height, width ,parentClass) {
             if (this.detectCollisionY()) {
                 parentClass.gameElement.removeChild(this.pedestrianElement);
                 parentClass.removePedestrian(this.pedestrianElement);
+                parentClass.scoreBoardClass.updateScore();
                 clearInterval(this.intervalId);
             }
+            parentClass.initCollisionDetection(this);
             this.draw();
         }.bind(this), parentClass.backgroundClass.increaseInInterval);
     }
@@ -66,12 +125,14 @@ function Racer(height, width, parentClass) {
     this.height = height;
     this.width = width;
 
-    this.MIN_LEFT = 25;
+    this.inLane = 1;
+
+    this.MIN_LEFT = 15;
 
     this.top = (parentClass.height - this.height);
     this.left = this.MIN_LEFT;
 
-    this.offSetValue = 170;
+    this.offSetValue = 70;
 
     this.racerElement;
 
@@ -105,6 +166,7 @@ function Racer(height, width, parentClass) {
         if (this.detectCollisionX()) {
             this.left -= this.offSetValue;
         } else {
+            this.inLane++;
             this.draw();
         }
     }
@@ -114,6 +176,7 @@ function Racer(height, width, parentClass) {
         if(this.detectCollisionX()) {
             this.left += this.offSetValue;
         } else {
+            this.inLane--;
             this.draw();
         }
     }
@@ -177,19 +240,25 @@ function GameBackground(height, width, scaleFactor, parentClass) {
 
 }
 
-function Game(width, height) {
+function Game(width, height, parentElement) {
 
     var that = this;
 
-    this.carHeight = 180;
-    this.carWidth = 90;
+    this.carHeight = 50;
+    this.carWidth = 30;
+
+    this.scoreHeight = 100;
+    this.scoreWidth = 200;
 
     this.width = width;
     this.height = height;
 
     this.pedestrians = [];
     this.pedestriansGeneratingIntervalId;
-    this.pedestriansGeneratingDelay = 1000;
+    this.pedestriansGeneratingDelay = 10;
+    this.pedestrianGappingOffset = 50;
+    this.pedestrianGappingOffsetIncrementStep = 0.009;
+    this.MAX_PEDESTRIAN_GAPPING_OFFSET = 150;
 
     this.backgroundScale = 10;
 
@@ -197,6 +266,7 @@ function Game(width, height) {
 
     this.backgroundClass;
     this.racerClass;
+    this.scoreBoardClass;
 
     this.initGame = function() {
         this.gameElement = document.createElement('div');
@@ -204,15 +274,21 @@ function Game(width, height) {
         this.gameElement.style.height = this.height+'px';
         this.gameElement.style.width = this.width+'px';
         this.gameElement.style.position = 'relative';
-        this.gameElement.style.margin = '10px auto';
+        this.gameElement.style.margin = '0px auto';
         this.gameElement.style.overflow = 'hidden';
 
         this.initBackground();
         this.initRacer();
         this.initInputsRead();
         this.initPedestrains();
+        this.initScoreBoard();
 
         return this.gameElement;
+    }
+
+    this.initScoreBoard = function() {
+        this.scoreBoardClass = new ScoreBoard(this.scoreHeight, this.scoreWidth, this);
+        parentElement.appendChild(this.scoreBoardClass.init());
     }
 
     this.initBackground = function() {
@@ -225,11 +301,36 @@ function Game(width, height) {
         this.gameElement.appendChild(this.racerClass.init());
     }
 
+    this.initCollisionDetection = function(withPedestrian) {
+        if (withPedestrian.genrateInLane === this.racerClass.inLane && withPedestrian.top + withPedestrian.height  > this.racerClass.top) {
+            this.gameOver();
+        }
+    }
+
+    this.distaceOk = function(pedestrian) {
+        var okToGenrate = true;
+        this.pedestrians.forEach(function(element) {
+            if ((pedestrian.genrateInLane - element.genrateInLane) <= 1) {
+                if (element.top - (pedestrian.top + pedestrian.height)< this.racerClass.height + this.pedestrianGappingOffset) {
+                    okToGenrate = false;
+                }
+            }
+        }.bind(this));
+        this.pedestrianGappingOffset += this.pedestrianGappingOffsetIncrementStep;
+        this.pedestrianGappingOffset = this.pedestrianGappingOffset >= this.MAX_PEDESTRIAN_GAPPING_OFFSET ? this.MAX_PEDESTRIAN_GAPPING_OFFSET : this.pedestrianGappingOffset;
+        return okToGenrate;
+    }
+
     this.initPedestrains = function() {
         this.pedestriansGeneratingIntervalId = setInterval(function() {
             var pedestrian = new Pedestrian(this.carHeight, this.carWidth ,this);
-            this.pedestrians.push(pedestrian);
-            this.gameElement.appendChild(pedestrian.init());
+            if (this.distaceOk(pedestrian)) {
+                this.pedestrians.push(pedestrian);
+                this.gameElement.appendChild(pedestrian.init());
+            } else {
+                delete(pedestrian);
+            }
+            
         }.bind(this),this.pedestriansGeneratingDelay);
     }
 
@@ -240,12 +341,20 @@ function Game(width, height) {
     }
 
     this.initInputsRead = function() {
-        document.addEventListener('keyup',function(event) {
-            if (event.code === 'ArrowRight') {
+        document.addEventListener('keyup', function(event) {
+            if (event.code === 'ArrowRight' || event.code === 'KeyD') {
                 that.racerClass.moveRight();
-            } else if (event.code === 'ArrowLeft') {
+            } else if (event.code === 'ArrowLeft'|| event.code === 'KeyA') {
                 that.racerClass.moveLeft();
             }
+        });
+    }
+
+    this.gameOver = function() {
+        clearInterval(this.pedestriansGeneratingIntervalId);
+        clearInterval(this.backgroundClass.intervalId);
+        this.pedestrians.forEach(function(element) {
+            clearInterval(element.intervalId);
         });
     }
 }
@@ -254,8 +363,8 @@ window.onload = function() {
     var app = this.document.getElementsByClassName('app');
 
     app.item(0).style.overflow = 'auto';
-    app.item(0).style.border = '5px solid green';
+    app.item(0).style.background = '#007300';
 
-    app.item(0).appendChild(new Game(500, 1200).initGame());
+    app.item(0).appendChild(new Game(200, 696, app.item(0)).initGame());
 
 }
