@@ -1,3 +1,25 @@
+function Racer(height, width, parentClass) {
+    this.height = height;
+    this.width = width;
+
+    this.racerElement;
+
+    this.init = function() {
+        this.racerElement = document.createElement('div');
+
+        this.racerElement.style.height = this.height+'px';
+        this.racerElement.style.width = this.width+'px';
+
+        this.racerElement.style.margin = '0px 70px';
+
+        this.racerElement.style.background = 'red';
+
+        this.racerElement.style.position = 'absolute';
+
+        return this.racerElement;
+    }
+}
+
 function GameBackground(height, width, parentClass) {
     this.height = height;
     this.width = width;
@@ -52,6 +74,8 @@ function Game(width, height) {
 
     this.gameElement;
 
+    this.backgroundClass;
+
     this.initGame = function() {
         this.gameElement = document.createElement('div');
 
@@ -63,12 +87,18 @@ function Game(width, height) {
         this.gameElement.style.overflow = 'hidden';
 
         this.initBackground();
+        this.initRacer();
 
         return this.gameElement;
     }
 
     this.initBackground = function() {
-        this.gameElement.appendChild(new GameBackground(2 * this.height, this.width, this).init());
+        this.backgroundClass = new GameBackground(2 * this.height, this.width, this);
+        this.gameElement.appendChild(this.backgroundClass.init());
+    }
+
+    this.initRacer = function() {
+        this.gameElement.appendChild(new Racer(465, 182, this).init());
     }
 }
 
