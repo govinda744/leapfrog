@@ -498,7 +498,7 @@ function EndScreen(parentElement, gameClass) {
         this.endScreenElement.style.backgroundSize = 'contain';
         this.endScreenElement.style.backgroundRepeat = 'repeat';
         this.endScreenElement.style.top = '0px';
-        this.endScreenElement.style.left = '310px';
+        this.endScreenElement.style.margin = '0 auto';
 
         this.endScreenElement.style.borderRadius = '10%';
         this.endScreenElement.style.boxShadow = '0px 0px 20px grey';
@@ -647,7 +647,9 @@ function StartScreen(parentElement) {
 
 window.onload = function() {
     var app = this.document.getElementsByClassName('app');
+
     app.item(0).style.background = 'url(./images/grass.jpeg)';
+    app.item(0).style.width = '1137px';
 
     new HighScoreBoard().init();
     
