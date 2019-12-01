@@ -69,6 +69,8 @@ function Pedestrian(height, width ,parentClass) {
     this.height = height;
     this.width = width;
 
+    this.dx;
+
     this.intervalId;
 
     this.pedestrialElement;
@@ -77,6 +79,10 @@ function Pedestrian(height, width ,parentClass) {
 
     this.top = - this.height;
     this.left = this.genrateInLane === 1 ? parentClass.racerClass.MIN_LEFT : ((this.genrateInLane - 1) * parentClass.racerClass.offSetValue) + parentClass.racerClass.MIN_LEFT;
+
+    this.getSpeed= function() {
+        return this.dx = parentClass.backgroundClass.dx + 0.2;
+    }
 
     this.init = function() {
         this.pedestrianElement = document.createElement('div');
@@ -107,7 +113,7 @@ function Pedestrian(height, width ,parentClass) {
 
     this.move = function() {
         this.intervalId = setInterval(function() {
-            this.top += parentClass.backgroundClass.dx;
+            this.top += this.getSpeed();
             if (this.detectCollisionY()) {
                 parentClass.gameElement.removeChild(this.pedestrianElement);
                 parentClass.removePedestrian(this.pedestrianElement);
