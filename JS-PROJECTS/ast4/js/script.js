@@ -437,7 +437,7 @@ function Game(width, height, userName, parentElement, parentClass) {
 
     this.initCollisionDetection = function(withPedestrian) {
         if (withPedestrian.genrateInLane === this.racerClass.inLane && withPedestrian.top + withPedestrian.height  > this.racerClass.top) {
-            // this.gameOver();
+            this.gameOver();
         }
     }
 
