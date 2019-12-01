@@ -267,7 +267,7 @@ function GameBackground(height, width, scaleFactor, parentClass) {
 
     this.scaleFactor = scaleFactor;
 
-    this.MAX_VELOCITY = 7;
+    this.MAX_VELOCITY = 8;
     this.increaseRate = 0.0009;
 
     this.top = - (this.scaleFactor - 1) * parentClass.height;
@@ -335,9 +335,9 @@ function Game(width, height, userName, parentElement, parentClass) {
     this.pedestrians = [];
     this.pedestriansGeneratingIntervalId;
     this.pedestriansGeneratingDelay = 10;
-    this.pedestrianGappingOffset = 50;
+    this.pedestrianGappingOffset = 30;
     this.pedestrianGappingOffsetIncrementStep = 0.009;
-    this.MAX_PEDESTRIAN_GAPPING_OFFSET = 150;
+    this.MAX_PEDESTRIAN_GAPPING_OFFSET = 80;
 
     this.backgroundScale = 10;
 
@@ -653,6 +653,33 @@ window.onload = function() {
 
     app.item(0).style.background = 'url(./images/grass.jpeg)';
     app.item(0).style.width = '1137px';
+    app.item(0).style.position = 'relative';
+
+    var audio = new this.Audio('./music/game-music.mp3');
+    audio.loop = true;
+
+    var audioIcon = this.document.createElement('div');
+    audioIcon.style.width = '50px';
+    audioIcon.style.height = '50px';
+    audioIcon.style.backgroundImage = 'url(./images/mute.png)';
+    audioIcon.style.backgroundSize = '100% 100%';
+    audioIcon.style.backgroundRepeat = 'no-repeat';
+    audioIcon.style.position = 'absolute';
+    audioIcon.style.left = '20px';
+    audioIcon.style.bottom = '20px';
+    audioIcon.onmouseover = function() {
+        this.style.cursor = 'pointer';
+    }
+    audioIcon.onclick = function() {
+        if (audio.paused) {
+            audio.play();
+            audioIcon.style.backgroundImage = 'url(./images/unmute.png)';
+        } else {
+            audio.pause();
+            audioIcon.style.backgroundImage = 'url(./images/mute.png)';
+        }
+    }
+    app.item(0).appendChild(audioIcon);
 
     new HighScoreBoard().init();
     
