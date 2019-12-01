@@ -21,6 +21,11 @@ function ScoreBoard(height, width, parentClass) {
     this.scoreBoardElement;
     this.scoreIndicatorElement;
 
+    this.reset = function() {
+        this.score = 0;
+        this.draw();
+    }
+
     this.init = function() {
         this.scoreBoardElement = document.createElement('div');
         this.scoreBoardElement.innerHTML = parentClass.userName;
@@ -204,6 +209,10 @@ function GameBackground(height, width, scaleFactor, parentClass) {
 
     this.gameBackgroundElement;
 
+    this.reset = function() {
+        this.dx = 1;
+    }
+
     this.init = function() {
         this.gameBackgroundElement = document.createElement('div');
 
@@ -239,7 +248,7 @@ function GameBackground(height, width, scaleFactor, parentClass) {
 
 }
 
-function Game(width, height, userName, parentElement) {
+function Game(width, height, userName, parentElement, parentClass) {
 
     var that = this;
 
@@ -264,12 +273,11 @@ function Game(width, height, userName, parentElement) {
     this.backgroundScale = 10;
 
     this.gameElement;
-
     this.backgroundClass;
     this.racerClass;
     this.scoreBoardClass;
 
-    this.initGame = function() {
+    this.init = function() {
         this.gameElement = document.createElement('div');
 
         this.gameElement.style.height = this.height+'px';
@@ -278,13 +286,58 @@ function Game(width, height, userName, parentElement) {
         this.gameElement.style.margin = '0px auto';
         this.gameElement.style.overflow = 'hidden';
 
+        this.startGame();
+
+        return this.gameElement;
+    }
+
+    this.startGame = function() {
         this.initBackground();
         this.initRacer();
         this.initInputsRead();
         this.initPedestrains();
         this.initScoreBoard();
+    }
 
-        return this.gameElement;
+    this.gameOver = function() {
+        clearInterval(this.pedestriansGeneratingIntervalId);
+        clearInterval(this.backgroundClass.intervalId);
+        this.pedestrians.forEach(function(element) {
+            clearInterval(element.intervalId);
+        });
+        document.removeEventListener('keyup',this.inputFunction);
+        parentElement.appendChild(new EndScreen(parentElement, this).init());
+    }
+
+    this.restartGame = function() {
+        this.pedestrians.forEach(function(element) {
+            this.gameElement.removeChild(element.pedestrianElement);
+        }.bind(this));
+        this.pedestrians.forEach(function(element) {
+            delete(element);
+        });
+        this.pedestrians = [];
+        this.backgroundClass.reset();
+        this.scoreBoardClass.reset();
+        this.backgroundClass.move();
+        document.addEventListener('keyup',this.inputFunction);
+        this.initPedestrains();
+    }
+
+    this.exitGame = function() {
+        this.pedestrians.forEach(function(element) {
+            this.gameElement.removeChild(element.pedestrianElement);
+        }.bind(this));
+        this.pedestrians.forEach(function(element) {
+            delete(element);
+        });
+        this.pedestrians = [];
+        this.gameElement.removeChild(this.racerClass.racerElement);
+        this.gameElement.removeChild(this.backgroundClass.gameBackgroundElement);
+        parentElement.removeChild(this.gameElement);
+        parentElement.removeChild(this.scoreBoardClass.scoreBoardElement);
+        parentClass.reset();
+        parentElement.appendChild(parentClass.startScreenElement);
     }
 
     this.initScoreBoard = function() {
@@ -352,20 +405,98 @@ function Game(width, height, userName, parentElement) {
             that.racerClass.moveLeft();
         }
     }
+}
 
-    this.gameOver = function() {
-        clearInterval(this.pedestriansGeneratingIntervalId);
-        clearInterval(this.backgroundClass.intervalId);
-        this.pedestrians.forEach(function(element) {
-            clearInterval(element.intervalId);
-        });
-        document.removeEventListener('keyup',this.inputFunction);
+function EndScreen(parentElement, gameClass) {
+    this.endScreenElement;
+
+    this.init = function() {
+        this.endScreenElement = document.createElement('div');
+        this.endScreenElement.style.position = 'absolute';
+
+        this.endScreenElement.style.width = '500px';
+        this.endScreenElement.style.height = '720px';
+
+        this.endScreenElement.style.backgroundImage = 'url(./images/end.png)';
+        this.endScreenElement.style.backgroundPosition = 'center';
+        this.endScreenElement.style.backgroundSize = 'contain';
+        this.endScreenElement.style.backgroundRepeat = 'repeat';
+        this.endScreenElement.style.top = '0px';
+        this.endScreenElement.style.left = '310px';
+
+        this.endScreenElement.style.borderRadius = '10%';
+        this.endScreenElement.style.boxShadow = '0px 0px 20px grey';
+
+        var buttonRestart = document.createElement('div');
+        buttonRestart.innerHTML = 'Restart Game';
+        buttonRestart.style.color = '#d3d3d3';
+        buttonRestart.style.width = '175px';
+        buttonRestart.style.textAlign = 'center';
+        buttonRestart.style.border = '0';
+        buttonRestart.style.paddingLeft = '10px';
+        buttonRestart.style.position = 'absolute';
+        buttonRestart.style.lineHeight = '44px';
+        buttonRestart.style.top = '500px';
+        buttonRestart.style.borderRadius = '10px';
+        buttonRestart.style.left = '165px';
+        buttonRestart.style.background = '#577425';
+        buttonRestart.onmouseover = function() {
+            buttonRestart.style.cursor = 'pointer';
+            buttonRestart.style.background = '#5A8118';
+        }
+        buttonRestart.onmouseout = function() {
+            buttonRestart.style.background = '#577425';
+        }
+        buttonRestart.onclick = function() {
+            gameClass.restartGame();
+            parentElement.removeChild(this.endScreenElement);
+        }.bind(this);
+
+        this.endScreenElement.appendChild(buttonRestart);
+
+        var button = document.createElement('div');
+        button.innerHTML = 'Exit Game';
+        button.style.color = '#d3d3d3';
+        button.style.width = '175px';
+        button.style.textAlign = 'center';
+        button.style.border = '0';
+        button.style.paddingLeft = '10px';
+        button.style.position = 'absolute';
+        button.style.lineHeight = '44px';
+        button.style.top = '550px';
+        button.style.borderRadius = '10px';
+        button.style.left = '165px';
+        button.style.background = 'red';
+        button.onmouseover = function() {
+            button.style.cursor = 'pointer';
+            button.style.background = '#5A8118';
+        }
+        button.onmouseout = function() {
+            button.style.background = 'red';
+        }
+        button.onclick = function() {
+            gameClass.exitGame();
+            parentElement.removeChild(this.endScreenElement);
+        }.bind(this);
+
+        this.endScreenElement.appendChild(button);
+
+        return this.endScreenElement;
     }
 }
 
 function StartScreen(parentElement) {
     this.startScreenElement;
     this.playerName;
+
+    this.input;
+
+    this.gameClass;
+
+    this.reset = function() {
+        this.playerName = '';
+        this.draw();
+    }
 
     this.init = function() {
         this.startScreenElement = document.createElement('div');
@@ -383,19 +514,19 @@ function StartScreen(parentElement) {
         this.startScreenElement.style.boxShadow = '0px 0px 20px grey';
         this.startScreenElement.style.margin = '0 auto';
 
-        var input = document.createElement('input');
-        input.setAttribute ='required';
-        input.style.border = '0';
-        input.style.paddingLeft = '10px';
-        input.id = 'username';
-        input.placeholder = 'Your Name';
-        input.textAlign = 'center';
-        input.style.position = 'absolute';
-        input.style.top = '450px';
-        input.style.lineHeight = '44px';
-        input.style.borderRadius = '10px';
-        input.style.left = '165px';
-        this.startScreenElement.appendChild(input);
+        this.input = document.createElement('input');
+        this.input.setAttribute ='required';
+        this.input.style.border = '0';
+        this.input.style.paddingLeft = '10px';
+        this.input.id = 'username';
+        this.input.placeholder = 'Your Name';
+        this.input.textAlign = 'center';
+        this.input.style.position = 'absolute';
+        this.input.style.top = '450px';
+        this.input.style.lineHeight = '44px';
+        this.input.style.borderRadius = '10px';
+        this.input.style.left = '165px';
+        this.startScreenElement.appendChild(this.input);
 
         var button = document.createElement('div');
         button.innerHTML = 'Start Game';
@@ -418,10 +549,12 @@ function StartScreen(parentElement) {
             button.style.background = '#577425';
         }
         button.onclick = function() {
-            this.playerName = input.value;
+            this.playerName = this.input.value;
             if (this.playerName != '' && this.playerName.length <= 10) {
-                parentElement.appendChild(new Game(200, 720, this.playerName, parentElement).initGame());
+                this.gameClass = new Game(200, 720, this.playerName, parentElement, this);
                 parentElement.removeChild(this.startScreenElement);
+                parentElement.appendChild(this.gameClass.init());
+                
             } else {
                 window.alert('Please enter a name with character less than 10');
             }
@@ -429,6 +562,10 @@ function StartScreen(parentElement) {
         this.startScreenElement.appendChild(button);
 
         return this.startScreenElement;
+    }
+
+    this.draw = function() {
+        this.input.value = this.playerName;
     }
 }
 
