@@ -498,10 +498,9 @@ function EndScreen(parentElement, gameClass) {
         this.endScreenElement.style.backgroundSize = 'contain';
         this.endScreenElement.style.backgroundRepeat = 'repeat';
         this.endScreenElement.style.top = '0px';
-        this.endScreenElement.style.margin = '0 auto';
+        this.endScreenElement.style.left = '310px';
 
         this.endScreenElement.style.borderRadius = '10%';
-        this.endScreenElement.style.boxShadow = '0px 0px 20px grey';
 
         var buttonRestart = document.createElement('div');
         buttonRestart.innerHTML = 'Restart Game';
