@@ -5,7 +5,66 @@ function getRandomNumber(min,max){
 }
 
 function HighScoreBoard(height, width, parentClass) {
+    var localStorage = window.localStorage;
 
+    this.highScore = 0;
+
+    this.height = height;
+    this.width = width;
+
+    this.highScoreBoardElement;
+    this.highScoreIndicatorElement;
+
+    this.left = 900;
+
+    this.init = function() {
+        this.highScoreBoardElement = document.createElement('div');
+        this.highScoreBoardElement.innerHTML = 'High Score';
+        
+        this.highScoreIndicatorElement = document.createElement('span');
+        this.highScoreIndicatorElement.style.display = 'block';
+        this.highScoreIndicatorElement.innerHTML = this.highScore;
+
+        this.highScoreBoardElement.appendChild(this.highScoreIndicatorElement);
+
+        this.highScoreBoardElement.style.height = this.height+'px';
+        this.highScoreBoardElement.style.minWidth = this.width+'px';
+        this.highScoreBoardElement.style.marginTop = '30px';
+        this.highScoreBoardElement.style.position = 'absolute';
+        this.highScoreBoardElement.style.left = this.left+'px';
+        this.highScoreBoardElement.style.borderRadius = '50px';
+        this.highScoreBoardElement.style.boxShadow = '0px 0px 15px green';
+        this.highScoreBoardElement.style.background = 'rgba(98,125,77,1)';
+        this.highScoreBoardElement.style.background = '-webkit-linear-gradient(left, rgba(98,125,77,1) 0%, rgba(31,59,8,1) 100%)';
+        this.highScoreBoardElement.style.fontSize = '36px';
+        this.highScoreBoardElement.style.textAlign = 'center';
+
+        return this.highScoreBoardElement;
+    }
+
+    this.getHighScore = function() {
+        this.highScore = parseInt(localStorage.getItem('highScore'));
+    }
+
+    this.setHighScore = function() {
+        this.getHighScore();
+        if (!this.highScore) {
+            this.highScore = 0;
+        }
+        if (parentClass.scoreBoardClass.score > this.highScore) {
+            this.highScore = parentClass.scoreBoardClass.score;
+        }
+        this.store();
+    }
+
+    this.store = function() {
+        localStorage.setItem('highScore', this.highScore);
+        this.draw();
+    }
+
+    this.draw = function() {
+        this.highScoreIndicatorElement.innerHTML = this.highScore;
+    }
 }
 
 function ScoreBoard(height, width, parentClass) {
@@ -282,6 +341,7 @@ function Game(width, height, userName, parentElement, parentClass) {
     this.backgroundClass;
     this.racerClass;
     this.scoreBoardClass;
+    this.highScoreBoardClass;
 
     this.init = function() {
         this.gameElement = document.createElement('div');
@@ -303,6 +363,14 @@ function Game(width, height, userName, parentElement, parentClass) {
         this.initInputsRead();
         this.initPedestrains();
         this.initScoreBoard();
+        this.initHighScoreBoard();
+    }
+
+    this.initHighScoreBoard = function() {
+        this.highScoreBoardClass = new HighScoreBoard(this.scoreHeight , this.scoreWidth , this);
+        var tempElement = this.highScoreBoardClass.init();
+        this.highScoreBoardClass.setHighScore();
+        parentElement.appendChild(tempElement);
     }
 
     this.gameOver = function() {
@@ -312,6 +380,7 @@ function Game(width, height, userName, parentElement, parentClass) {
             clearInterval(element.intervalId);
         });
         document.removeEventListener('keyup',this.inputFunction);
+        this.highScoreBoardClass.setHighScore();
         parentElement.appendChild(new EndScreen(parentElement, this).init());
     }
 
@@ -342,6 +411,7 @@ function Game(width, height, userName, parentElement, parentClass) {
         this.gameElement.removeChild(this.backgroundClass.gameBackgroundElement);
         parentElement.removeChild(this.gameElement);
         parentElement.removeChild(this.scoreBoardClass.scoreBoardElement);
+        parentElement.removeChild(this.highScoreBoardClass.highScoreBoardElement);
         parentClass.reset();
         parentElement.appendChild(parentClass.startScreenElement);
     }
@@ -578,6 +648,8 @@ function StartScreen(parentElement) {
 window.onload = function() {
     var app = this.document.getElementsByClassName('app');
     app.item(0).style.background = 'url(./images/grass.jpeg)';
+
+    new HighScoreBoard().init();
     
     app.item(0).appendChild(new this.StartScreen(app.item(0)).init());
 
