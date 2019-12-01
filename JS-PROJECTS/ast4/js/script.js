@@ -128,7 +128,9 @@ function Pedestrian(height, width ,parentClass) {
     this.height = height;
     this.width = width;
 
-    this.dx;
+    this.dx = parentClass.backgroundClass.dx + 0.2;
+
+    this.MAX_DX = parentClass.backgroundClass.MAX_VELOCITY + 0.2;
 
     this.intervalId;
 
@@ -140,7 +142,9 @@ function Pedestrian(height, width ,parentClass) {
     this.left = this.genrateInLane === 1 ? parentClass.racerClass.MIN_LEFT : ((this.genrateInLane - 1) * parentClass.racerClass.offSetValue) + parentClass.racerClass.MIN_LEFT;
 
     this.getSpeed= function() {
-        return this.dx = parentClass.backgroundClass.dx + 0.2;
+        this.dx += parentClass.backgroundClass.increaseRate;
+        console.log(this.dx);
+        return this.dx >= this.MAX_DX ? this.MAX_DX : this.dx;
     }
 
     this.init = function() {
@@ -263,7 +267,7 @@ function GameBackground(height, width, scaleFactor, parentClass) {
 
     this.scaleFactor = scaleFactor;
 
-    this.MAX_VELOCITY = 10;
+    this.MAX_VELOCITY = 7;
     this.increaseRate = 0.0009;
 
     this.top = - (this.scaleFactor - 1) * parentClass.height;
@@ -433,7 +437,7 @@ function Game(width, height, userName, parentElement, parentClass) {
 
     this.initCollisionDetection = function(withPedestrian) {
         if (withPedestrian.genrateInLane === this.racerClass.inLane && withPedestrian.top + withPedestrian.height  > this.racerClass.top) {
-            this.gameOver();
+            // this.gameOver();
         }
     }
 
