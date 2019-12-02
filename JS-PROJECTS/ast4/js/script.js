@@ -67,6 +67,46 @@ function HighScoreBoard(height, width, parentClass) {
     }
 }
 
+function BulletIndicator(height, width, parentClass) {
+    this.height = height;
+    this.width = width;
+
+    this.top = 30;
+    this.left = 350;
+
+    this.bulletIndicatorElement;
+    this.bulletCount = parentClass.racerClass.bulletLeft;
+
+    this.init = function() {
+        this.bulletIndicatorElement = document.createElement('div');
+
+        this.bulletIndicatorElement.style.position = 'absolute';
+
+        this.bulletIndicatorElement.style.width = this.width +'px';
+
+        this.bulletIndicatorElement.style.top = this.top +'px';
+        this.bulletIndicatorElement.style.left = this.left +'px';
+
+        this.bulletIndicatorElement.style.backgroundImage = 'url(./images/bullet.png)';
+        this.bulletIndicatorElement.style.backgroundSize = '30%';
+        this.bulletIndicatorElement.style.backgroundRepeat = 'no-repeat';
+        this.bulletIndicatorElement.style.backgroundPosition = 'left center';
+
+        this.bulletIndicatorElement.innerHTML = this.bulletCount;
+
+        this.bulletIndicatorElement.style.textAlign = 'right';
+        this.bulletIndicatorElement.style.fontSize = '36px';
+        this.bulletIndicatorElement.style.lineHeight = this.height+'px';
+
+        return this.bulletIndicatorElement;
+    }
+
+    this.draw = function() {
+        this.bulletCount = parentClass.racerClass.bulletLeft;
+        this.bulletIndicatorElement.innerHTML = this.bulletCount;
+    }
+}
+
 function ScoreBoard(height, width, parentClass) {
     this.height = height;
     this.width = width;
@@ -76,6 +116,7 @@ function ScoreBoard(height, width, parentClass) {
     this.score = 0;
 
     this.left = 50;
+    this.top = 30;
 
     this.scoreBoardElement;
     this.scoreIndicatorElement;
@@ -98,7 +139,7 @@ function ScoreBoard(height, width, parentClass) {
         this.scoreBoardElement.style.height = this.height+'px';
         this.scoreBoardElement.style.minWidth = this.width+'px';
 
-        this.scoreBoardElement.style.marginTop = '30px';
+        this.scoreBoardElement.style.marginTop = this.top+'px';
 
         this.scoreBoardElement.style.position = 'absolute';
         this.scoreBoardElement.style.left = this.left+'px';
@@ -350,6 +391,7 @@ function Racer(height, width, parentClass) {
 
     this.increaseBullet = function() {
         this.bulletLeft += this.bulletIncreaseBy;
+        parentClass.bulletIndicatorClass.draw();
     }
 
     this.reset = function() {
@@ -359,7 +401,7 @@ function Racer(height, width, parentClass) {
     this.init = function() {
         this.racerElement = document.createElement('div');
 
-        this.racerElement.style.height = this.height+'px';
+        this.racerElement.style.height = this.height+'px';  
         this.racerElement.style.width = this.width+'px';
 
         this.racerElement.style.backgroundImage = 'url(./images/car-run.png)';
@@ -498,6 +540,7 @@ function Game(width, height, userName, parentElement, parentClass) {
     this.highScoreBoardClass;
     this.bulletClass;
     this.bulletCartridgeClass;
+    this.bulletIndicatorClass;
 
     this.init = function() {
         this.gameElement = document.createElement('div');
@@ -519,8 +562,14 @@ function Game(width, height, userName, parentElement, parentClass) {
         this.initInputsRead();
         this.initPedestrains();
         this.initBulletCartridge();
+        this.initBulletIndicator();
         this.initScoreBoard();
         this.initHighScoreBoard();
+    }
+
+    this.initBulletIndicator = function() {
+        this.bulletIndicatorClass = new BulletIndicator(this.scoreHeight - 50, this.scoreHeight, this);
+        parentElement.appendChild(this.bulletIndicatorClass.init());
     }
 
     this.initBulletCartridge = function() {
@@ -674,6 +723,7 @@ function Game(width, height, userName, parentElement, parentClass) {
                 this.bulletClass.fireBullet();
                 this.racerClass.bulletLeft --;
                 this.racerClass.bulletLeft = this.racerClass.bulletLeft < 0 ? 0 : this.racerClass.bulletLeft;
+                this.bulletIndicatorClass.draw();
             }
         }
     }.bind(this);
