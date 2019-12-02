@@ -270,6 +270,7 @@ function BulletCartridge(height, width, parentClass) {
     this.reachedTheEnd = function() {
         if (this.top > parentClass.height) {
             parentClass.gameElement.removeChild(this.bulletCartridgeElement);
+            this.bulletCartridgeElement = undefined;
             clearInterval(this.intervalId);
         }
     }
@@ -277,6 +278,7 @@ function BulletCartridge(height, width, parentClass) {
     this.collisionWithRacer = function() {
         if (this.inLane === parentClass.racerClass.inLane && this.top + this.height > parentClass.height - parentClass.racerClass.height) {
             parentClass.gameElement.removeChild(this.bulletCartridgeElement);
+            this.bulletCartridgeElement = undefined;
             clearInterval(this.intervalId);
             parentClass.racerClass.increaseBullet();
         }
@@ -350,6 +352,7 @@ function Bullet(height, width, parentClass) {
                     parentClass.gameElement.removeChild(this.bulletElement);
                     clearInterval(this.intervalId);
                     parentClass.removePedestrian(this);
+                    parentClass.scoreBoardClass.updateScore();
                 }
             }
         }.bind(this));
@@ -373,6 +376,8 @@ function Bullet(height, width, parentClass) {
 function Racer(height, width, parentClass) {
     this.height = height;
     this.width = width;
+
+    this.moving = false;
 
     this.inLane = 1;
 
@@ -423,23 +428,36 @@ function Racer(height, width, parentClass) {
         }
     }
 
+    this.move = function(from, to) {
+        if (from < to) {
+            var id = setInterval(function() {
+                this.left += 2;
+                this.draw();
+                if (this.left >= to) clearInterval(id);
+            }.bind(this));
+        } else if (from > to) {
+            var id = setInterval(function() {
+                this.left -= 2;
+                this.draw();
+                if (this.left <= to) clearInterval(id);
+            }.bind(this));
+        }
+        this.moving = false;
+    }
+
     this.moveRight = function() {
-        this.left += this.offSetValue;
-        if (this.detectCollisionX()) {
-            this.left -= this.offSetValue;
-        } else {
-            this.inLane++;
-            this.draw();
+        if (!this.detectCollisionX() && this.inLane < 3) {
+            this.moving = true;
+            this.inLane ++;
+            this.move(this.left, this.left + this.offSetValue);
         }
     }
 
     this.moveLeft = function() {
-        this.left -= this.offSetValue;
-        if(this.detectCollisionX()) {
-            this.left += this.offSetValue;
-        } else {
-            this.inLane--;
-            this.draw();
+        if (!this.detectCollisionX() && this.inLane >1) {
+            this.moving = true;
+            this.inLane --;
+            this.move(this.left, this.left - this.offSetValue);
         }
     }
 
@@ -590,7 +608,7 @@ function Game(width, height, userName, parentElement, parentClass) {
     this.gameOver = function() {
         clearInterval(this.pedestriansGeneratingIntervalId);
         clearInterval(this.backgroundClass.intervalId);
-        if (this.bulletCartridgeClass) {
+        if (this.bulletCartridgeClass && this.bulletCartridgeClass.bulletCartridgeElement) {
             clearInterval(this.bulletCartridgeClass.intervalId);
         }
         clearInterval(this.bulletCartridgeGenratingId);
@@ -603,7 +621,7 @@ function Game(width, height, userName, parentElement, parentClass) {
     }
 
     this.restartGame = function() {
-        if (this.bulletCartridgeClass) {
+        if (this.bulletCartridgeClass && this.bulletCartridgeClass.bulletCartridgeElement) {
             this.gameElement.removeChild(this.bulletCartridgeClass.bulletCartridgeElement);
         }
         this.pedestrians.forEach(function(element) {
@@ -620,6 +638,7 @@ function Game(width, height, userName, parentElement, parentClass) {
         document.addEventListener('keyup',this.inputFunction);
         this.initPedestrains();
         this.initBulletCartridge();
+        this.bulletIndicatorClass.draw();
     }
 
     this.exitGame = function() {
@@ -635,7 +654,7 @@ function Game(width, height, userName, parentElement, parentClass) {
         parentElement.removeChild(this.gameElement);
         parentElement.removeChild(this.scoreBoardClass.scoreBoardElement);
         parentElement.removeChild(this.highScoreBoardClass.highScoreBoardElement);
-        if (this.bulletCartridgeClass) {
+        if (this.bulletCartridgeClass && this.bulletCartridgeClass.bulletCartridgeElement) {
             this.gameElement.removeChild(this.bulletCartridgeClass.bulletCartridgeElement);
         }
         parentClass.reset();
@@ -711,11 +730,11 @@ function Game(width, height, userName, parentElement, parentClass) {
     }
 
     this.inputFunction = function(event) {
-        if (event.code === 'ArrowRight' || event.code === 'KeyD') {
+        if ((event.code === 'ArrowRight' || event.code === 'KeyD') && !this.racerClass.moving) {
             that.racerClass.moveRight();
-        } else if (event.code === 'ArrowLeft'|| event.code === 'KeyA') {
+        } else if ((event.code === 'ArrowLeft'|| event.code === 'KeyA') && !this.racerClass.moving) {
             that.racerClass.moveLeft();
-        } else if (event.code === 'Space') {
+        } else if (event.code === 'ArrowUp') {
             if (this.racerClass.bulletLeft > 0 && !this.racerClass.bulletShooting) {
                 this.racerClass.bulletShooting = true;
                 this.bulletClass = new Bullet(40, 30, this);
@@ -893,36 +912,11 @@ function StartScreen(parentElement) {
 window.onload = function() {
     var app = this.document.getElementsByClassName('app');
 
-    var audio = new this.Audio('./music/game-music.mp3');
-    audio.loop = true;
-
-    var audioIcon = this.document.createElement('div');
-    audioIcon.style.width = '50px';
-    audioIcon.style.height = '50px';
-    audioIcon.style.backgroundImage = 'url(./images/mute.png)';
-    audioIcon.style.backgroundSize = '100% 100%';
-    audioIcon.style.backgroundRepeat = 'no-repeat';
-    audioIcon.style.position = 'absolute';
-    audioIcon.style.left = '20px';
-    audioIcon.style.bottom = '20px';
-    audioIcon.onmouseover = function() {
-        this.style.cursor = 'pointer';
-    }
-    audioIcon.onclick = function() {
-        if (audio.paused) {
-            audio.play();
-            audioIcon.style.backgroundImage = 'url(./images/unmute.png)';
-        } else {
-            audio.pause();
-            audioIcon.style.backgroundImage = 'url(./images/mute.png)';
-        }
-    }
-
     for (var i = 0; i < app.length; i++) {
         app.item(i).style.background = 'url(./images/grass.jpeg)';
         app.item(i).style.width = '1137px';
         app.item(i).style.position = 'relative';
-        app.item(i).appendChild(audioIcon);
+        app.item(i).style.margin = '10px auto';
         app.item(i).appendChild(new this.StartScreen(app.item(i)).init());
     }
 
