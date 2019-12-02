@@ -134,7 +134,7 @@ function Pedestrian(height, width ,parentClass) {
 
     this.intervalId;
 
-    this.pedestrialElement;
+    this.pedestrianElement;
 
     this.genrateInLane = getRandomNumber(1, 4);
 
@@ -193,6 +193,68 @@ function Pedestrian(height, width ,parentClass) {
     
 }
 
+function BulletCartridge(height, width, parentClass) {
+    this.height = height;
+    this.width = width;
+
+    this.top = -this.height;
+
+    this.inLane = getRandomNumber(1, 4);
+
+    this.intervalId;
+
+    this.dx = parentClass.backgroundClass.dx;
+
+    this.bulletCartridgeElement;
+
+    this.init = function() {
+        this.bulletCartridgeElement = document.createElement('div');
+
+        this.bulletCartridgeElement.style.width = this.width + 'px';
+        this.bulletCartridgeElement.style.height = this.height + 'px';
+
+        this.bulletCartridgeElement.style.position = 'absolute';
+
+        this.bulletCartridgeElement.style.top = this.top +'px';
+        this.bulletCartridgeElement.style.left =  (this.inLane - 1) * parentClass.racerClass.offSetValue + parentClass.racerClass.MIN_LEFT + 'px';
+
+
+        this.bulletCartridgeElement.style.backgroundImage = 'url(./images/bullet.png)';
+        this.bulletCartridgeElement.style.backgroundSize = '100% 100%';
+        this.bulletCartridgeElement.style.backgroundRepeat = 'no-repeat';
+
+        return this.bulletCartridgeElement;
+    }
+
+    this.reachedTheEnd = function() {
+        if (this.top > parentClass.height) {
+            parentClass.gameElement.removeChild(this.bulletCartridgeElement);
+            clearInterval(this.intervalId);
+        }
+    }
+
+    this.collisionWithRacer = function() {
+        if (this.inLane === parentClass.racerClass.inLane && this.top + this.height > parentClass.height - parentClass.racerClass.height) {
+            parentClass.gameElement.removeChild(this.bulletCartridgeElement);
+            clearInterval(this.intervalId);
+            parentClass.racerClass.increaseBullet();
+        }
+    }
+
+    this.move = function() {
+        this.intervalId = setInterval(function() {
+            this.top += this.dx;
+            this.draw();
+            this.reachedTheEnd();
+            this.collisionWithRacer();
+        }.bind(this),parentClass.backgroundClass.increaseInInterval);
+    }
+
+    this.draw = function() {
+        this.bulletCartridgeElement.style.top = this.top +'px';
+    }
+}
+
 function Bullet(height, width, parentClass) {
     this.bulletElement;
     
@@ -200,6 +262,8 @@ function Bullet(height, width, parentClass) {
     this.width = width;
 
     this.intervalId;
+
+    this.shooting;
 
     this.dx = 10;
 
@@ -226,26 +290,36 @@ function Bullet(height, width, parentClass) {
 
         this.bulletElement.style.left = this.left+'px';
 
-        console.log(this.left);
-
         return this.bulletElement;
     }
 
-    // this.detectCollisionWithPedestrian = function() {
-    //     parentClass.pedestrians.forEach(function(element) {
-    //         if (this.genrateInLane === element.genrateInLane) {
-    //             if (element.top + element.height < this.top) {
-    //                 parentClass.gameElement.removeChild(this.bulletElement);
-    //             }
-    //         }
-    //     }.bind(this));
-    // }
+    this.detectCollisionX = function() {
+        if (this.top <= 0) {
+            parentClass.racerClass.bulletShooting = false;
+            parentClass.gameElement.removeChild(this.bulletElement);
+            clearInterval(this.intervalId);
+        }
+    }
+
+    this.detectCollisionWithPedestrian = function() {
+        parentClass.pedestrians.forEach(function(element) {
+            if (this.genrateInLane === element.genrateInLane) {
+                if (element.top + element.height > this.top) {
+                    parentClass.racerClass.bulletShooting = false;
+                    parentClass.gameElement.removeChild(this.bulletElement);
+                    clearInterval(this.intervalId);
+                    parentClass.removePedestrian(this);
+                }
+            }
+        }.bind(this));
+    }
 
     this.fireBullet = function() {
-        this.parentClass.racerClass.bullet --;
         this.intervalId = setInterval(function() {
             this.top -= this.dx;
             this.draw();
+            this.detectCollisionWithPedestrian();
+            this.detectCollisionX();
         }.bind(this), 10);
     }
 
@@ -270,15 +344,16 @@ function Racer(height, width, parentClass) {
 
     this.bulletLeft = 10;
     this.bulletIncreaseBy = 10;
+    this.bulletShooting = false;
 
     this.racerElement;
 
-    this.setBullet = function() {
-        this.Bullet += this.bulletIncreaseBy;
+    this.increaseBullet = function() {
+        this.bulletLeft += this.bulletIncreaseBy;
     }
 
     this.reset = function() {
-        this.bullet = 10;
+        this.bulletLeft = 10;
     }
 
     this.init = function() {
@@ -404,7 +479,10 @@ function Game(width, height, userName, parentElement, parentClass) {
     this.width = width;
     this.height = height;
 
+    this.bulletCartridgeGenratingId;
+
     this.pedestrians = [];
+
     this.pedestriansGeneratingIntervalId;
     this.pedestriansGeneratingDelay = 10;
     this.pedestrianGappingOffset = 30;
@@ -419,6 +497,7 @@ function Game(width, height, userName, parentElement, parentClass) {
     this.scoreBoardClass;
     this.highScoreBoardClass;
     this.bulletClass;
+    this.bulletCartridgeClass;
 
     this.init = function() {
         this.gameElement = document.createElement('div');
@@ -439,8 +518,17 @@ function Game(width, height, userName, parentElement, parentClass) {
         this.initRacer();
         this.initInputsRead();
         this.initPedestrains();
+        this.initBulletCartridge();
         this.initScoreBoard();
         this.initHighScoreBoard();
+    }
+
+    this.initBulletCartridge = function() {
+        this.bulletCartridgeGenratingId = setInterval(function() {
+            this.bulletCartridgeClass = new BulletCartridge(40, 30, this);
+            this.gameElement.appendChild(this.bulletCartridgeClass.init());
+            this.bulletCartridgeClass.move();
+        }.bind(this),10000);
     }
 
     this.initHighScoreBoard = function() {
@@ -453,6 +541,10 @@ function Game(width, height, userName, parentElement, parentClass) {
     this.gameOver = function() {
         clearInterval(this.pedestriansGeneratingIntervalId);
         clearInterval(this.backgroundClass.intervalId);
+        if (this.bulletCartridgeClass) {
+            clearInterval(this.bulletCartridgeClass.intervalId);
+        }
+        clearInterval(this.bulletCartridgeGenratingId);
         this.pedestrians.forEach(function(element) {
             clearInterval(element.intervalId);
         });
@@ -462,6 +554,9 @@ function Game(width, height, userName, parentElement, parentClass) {
     }
 
     this.restartGame = function() {
+        if (this.bulletCartridgeClass) {
+            this.gameElement.removeChild(this.bulletCartridgeClass.bulletCartridgeElement);
+        }
         this.pedestrians.forEach(function(element) {
             this.gameElement.removeChild(element.pedestrianElement);
         }.bind(this));
@@ -469,11 +564,13 @@ function Game(width, height, userName, parentElement, parentClass) {
             delete(element);
         });
         this.pedestrians = [];
+        this.racerClass.reset();
         this.backgroundClass.reset();
         this.scoreBoardClass.reset();
         this.backgroundClass.move();
         document.addEventListener('keyup',this.inputFunction);
         this.initPedestrains();
+        this.initBulletCartridge();
     }
 
     this.exitGame = function() {
@@ -489,6 +586,9 @@ function Game(width, height, userName, parentElement, parentClass) {
         parentElement.removeChild(this.gameElement);
         parentElement.removeChild(this.scoreBoardClass.scoreBoardElement);
         parentElement.removeChild(this.highScoreBoardClass.highScoreBoardElement);
+        if (this.bulletCartridgeClass) {
+            this.gameElement.removeChild(this.bulletCartridgeClass.bulletCartridgeElement);
+        }
         parentClass.reset();
         parentElement.appendChild(parentClass.startScreenElement);
     }
@@ -542,9 +642,19 @@ function Game(width, height, userName, parentElement, parentClass) {
     }
 
     this.removePedestrian = function(pedestrianElement) {
-        this.pedestrians = this.pedestrians.filter(function(pedestrian) {
-            return pedestrian.pedestrianElement != pedestrianElement;
-        });
+        if (pedestrianElement instanceof HTMLElement) {
+            this.pedestrians = this.pedestrians.filter(function(pedestrian) {
+                return pedestrian.pedestrianElement != pedestrianElement;
+            });
+        } else if (pedestrianElement instanceof Bullet){
+            for (var i = 0; i < this.pedestrians.length; i++) {
+                if (this.pedestrians[i].genrateInLane === pedestrianElement.genrateInLane && this.pedestrians[i].top + this.pedestrians[i].height > pedestrianElement.top) {
+                    this.gameElement.removeChild(this.pedestrians[i].pedestrianElement);
+                    clearInterval(this.pedestrians[i].intervalId);
+                    this.pedestrians.splice(i, 1);
+                }
+            }
+        }
     }
 
     this.initInputsRead = function() {
@@ -557,10 +667,13 @@ function Game(width, height, userName, parentElement, parentClass) {
         } else if (event.code === 'ArrowLeft'|| event.code === 'KeyA') {
             that.racerClass.moveLeft();
         } else if (event.code === 'Space') {
-            if (this.racerClass.bulletLeft > 0) {
+            if (this.racerClass.bulletLeft > 0 && !this.racerClass.bulletShooting) {
+                this.racerClass.bulletShooting = true;
                 this.bulletClass = new Bullet(40, 30, this);
                 this.gameElement.appendChild(this.bulletClass.init());
                 this.bulletClass.fireBullet();
+                this.racerClass.bulletLeft --;
+                this.racerClass.bulletLeft = this.racerClass.bulletLeft < 0 ? 0 : this.racerClass.bulletLeft;
             }
         }
     }.bind(this);
