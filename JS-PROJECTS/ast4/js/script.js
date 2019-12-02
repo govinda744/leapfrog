@@ -194,6 +194,62 @@ function Pedestrian(height, width ,parentClass) {
     
 }
 
+function Bullet(height, width, parentClass) {
+    this.bulletElement;
+    
+    this.height = height;
+    this.width = width;
+
+    this.intervalId;
+
+    this.dx = 10;
+
+    this.genrateInLane;
+
+    this.left;
+    this.top = parentClass.height - parentClass.racerClass.height - 10;
+
+    this.setLane = function() {
+        this.genrateInLane = parentClass.racerClass.inLane;
+        this.left = this.genrateInLane === 1 ? parentClass.racerClass.MIN_LEFT : ((this.genrateInLane - 1) * parentClass.racerClass.offSetValue) + parentClass.racerClass.MIN_LEFT;
+    }
+
+    this.init = function() {
+        this.bulletElement = document.createElement('div');
+        this.bulletElement.style.backgroundImage = 'url(./images/bullet.png)';
+        this.bulletElement.style.backgroundSize = '100% 100%';
+        this.bulletElement.style.backgroundRepeat = 'no-repeat';
+
+        this.bulletElement.style.position = 'absolute';
+        this.bulletElement.style.left = this.left+'px';
+        this.bulletElement.style.top = this.top +'px';
+
+        return this.bulletElement;
+    }
+
+    // this.detectCollisionWithPedestrian = function() {
+    //     parentClass.pedestrians.forEach(function(element) {
+    //         if (this.genrateInLane === element.genrateInLane) {
+    //             if (element.top + element.height < this.top) {
+    //                 parentClass.gameElement.removeChild(this.bulletElement);
+    //             }
+    //         }
+    //     }.bind(this));
+    // }
+
+    this.fireBullet = function() {
+        this.intervalId = setInterval(function() {
+            this.top -= this.dx;
+            this.draw();
+        });
+    }
+
+    this.draw = function() {
+        this.bulletElement.style.top = this.top;
+    }
+    
+}
+
 function Racer(height, width, parentClass) {
     this.height = height;
     this.width = width;
@@ -684,5 +740,4 @@ window.onload = function() {
     new HighScoreBoard().init();
     
     app.item(0).appendChild(new this.StartScreen(app.item(0)).init());
-
 }
