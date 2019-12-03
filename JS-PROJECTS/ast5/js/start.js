@@ -12,15 +12,20 @@ function Start(width, height, parentClass) {
         this.startElement.style.width = this.width + 'px';
 
         this.startElement.style.lineHeight = this.height +'px';
-        this.startElement.innerHTML = 'Click here to start game';
+        this.startElement.innerHTML = 'Click here to start';
         this.startElement.style.color = '#000';
         this.startElement.style.textAlign = 'center';
+
+        this.startElement.style.background = '#0000008d';
+
+        this.startElement.style.backgroundImage = 'url(./images/logo.png),url(./images/flappy_bird.gif)';
+        this.startElement.style.backgroundPosition = '50% 25%, 72% 24%';
+        this.startElement.style.backgroundSize = 'auto, 10% 5%';
+        this.startElement.style.backgroundRepeat = 'no-repeat';
 
         this.startElement.style.zIndex = this.zIndex;
 
         this.startElement.style.position = 'absolute';
-
-        this.startElement.style.background = '#0000008d';
 
         this.startElement.onmouseover = function() {
             this.startElement.style.cursor = 'pointer';

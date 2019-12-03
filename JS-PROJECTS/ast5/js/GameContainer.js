@@ -115,7 +115,7 @@ function GameContainer(height, width, parentElement) {
     }
 
     this.readInputs = function(event) {
-        if (event.code === 'ArrowUp') {
+        if (event.code === 'ArrowUp' || event.code === 'Space') {
             this.flyAudio.play();
             this.birdClass.move();
         }
