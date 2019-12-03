@@ -17,7 +17,6 @@ function GameBackground(width, height, scaleFactor, parentClass) {
     this.gameBackgroundElement;
 
     this.init = function() {
-        console.log('background')
         this.gameBackgroundElement = document.createElement('div');
 
         this.gameBackgroundElement.id = 'game-background';

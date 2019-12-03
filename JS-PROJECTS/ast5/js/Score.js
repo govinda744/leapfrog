@@ -50,7 +50,6 @@ function Score(width, height, parentClass) {
     }
 
     this.store = function() {
-        console.log(this.highScore)
         localStorage.setItem('flappyBirdHighScore', this.highScore);
     }
 
