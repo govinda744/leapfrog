@@ -53,7 +53,7 @@ function GameContainer(height, width, parentElement) {
 
         this.gameContainerElement.style.margin = this.margin + 'px';
 
-        this.startGame();
+        this.initStartScreen();
 
         return this.gameContainerElement;
     }
@@ -68,6 +68,7 @@ function GameContainer(height, width, parentElement) {
 
     this.gameOver = function() {
         this.birdClass.fallToGround();
+        this.scoreClass.setHighScore();
         clearInterval(this.gameBackgroundClass.moveIntervalId);
         clearInterval(this.pipeGenrationIntervalId);
         this.pipes.forEach(function(element) {
@@ -76,6 +77,28 @@ function GameContainer(height, width, parentElement) {
         clearInterval(this.birdClass.gravityEffectIntervalId);
         clearInterval(this.birdClass.animateId);
         document.removeEventListener('keydown', this.readInputs);
+        this.initEndScreen();
+    }
+
+    this.restartGame = function() {
+        this.gameContainerElement.removeChild(this.birdClass.birdElement);
+        if (this.pipes.length > 0) {
+            this.pipes.forEach(function(element) {
+                this.gameContainerElement.removeChild(element.pipeElement);
+            }.bind(this));
+            this.pipes = [];
+        }
+        this.gameContainerElement.removeChild(this.gameBackgroundClass.gameBackgroundElement);
+        this.gameContainerElement.removeChild(this.scoreClass.scoreElement);
+        this.startGame();
+    }
+
+    this.initStartScreen = function() {
+        this.gameContainerElement.appendChild(new Start(this.width, this.height, this).init());
+    }
+
+    this.initEndScreen = function() {
+        this.gameContainerElement.appendChild(new EndScreen(this.width, this).init());
     }
 
     this.initScoreBoard = function() {

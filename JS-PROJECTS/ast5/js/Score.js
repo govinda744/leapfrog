@@ -2,7 +2,7 @@ function Score(width, height, parentClass) {
     this.locaStorage = window.localStorage;
 
     this.highScore = 0;
-    
+
     this.width = width;
     this.height = height;
 
@@ -32,6 +32,26 @@ function Score(width, height, parentClass) {
         this.scoreElement.style.fontSize = '36px';
 
         return this.scoreElement;
+    }
+
+    this.getHighScore = function() {
+        this.highScore = parseInt(localStorage.getItem('flappyBirdHighScore'));
+    }
+
+    this.setHighScore = function() {
+        this.getHighScore();
+        if (!this.highScore) {
+            this.highScore = 0;
+        }
+        if (this.score > this.highScore) {
+            this.highScore = this.score;
+        }
+        this.store();
+    }
+
+    this.store = function() {
+        console.log(this.highScore)
+        localStorage.setItem('flappyBirdHighScore', this.highScore);
     }
 
     this.scored = function() {
