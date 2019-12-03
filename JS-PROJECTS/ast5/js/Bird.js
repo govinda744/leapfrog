@@ -11,6 +11,8 @@ function Bird(height, width, parentClass) {
     this.birdMoveOffset = 80;
     this.birdAnimationSpeed = 4;
 
+    this.moveRotateAngle = -35;
+
     this.gravityEffectIntervalId;
     this.dropByGravity = 0.01;
     this.dropIncreaseBy = 0.09;
@@ -22,6 +24,7 @@ function Bird(height, width, parentClass) {
     this.animateId; 
 
     this.birdElement;
+    this.imageContainer;
 
     this.init = function() {
         this.birdElement = document.createElement('div');
@@ -38,16 +41,22 @@ function Bird(height, width, parentClass) {
         this.birdElement.style.height = this.height +'px';
         this.birdElement.style.width = this.width +'px';
 
-        this.birdElement.style.backgroundImage = 'url(./images/flappy_bird.gif)';
-        this.birdElement.style.backgroundSize = '100% 100%';
+        this.imageContainer = document.createElement('div');
+        this.imageContainer.style.width = this.width + 'px';
+        this.imageContainer.style.height = this.height + 'px';
+        this.imageContainer.style.backgroundImage = 'url(./images/flappy_bird.png)';
+        this.imageContainer.style.backgroundSize = '100% 100%';
+
+        this.birdElement.appendChild(this.imageContainer);
 
         this.gravityEffect();
 
         return this.birdElement;
     }
 
-    this.resetGravity = function() {
+    this.reset = function() {
         this.dropByGravity = 0.1;
+        this.moveRotateAngle = -35;
         clearInterval(this.gravityEffectIntervalId);
     }
 
@@ -58,8 +67,10 @@ function Bird(height, width, parentClass) {
     }
 
     this.move = function() {
+        this.reset();
+        this.imageContainer.style.backgroundImage = 'url(./images/flappy_bird.gif)';
+        this.imageContainer.style.transform = 'rotate('+this.moveRotateAngle+'deg)';
         this.stopAnyPriorMovement();
-        this.resetGravity();
         this.animateMoveTo(this.top - this.birdMoveOffset);
     }
 
@@ -80,6 +91,9 @@ function Bird(height, width, parentClass) {
     }
 
     this.fallToGround = function() {
+        this.moveRotateAngle = 90;
+        this.imageContainer.style.transform = 'rotate('+this.moveRotateAngle+'deg)';
+        this.imageContainer.style.backgroundImage = 'url(./images/flappy_bird.png)';
         var id = setInterval(function() {
             this.dieAudio.play();
             if (this.top + this.height < parentClass.height - parentClass.gameBackgroundClass.height) {
@@ -96,6 +110,13 @@ function Bird(height, width, parentClass) {
             if (parentClass.gameBackgroundClass.top < this.top + this.height) {
                 this.hitAudio.play();
                 parentClass.gameOver();
+            }
+            if (this.moveRotateAngle < 90) {
+                if (this.moveRotateAngle > -10) {
+                    this.imageContainer.style.backgroundImage = 'url(./images/flappy_bird.png)';
+                }
+                this.moveRotateAngle += 2;
+                this.imageContainer.style.transform = 'rotate('+this.moveRotateAngle+'deg)';
             }
             this.dropByGravity = this.dropByGravity > this.MAX_DROP_RATE ? this.MAX_DROP_RATE : this.dropByGravity;
             this.top += this.dropByGravity;
