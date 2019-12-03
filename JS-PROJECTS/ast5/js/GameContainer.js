@@ -40,6 +40,8 @@ function GameContainer(height, width, parentElement) {
 
         this.gameContainerElement.id = 'game-controller';
 
+        this.gameContainerElement.style.float = 'left';
+
         this.gameContainerElement.style.position = 'relative';
 
         this.gameContainerElement.style.height = this.height + 'px';
