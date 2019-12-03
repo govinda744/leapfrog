@@ -8,7 +8,7 @@ function GameContainer(height, width, parentElement) {
     this.height = height;
     this.width = width;
 
-    this.flyAudio = new Audio('../audio/wing.wav');
+    this.flyAudio = new Audio('./audio/wing.wav');
 
     this.gameBackgroundScale = 10;
 

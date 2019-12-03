@@ -5,8 +5,8 @@ function Bird(height, width, parentClass) {
     this.top = (parentClass.height - this.height) / 2;
     this.left = (parentClass.width - this.width) / 2;
 
-    this.hitAudio = new Audio('../audio/hit.wav');
-    this.dieAudio = new Audio('../audio/die.wav');
+    this.hitAudio = new Audio('./audio/hit.wav');
+    this.dieAudio = new Audio('./audio/die.wav');
 
     this.birdMoveOffset = 80;
     this.birdAnimationSpeed = 4;

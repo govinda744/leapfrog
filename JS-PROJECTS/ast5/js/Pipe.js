@@ -5,7 +5,7 @@ function Pipe(height, width, top, flip, parentClass) {
     this.directionY = parentClass.gameBackgroundClass.directionY;
     this.intervalRepeatTime = parentClass.gameBackgroundClass.intervalRepeatTime;
 
-    this.hitAudio = new Audio('../audio/hit.wav');
+    this.hitAudio = new Audio('./audio/hit.wav');
 
     this.top = top;
     this.left = parentClass.width;

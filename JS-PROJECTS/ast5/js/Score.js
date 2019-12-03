@@ -13,7 +13,7 @@ function Score(width, height, parentClass) {
 
     this.score = 0;
 
-    this.audio = new Audio('../audio/point.wav');
+    this.audio = new Audio('./audio/point.wav');
 
     this.scoreElement;
     this.scoreDisplayElement;
