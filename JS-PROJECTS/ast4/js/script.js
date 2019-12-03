@@ -635,7 +635,7 @@ function Game(width, height, userName, parentElement, parentClass) {
         this.backgroundClass.reset();
         this.scoreBoardClass.reset();
         this.backgroundClass.move();
-        document.addEventListener('keyup',this.inputFunction);
+        document.addEventListener('keydown',this.inputFunction);
         this.initPedestrains();
         this.initBulletCartridge();
         this.bulletIndicatorClass.draw();
@@ -726,7 +726,7 @@ function Game(width, height, userName, parentElement, parentClass) {
     }
 
     this.initInputsRead = function() {
-        document.addEventListener('keyup', this.inputFunction);
+        document.addEventListener('keydown', this.inputFunction);
     }
 
     this.inputFunction = function(event) {

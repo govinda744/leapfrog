@@ -78,13 +78,10 @@ function CarouselContainer(carouselContainer) {
                 this.domCarouselImageWrapper.item(0).style.left = from+'px';
             }
             if (from === upto) {
+                this.sliding = enable;
                 clearInterval(id);
             }
         }.bind(this),5);
-        var timeForSlidingToComplete = Math.ceil(this.speed/5 * this.imageWidth);
-        setTimeout(function() {
-            this.sliding = enable;
-        }.bind(this),(timeForSlidingToComplete + 100));
     }
 
     this.highLightIndicator = function() {
