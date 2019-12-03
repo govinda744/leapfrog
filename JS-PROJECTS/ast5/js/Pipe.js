@@ -5,10 +5,16 @@ function Pipe(height, width, top, flip, parentClass) {
     this.directionY = parentClass.gameBackgroundClass.directionY;
     this.intervalRepeatTime = parentClass.gameBackgroundClass.intervalRepeatTime;
 
+    this.hitAudio = new Audio('../audio/hit.wav');
+
     this.top = top;
     this.left = parentClass.width;
 
     this.zIndex = 10;
+
+    this.birdPassed = false;
+
+    this.pipeMovingIntervalId;
 
     this.pipeElement;
 
@@ -38,14 +44,33 @@ function Pipe(height, width, top, flip, parentClass) {
         return this.pipeElement;
     }
 
+    this.collisionDetection = function() {
+        if (parentClass.birdClass.left + parentClass.birdClass.width > this.left + (this.width / 2) && !this.birdPassed) {
+            parentClass.scoreClass.scored();
+            this.birdPassed = true;
+        }
+        if (flip) {
+            if (this.left < parentClass.birdClass.left + parentClass.birdClass.width && this.left + this.width > parentClass.birdClass.left && this.height + this.top > parentClass.birdClass.top) {
+                this.hitAudio.play();
+                parentClass.gameOver();
+            }
+        } else {
+            if (this.left < parentClass.birdClass.left + parentClass.birdClass.width && this.top < parentClass.birdClass.top + parentClass.birdClass.height && this.left + this.width > parentClass.birdClass.left) {
+                this.hitAudio.play();
+                parentClass.gameOver();
+            }
+        }
+    }
+
     this.move = function() {
-        var id = setInterval(function() {
+        this.pipeMovingIntervalId = setInterval(function() {
+            this.collisionDetection();
             this.left -= this.directionY;
             this.draw();
             if (this.left + this.width <= 0) {
                 parentClass.gameContainerElement.removeChild(this.pipeElement);
                 parentClass.removePipe(this.pipeElement);
-                clearInterval(id);
+                clearInterval(this.pipeMovingIntervalId);
             }
         }.bind(this),this.intervalRepeatTime);
     }

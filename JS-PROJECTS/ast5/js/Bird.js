@@ -5,6 +5,9 @@ function Bird(height, width, parentClass) {
     this.top = (parentClass.height - this.height) / 2;
     this.left = (parentClass.width - this.width) / 2;
 
+    this.hitAudio = new Audio('../audio/hit.wav');
+    this.dieAudio = new Audio('../audio/die.wav');
+
     this.birdMoveOffset = 80;
     this.birdAnimationSpeed = 4;
 
@@ -62,9 +65,12 @@ function Bird(height, width, parentClass) {
 
     this.animateMoveTo = function(to) {
         this.animateId = setInterval(function() {
-            console.log('to>>> ', to)
             if (this.top >= to) {
                 this.top -= this.birdAnimationSpeed;
+                if (this.top < 0) {
+                    this.hitAudio.play();
+                    parentClass.gameOver();
+                }
                 this.draw();
             } else {
                 this.gravityEffect();
@@ -73,10 +79,22 @@ function Bird(height, width, parentClass) {
         }.bind(this), 10);
     }
 
+    this.fallToGround = function() {
+        var id = setInterval(function() {
+            this.dieAudio.play();
+            if (this.top + this.height < parentClass.height - parentClass.gameBackgroundClass.height) {
+                this.top += 4;
+                this.draw();
+            } else {
+                clearInterval(id);
+            }
+        }.bind(this), 1);
+    }
+
     this.gravityEffect = function() {
         this.gravityEffectIntervalId = setInterval(function() {
-            console.log(parentClass.gameBackgroundClass.top, this.top + this.height)
             if (parentClass.gameBackgroundClass.top < this.top + this.height) {
+                this.hitAudio.play();
                 parentClass.gameOver();
             }
             this.dropByGravity = this.dropByGravity > this.MAX_DROP_RATE ? this.MAX_DROP_RATE : this.dropByGravity;

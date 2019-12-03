@@ -8,6 +8,8 @@ function GameContainer(height, width, parentElement) {
     this.height = height;
     this.width = width;
 
+    this.flyAudio = new Audio('../audio/wing.wav');
+
     this.gameBackgroundScale = 10;
 
     this.margin = 20;
@@ -15,6 +17,7 @@ function GameContainer(height, width, parentElement) {
     this.gameContainerElement;
 
     this.birdClass;
+    this.spaceForBirdToPass = 100;
 
     this.pipes = [];
     this.pipeGapping; 
@@ -26,6 +29,8 @@ function GameContainer(height, width, parentElement) {
 
     this.gameBackgroundClass;
     this.backgroundHeight = 60;
+
+    this.scoreClass;
     
     this.SHOW_MIN_PIPE = 50;
     this.pipeWidth = 100;
@@ -56,14 +61,28 @@ function GameContainer(height, width, parentElement) {
     this.startGame = function() {
         this.initBird();
         this.initBackground();
+        this.initScoreBoard();
         this.initInputs();
         this.initPipes();
     }
 
     this.gameOver = function() {
+        this.birdClass.fallToGround();
         clearInterval(this.gameBackgroundClass.moveIntervalId);
         clearInterval(this.pipeGenrationIntervalId);
+        this.pipes.forEach(function(element) {
+            clearInterval(element.pipeMovingIntervalId);
+        }.bind(this));
+        clearInterval(this.birdClass.gravityEffectIntervalId);
+        clearInterval(this.birdClass.animateId);
+        document.removeEventListener('keydown', this.readInputs);
+    }
 
+    this.initScoreBoard = function() {
+        var height = 100;
+        var width = 100;
+        this.scoreClass = new Score(width, height, this);
+        this.gameContainerElement.appendChild(this.scoreClass.init());
     }
 
     this.initInputs = function() {
@@ -72,14 +91,14 @@ function GameContainer(height, width, parentElement) {
 
     this.readInputs = function(event) {
         if (event.code === 'ArrowUp') {
-            console.log('space')
+            this.flyAudio.play();
             this.birdClass.move();
         }
     }.bind(this);
 
     this.initBird = function() {
         this.birdClass = new Bird(40, 40, this);
-        this.pipeGapping = this.birdClass.birdMoveOffset + 70;
+        this.pipeGapping = this.birdClass.birdMoveOffset + this.spaceForBirdToPass;
         this.gameContainerElement.appendChild(this.birdClass.init());
     }
 
@@ -87,7 +106,6 @@ function GameContainer(height, width, parentElement) {
         this.pipes = this.pipes.filter(function(element) {
             return element.pipeElement !== pipeElement;
         });
-        console.log(this.pipes.length);
     }
 
     this.initPipes = function() {

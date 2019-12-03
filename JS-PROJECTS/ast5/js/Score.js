@@ -1,0 +1,46 @@
+function Score(width, height, parentClass) {
+    this.locaStorage = window.localStorage;
+
+    this.highScore = 0;
+    
+    this.width = width;
+    this.height = height;
+
+    this.top = 20;
+    this.left = parentClass.width / 2;
+
+    this.zIndex = 20;
+
+    this.score = 0;
+
+    this.audio = new Audio('../audio/point.wav');
+
+    this.scoreElement;
+    this.scoreDisplayElement;
+
+    this.init = function() {
+        this.scoreElement = document.createElement('div');
+
+        this.scoreElement.style.position = 'absolute';
+        this.scoreElement.style.top = this.top + 'px';
+        this.scoreElement.style.left = this.left + 'px';
+
+        this.scoreElement.style.zIndex = this.zIndex;
+
+        this.scoreElement.innerHTML = this.score;
+        this.scoreElement.style.color = '#f3f3f3';
+        this.scoreElement.style.fontSize = '36px';
+
+        return this.scoreElement;
+    }
+
+    this.scored = function() {
+        this.audio.play();
+        this.score += 5;
+        this.draw();
+    }
+
+    this.draw = function() {
+        this.scoreElement.innerHTML = this.score;
+    }
+}
