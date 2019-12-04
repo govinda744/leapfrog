@@ -4,7 +4,7 @@ function getRandomNumber(min,max){
     return Math.floor(Math.random() * (max - min) ) + min;
 }
 
-function GameContainer(height, width, parentElement) {
+function GameContainer(height, width, parentElement, keyCode) {
     this.height = height;
     this.width = width;
 
@@ -115,7 +115,7 @@ function GameContainer(height, width, parentElement) {
     }
 
     this.readInputs = function(event) {
-        if (event.code === 'ArrowUp' || event.code === 'Space') {
+        if (event.code === keyCode) {
             this.flyAudio.play();
             this.birdClass.move();
         }
