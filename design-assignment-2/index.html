@@ -12,92 +12,60 @@
 <body>
     <div class="main-page">
         <div class="header-wrapper">
-            <div class="header-wrapper-top clear">
-                <div class="logo">
-                    <img src="https://govinda744.github.io/leapfrog/design-assignment-2/images/logo.png" alt="Tollens logo">
-                </div>
-                <div class="menu">
-                    <ul>
-                        <li><a href="#">HOME</a></li>
-                        <li><a href="#">ABOUT</a></li>
-                        <li><a href="#">SERVICES</a></li>
-                        <li><a href="#">PORTFOLIO</a></li>
-                        <li><a href="#">BLOG</a></li>
-                        <li><a href="#">FEATURES</a></li>
-                        <li><a href="#">CONTACT</a></li>
-                        <li><div class="search-logo">
-                            <img src="https://govinda744.github.io/leapfrog/design-assignment-2/images/search.png" alt="Search logo"/>
-                        </div>
-                            <div class="search-text-input">
-                                <form action="submit"></form>
-                                    <input type="text" placeholder="Search-the-site"/>
-                                </form>
-                            </div>
-                        </li>
-                    </ul>
+            <div class="header-wrapper-top container clear">
+                <div class="wrapper">
+                    <div class="logo">
+                        <img src="https://govinda744.github.io/leapfrog/design-assignment-2/images/logo.png" alt="Tollens logo">
+                    </div>
+                    <div class="menu">
+                        <ul>
+                            <li><a href="#">HOME</a></li>
+                            <li><a href="#">ABOUT</a></li>
+                            <li class="drop-down"><a href="#">SERVICES</a>
+                                <div class="drop-down-item">
+                                    <ul class="clear">
+                                        <li><a href="#">SUSPENDISE</a></li>
+                                        <li><a href="#">MECENES</a></li>
+                                        <li><a href="#">ALIQUAM</a></li>
+                                        <li><a href="#">HABITASSE</a></li>
+                                    </ul>
+                                </div>
+                            </li>
+                            <li class="drop-down"><a href="#">PORTFOLIO</a></li>
+                            <li><a href="#">BLOG</a></li>
+                            <li class="drop-down"><a href="#">FEATURES</a></li>
+                            <li><a href="#">CONTACT</a></li>
+                            <li class="search-icon"><img src="images/search.png" alt="Search logo"/>
+                                <div class="search-text-input">
+                                    <form action="submit"></form>
+                                        <input type="text" placeholder="Search-the-site"/>
+                                    </form>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>    
-            <div class="header-wrapper-buttom clear">
-                <div class="page-name"><h2>FEATURES<h2></div>
-                <div class="breadcrums">
-                    <ul>
-                        <li><a href="#">Home</a></li>
-                        <li><img src="https://govinda744.github.io/leapfrog/design-assignment-2/images/breadcrums-separator.png" alt="bradcrum separatot"></li>
-                        <li><a href="#">Features</a></li>
-                    </ul>
+            <div class="header-wrapper-buttom container clear">
+                <div class="wrapper">
+                    <div class="page-name"><h2>FEATURES<h2></div>
+                        <div class="breadcrums">
+                            <ul>
+                                <li><a href="#">Home</a></li>
+                                <li><img src="https://govinda744.github.io/leapfrog/design-assignment-2/images/breadcrums-separator.png" alt="bradcrum separatot"></li>
+                                <li><a href="#">Features</a></li>
+                            </ul>
+                        </div>
                 </div>
             </div>
         </div>
-        <div class="body-wrapper">
-            <div class="comment">
-                <img src="https://govinda744.github.io/leapfrog/design-assignment-2/images/comment.png"/>
-            </div>
-            <div class="image-slider">
-                <h2>PROJECT SLIDESHOW</h2>
-                <div class="img-slider-indicator">
-                    <img src="https://govinda744.github.io/leapfrog/design-assignment-2/images/Image-slider-indicator.png"/>
-                </div>
-            </div>
-            <div class="col2-right clear">
-                <div class="main">
-                    <div class="image-slider">
-                        <h2>BLOG/PAGE slideshow</h2>
-                        <div class="img-slider-indicator">
-                            <img src="https://govinda744.github.io/leapfrog/design-assignment-2/images/Image-slider-indicator.png"/>
-                        </div>
-                    </div>
-                </div>
-                <div class="right">
-                    <div class="right-top">
-                        <div class="image-slider">
-                            <h2>SIDEBAR slideshow</h2>
-                            <div class="img-slider-indicator">
-                                <img src="https://govinda744.github.io/leapfrog/design-assignment-2/images/Image-slider-indicator.png"/>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="right-bottom clear">
-                        <h2>SIDEBAR GALLARY</h2>
-                        <ul>
-                            <li><img src="https://govinda744.github.io/leapfrog/design-assignment-2/images/sidebar-gallary-image.png"/></li>
-                            <li><img src="https://govinda744.github.io/leapfrog/design-assignment-2/images/sidebar-gallary-image.png"/></li>
-                        </ul>
-                        <ul>
-                            <li><img src="https://govinda744.github.io/leapfrog/design-assignment-2/images/sidebar-gallary-image.png"/></li>
-                            <li><img src="https://govinda744.github.io/leapfrog/design-assignment-2/images/sidebar-gallary-image.png"/></li>
-                        </ul>
-                        <ul id="last-list">
-                            <li><img src="https://govinda744.github.io/leapfrog/design-assignment-2/images/sidebar-gallary-image.png"/></li>
-                            <li><img src="https://govinda744.github.io/leapfrog/design-assignment-2/images/sidebar-gallary-image.png"/></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
+        <div class="body-wrapper container">
+            
             <div class="our-team-container">
-                <div class="team-wrapper clear">
+                <div class="team-wrapper wrapper clear">
                     <div class="team-member">
                         <div class="team-member-info">
-                            <div class="team-member-details" id="suspendisse">
+                            <div class="team-member-details suspendisse">
                                 <h3>SUSPENDISSE</h3>
                                 <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Harum assumenda nostrum laborum!</p>
                             </div>
@@ -110,7 +78,7 @@
                     </div>
                     <div class="team-member">
                         <div class="team-member-info">
-                            <div class="team-member-details" id="maecenas">
+                            <div class="team-member-details maecenas">
                                 <h3>MAECENAS</h3>
                                 <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Harum assumenda nostrum laborum!</p>
                             </div>
@@ -123,7 +91,7 @@
                     </div>
                     <div class="team-member">
                         <div class="team-member-info">
-                            <div class="team-member-details" id="aliquam">
+                            <div class="team-member-details aliquam">
                                 <h3>ALIQUAM</h3>
                                 <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Harum assumenda nostrum laborum!</p>
                             </div>
@@ -136,7 +104,7 @@
                     </div>
                     <div class="team-member" id="last-team-member">
                         <div class="team-member-info">
-                            <div class="team-member-details" id="habitasse">
+                            <div class="team-member-details habitasse">
                                 <h3>HABITASSE</h3>
                                 <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Harum assumenda nostrum laborum!</p>
                             </div>
@@ -149,58 +117,59 @@
                     </div>
                 </div>
             </div>
-
         </div>
         <div class="footer-wrapper">
-            <div class="footer-top clear">
-                <div class="info">
-                    <img src="images/logo.png">
-                    <p>Lorem ipsum dolor sit amet, consect adipiscing elit, sed do eiusmod tempor in cididunt utlabore et dolore magna aliqua.</p>
-                    <ul>
-                        <li>Phone:&emsp;<strong>182 2569 5896</strong></li>
-                        <li>e-mail:&emsp;</a><strong>inof@tollents.com</strong></a></span></li>
-                    </ul>
-                </div>
-                <div class="company-menu">
-                    <h3>Company</h3>
-                    <ul>
-                        <li><a href="#"><img src='images/arrow-head-for-footer-menu.png'>About</a></li>
-                        <li><a href="#"><img src='images/arrow-head-for-footer-menu.png'>FAQ</a></li>
-                        <li><a href="#"><img src='images/arrow-head-for-footer-menu.png'>Contact</a></li>
-                        <li><a href="#"><img src='images/arrow-head-for-footer-menu.png'>Terms</a></li>
-                        <li><a href="#"><img src='images/arrow-head-for-footer-menu.png'>Privacy</a></li>
-                        <li><a href="#"><img src='images/arrow-head-for-footer-menu.png'>Testimonies</a></li>
-                    </ul>
-                </div>
-                <div class ="company-menu">
-                    <h3>Community</h3>
-                    <ul>
-                        <li><a href="#"><img src='images/arrow-head-for-footer-menu.png'>Blog</a></li>
-                        <li><a href="#"><img src='images/arrow-head-for-footer-menu.png'>Forum</a></li>
-                        <li><a href="#"><img src='images/arrow-head-for-footer-menu.png'>Support</a></li>
-                        <li><a href="#"><img src='images/arrow-head-for-footer-menu.png'>Newsletter</a></li>
-                    </ul>
-                </div>
-                <div class="from-blog">
-                    <h3><i>from the</i> <strong>BLOG</strong></h3>
-                    <div class="blog clear">
-                        <div class="blog-image"><img src="images/blog-image.png"/></div>
-                        <div class="blog-details">
-                                <div class="blog-head"><a href="#">Lorem ipsum dolor sit amet, consect</a></div>
-                                <div class="blog-time"><span>26th may,2016</span></div>
-                        </div>
-                        
+            <div class="footer-top container clear">
+                <div class="wrapper">
+                    <div class="info">
+                        <img src="images/logo.png">
+                        <p>Lorem ipsum dolor sit amet, consect adipiscing elit, sed do eiusmod tempor in cididunt utlabore et dolore magna aliqua.</p>
+                        <ul>
+                            <li>Phone:&emsp;<strong>182 2569 5896</strong></li>
+                            <li>e-mail:&emsp;</a><strong>inof@tollents.com</strong></a></span></li>
+                        </ul>
                     </div>
-                    <div class="blog clear">
-                        <div class="blog-image"><img src="images/blog-image.png"/></div>
-                        <div class="blog-details">
-                            <div class="blog-head"><a href="#">Lorem ipsum dolor sit amet, consect aiusdfhio akdsufh</a></div>
-                            <div class="blog-time"><span>26th may,2016</span></div>
+                    <div class="company-menu">
+                        <h3>Company</h3>
+                        <ul>
+                            <li><a href="#"><img src='images/arrow-head-for-footer-menu.png'>About</a></li>
+                            <li><a href="#"><img src='images/arrow-head-for-footer-menu.png'>FAQ</a></li>
+                            <li><a href="#"><img src='images/arrow-head-for-footer-menu.png'>Contact</a></li>
+                            <li><a href="#"><img src='images/arrow-head-for-footer-menu.png'>Terms</a></li>
+                            <li><a href="#"><img src='images/arrow-head-for-footer-menu.png'>Privacy</a></li>
+                            <li><a href="#"><img src='images/arrow-head-for-footer-menu.png'>Testimonies</a></li>
+                        </ul>
+                    </div>
+                    <div class ="company-menu">
+                        <h3>Community</h3>
+                        <ul>
+                            <li><a href="#"><img src='images/arrow-head-for-footer-menu.png'>Blog</a></li>
+                            <li><a href="#"><img src='images/arrow-head-for-footer-menu.png'>Forum</a></li>
+                            <li><a href="#"><img src='images/arrow-head-for-footer-menu.png'>Support</a></li>
+                            <li><a href="#"><img src='images/arrow-head-for-footer-menu.png'>Newsletter</a></li>
+                        </ul>
+                    </div>
+                    <div class="from-blog">
+                        <h3><i>from the</i> <strong>BLOG</strong></h3>
+                        <div class="blog clear">
+                            <div class="blog-image"><img src="images/blog-image.png"/></div>
+                            <div class="blog-details">
+                                    <div class="blog-head"><a href="#">Lorem ipsum dolor sit amet, consect</a></div>
+                                    <div class="blog-time"><span>26th may,2016</span></div>
+                            </div>
+                        </div>
+                        <div class="blog clear">
+                            <div class="blog-image"><img src="images/blog-image.png"/></div>
+                            <div class="blog-details">
+                                <div class="blog-head"><a href="#">Lorem ipsum dolor sit amet, consect aiusdfhio akdsufh</a></div>
+                                <div class="blog-time"><span>26th may,2016</span></div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="footer-bottom clear">
+            <div class="footer-bottom container clear">
+                <div class="wrapper">
                 <div class="footer-left">2013 Tollens</div>
                 <div class="footer-right">
                     <ul>
@@ -209,6 +178,7 @@
                         <li><a href="#"><img src="images/twitter.png"></a></li>
                         <li><a href="#"><img src="images/rssfeed.png"></a></li>
                     </ul>
+                </div>
                 </div>
             </div>
         </div>

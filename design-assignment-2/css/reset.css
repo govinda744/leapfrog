@@ -17,3 +17,7 @@ img {
 .clear:after {
     clear: both;
 }
+
+ul li {
+    list-style-type: none;
+}
