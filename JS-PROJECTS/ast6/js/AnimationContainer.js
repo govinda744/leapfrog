@@ -3,28 +3,21 @@
 class AnimationContainer {
     animationContainerElement;
 
-    canvasHeight = 200;
-    canvasWidth = 400;
+    canvasHeight = 300;
+    canvasWidth = 350;
 
     canvasClass;
 
-    constructor(height, width, parentElement) {
-        this.height = height;
-        this.width = width;
+    constructor(parentElement) {
+
     }
 
     init() {
         this.animationContainerElement = document.createElement('div');
 
-        this.animationContainerElement.style.height = this.height + 'px';
-        this.animationContainerElement.style.width = this.width + 'px';
-
         this.animationContainerElement.style.margin = '20px auto';
 
-        this.animationContainerElement.style.background = 'red';
-
-        this.animationContainerElement.style.overflow = 'hidden';
-
+        this.animationContainerElement.style.float = 'left';
         this.initCanvas();
 
         return this.animationContainerElement;
