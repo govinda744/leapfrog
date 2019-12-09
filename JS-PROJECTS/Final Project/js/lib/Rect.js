@@ -19,7 +19,7 @@ class Rect {
         this.context.rect(this.beginX, this.beginY, this.width, this.height);
         if (this.fillColor) {
             this.context.fillStyle = this.fillColor;
-            this.context.stroke();
+            this.context.fill();
         } else {
             this.context.stroke();
         }
