@@ -89,8 +89,8 @@ class AstarSearch {
 
   static neighbours(grid, node) {
     let returnArray = [];
-    let x = node.beginX / 50;
-    let y = node.beginY / 50;
+    let x = node.beginX / grid[0][0].gridWidth;
+    let y = node.beginY / grid[0][0].gridHeight;
 
     if (grid[x - 1] && grid[x - 1][y]) {
       returnArray.push(grid[x - 1][y]);

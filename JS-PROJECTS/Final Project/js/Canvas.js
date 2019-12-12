@@ -14,7 +14,7 @@ class Canvas {
 
   playerMoveId;
 
-  gridLength = 50;
+  gridLength = 20; //minimum 20
   generateAgain = true;
 
   canvasElement;
@@ -35,18 +35,23 @@ class Canvas {
     this.canvasElement = document.createElement("canvas");
     this.canvasContext = this.canvasElement.getContext("2d");
 
+    this.rayCasting = new RayCast(this, this.canvasContext);
+
+    this.canvasContext.draggable = "true";
+
     this.canvasElement.height = this.height;
     this.canvasElement.width = this.width;
 
     this.canvasElement.style.background = "#d5d5d5";
 
     if (this.generateAgain) {
-      let randomGrid = new RandomizeGrid(
+      let randomGrid = new CreateMap(
         this.gridLength,
         this.height,
         this.width,
         this.canvasContext
       );
+      this.generateAgain = false;
       randomGrid.initGrids();
       this.grids = randomGrid.createPath();
     }
@@ -66,21 +71,30 @@ class Canvas {
   }
 
   initPlayer() {
-    this.playerClass = new Player(this, 0, 0, 50, 50, this.canvasContext);
+    this.playerClass = new Player(
+      this,
+      0,
+      this.gridLength,
+      this.gridLength,
+      this.gridLength,
+      this.canvasContext
+    );
     this.playerClass.init();
   }
 
   initMouseEvent() {
     this.canvasElement.addEventListener("mousedown", event => {
-      if (this.playerMoveId) {
-        clearInterval(this.playerMoveId);
-        this.playerMoveId = undefined;
-        this.erasePath(this.pathToMoveForPlayer);
-      }
       this.mouseInGridCell = new Vector(event.offsetX, event.offsetY);
       this.getMouseClickedGridCell();
       this.getPlayerGridCell();
       if (!this.mouseInGridCell.isObstacle) {
+        if (this.playerMoveId) {
+          clearInterval(this.playerMoveId);
+          this.playerMoveId = undefined;
+          if (this.mouseInGridCell !== this.playerInGridCell) {
+            this.erasePath(this.pathToMoveForPlayer);
+          }
+        }
         this.pathToMoveForPlayer = AstarSearch.findPath(
           this.grids.slice(),
           this.playerInGridCell,
@@ -94,12 +108,18 @@ class Canvas {
 
   movePlayer(path) {
     if (path.length) {
-      let i = 0;
       this.playerMoveId = setInterval(
-        function() {
-          this.playerClass.moveTo(path[i]);
-          i++;
-          if (i === path.length) {
+        function () {
+          let pathPoint = path[0];
+          console.log(path.length);
+          this.rayCasting.castSearchLightTowards(
+            pathPoint.beginX,
+            pathPoint.beginY
+          );
+          this.playerClass.moveTo(pathPoint);
+          this.drawPath(path);
+          path.shift();
+          if (!path.length) {
             clearInterval(this.playerMoveId);
           }
         }.bind(this),
@@ -109,18 +129,20 @@ class Canvas {
   }
 
   erasePath(path) {
-    for (let i = 0; i < path.length; i++) {
-      this.canvasContext.clearRect(
-        path[i].beginX,
-        path[i].beginY,
-        this.gridLength,
-        this.gridLength
-      );
+    if (path.length) {
+      for (let i = 0; i < path.length - 1; i++) {
+        this.canvasContext.clearRect(
+          path[i + 1].beginX,
+          path[i + 1].beginY,
+          this.gridLength,
+          this.gridLength
+        );
+      }
     }
   }
 
   drawPath(pathPoints) {
-    if (pathPoints) {
+    if (pathPoints.length) {
       for (let i = 0; i < pathPoints.length - 1; i++) {
         new Line(
           new Vector(
@@ -131,16 +153,12 @@ class Canvas {
             pathPoints[i + 1].beginX + this.gridLength / 2,
             pathPoints[i + 1].beginY + this.gridLength / 2
           ),
-          this.canvasContext
+          this.canvasContext,
+          10,
+          "black"
         ).draw();
       }
     }
-  }
-
-  minSquareToCoverCanvas() {
-    return parseInt(
-      (this.height / this.gridLength) * (this.width / this.gridLength)
-    );
   }
 
   getMouseClickedGridCell() {

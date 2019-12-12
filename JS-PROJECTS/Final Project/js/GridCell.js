@@ -17,18 +17,6 @@ class GridCell {
     this.init();
   }
 
-  setFunctionalDistance(functionalDistance) {
-    this.functionalDistance = functionalDistance;
-  }
-
-  setGFunctionalDistance(gFunctionDistance) {
-    this.gFunctionDistance = gFunctionDistance;
-  }
-
-  setHeuristicDistance(heuristicDistance) {
-    this.heuristicDistance = heuristicDistance;
-  }
-
   init() {
     this.isObstacle = true;
     this.gridCoordinates = new Rect(
@@ -36,8 +24,7 @@ class GridCell {
       this.beginY,
       this.gridWidth,
       this.gridHeight,
-      this.context,
-      "red"
+      this.context
     );
   }
 
@@ -50,6 +37,7 @@ class GridCell {
       this.gridCoordinates.fillColor = "#d5d5d5";
       this.gridCoordinates.draw();
     } else {
+      this.gridCoordinates.fillColor = "red";
       this.gridCoordinates.draw();
     }
   }

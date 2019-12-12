@@ -1,6 +1,5 @@
 class Player {
-
-  playerMoveInterval = 60;
+  playerMoveInterval = 300;
 
   constructor(parentClass, beginX, beginY, width, height, context) {
     this.parentClass = parentClass;

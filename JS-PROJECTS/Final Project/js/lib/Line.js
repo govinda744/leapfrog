@@ -15,8 +15,9 @@ class Line {
 
   draw() {
     this.context.beginPath();
-    this.context.lineWidth = 10;
+    this.context.lineWidth = this.size;
     this.context.lineCap = "round";
+    this.context.strokeStyle = this.color;
     this.context.moveTo(this.beginX, this.beginY);
     this.context.lineTo(this.endX, this.endY);
     this.context.stroke();

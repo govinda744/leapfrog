@@ -1,4 +1,4 @@
-class RandomizeGrid {
+class CreateMap {
   grids = [];
   constructor(gridLength, canvasHeight, canvasWidth, context) {
     this.gridLength = gridLength;
@@ -33,11 +33,9 @@ class RandomizeGrid {
   }
 
   createPath() {
-    for (let rowGrid of this.grids) {
-      for (let i = 0; i < rowGrid.length * 2; i++) {
-        let rand = getRandomNumber(0, rowGrid.length);
-        rowGrid[rand].isObstacle = false;
-        rowGrid[rand].isDiagonalMoveAllowed = true;
+    for (let j = 0; j < this.grids.length; j++) {
+      for (let i = 0; i < this.grids[j].length; i++) {
+        this.grids[j][i].isObstacle = Map.map[i][j];
       }
     }
 
