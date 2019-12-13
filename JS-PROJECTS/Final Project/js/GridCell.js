@@ -44,10 +44,10 @@ class GridCell {
 
   includes(vectorCordinate) {
     return (
-      this.beginX < vectorCordinate.coX &&
-      this.beginY < vectorCordinate.coY &&
-      this.beginX + this.gridHeight > vectorCordinate.coX &&
-      this.beginY + this.gridWidth > vectorCordinate.coY
+      this.beginX <= vectorCordinate.coX &&
+      this.beginY <= vectorCordinate.coY &&
+      this.beginX + this.gridHeight >= vectorCordinate.coX &&
+      this.beginY + this.gridWidth >= vectorCordinate.coY
     );
   }
 

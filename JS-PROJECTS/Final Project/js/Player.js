@@ -33,6 +33,10 @@ class Player {
     this.draw();
   }
 
+  move(pathToMove) {
+    
+  }
+
   draw() {
     this.playerCoordinates.draw();
   }
