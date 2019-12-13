@@ -1,11 +1,6 @@
-function getRandomNumber(min, max) {
-  min = Math.ceil(min);
-  max = Math.floor(max);
-  return Math.floor(Math.random() * (max - min)) + min;
-}
-
 class Canvas {
   grids = [];
+  maps;
 
   height;
   width;
@@ -32,6 +27,9 @@ class Canvas {
   }
 
   init() {
+
+    this.level = 1;
+
     this.canvasElement = document.createElement("canvas");
     this.canvasContext = this.canvasElement.getContext("2d");
 
@@ -44,25 +42,71 @@ class Canvas {
 
     this.canvasElement.style.background = "#d5d5d5";
 
-    if (this.generateAgain) {
-      let randomGrid = new CreateMap(
-        this.gridLength,
-        this.height,
-        this.width,
-        this.canvasContext
-      );
-      this.generateAgain = false;
-      randomGrid.initGrids();
-      this.grids = randomGrid.createPath();
-    }
-    this.drawGrid();
-    this.initPlayer();
-    this.initMouseEvent();
+    this.initGrids();
+    this.getJsonData(this.setMapData.bind(this));
 
     return this.canvasElement;
   }
 
-  drawGrid() {
+  getJsonData(callBack) {
+    let request = new XMLHttpRequest();
+    request.open('GET', './js/Levels/levels.json', true);
+    request.send();
+    request.onload = function () {
+      if (request.status === 200) {
+        let mapData = JSON.parse(request.responseText);
+        callBack(mapData);
+      }
+    }
+  }
+
+  setMapData(mapData) {
+    this.maps = mapData;
+    this.createPath();
+    this.startGame();
+  }
+
+  startGame() {
+    this.drawGrid();
+    this.initPlayer();
+    this.initMouseEvent();
+  }
+
+  initGrids() {
+    let upperLeftX = -this.gridLength;
+    for (let rows = 0; rows < parseInt(this.width / this.gridLength); rows++) {
+      upperLeftX += this.gridLength;
+      let upperLeftY = -this.gridLength;
+      let columnsGrid = [];
+      for (
+        let columns = 0;
+        columns < parseInt(this.height / this.gridLength);
+        columns++
+      ) {
+        upperLeftY += this.gridLength;
+        columnsGrid[columns] = new GridCell(
+          this,
+          upperLeftX,
+          upperLeftY,
+          this.gridLength,
+          this.gridLength,
+          this.canvasContext
+        );
+      }
+      this.grids.push(columnsGrid);
+    }
+  }
+
+  createPath() {
+    let map = this.maps[this.level];
+    for (let i = 0; i < this.grids.length; i++) {
+      for (let j = 0; j < this.grids[i].length; j++) {
+        this.grids[i][j].isObstacle = map[j][i];
+      }
+    }
+  }
+
+  drawGrid(level) {
     for (let rowGrid of this.grids) {
       for (let columnGrid of rowGrid) {
         columnGrid.draw();
@@ -110,15 +154,13 @@ class Canvas {
     if (path.length) {
       this.playerMoveId = setInterval(
         function () {
-          let pathPoint = path[0];
-          console.log(path.length);
+          let pathPoint = path.shift();
           this.rayCasting.castSearchLightTowards(
             pathPoint.beginX,
             pathPoint.beginY
           );
           this.playerClass.moveTo(pathPoint);
           this.drawPath(path);
-          path.shift();
           if (!path.length) {
             clearInterval(this.playerMoveId);
           }
@@ -130,14 +172,9 @@ class Canvas {
 
   erasePath(path) {
     if (path.length) {
-      for (let i = 0; i < path.length - 1; i++) {
-        this.canvasContext.clearRect(
-          path[i + 1].beginX,
-          path[i + 1].beginY,
-          this.gridLength,
-          this.gridLength
-        );
-      }
+      this.canvasContext.clearRect(0, 0, this.width, this.height);
+      this.drawGrid();
+      this.playerClass.draw();
     }
   }
 
@@ -155,7 +192,8 @@ class Canvas {
           ),
           this.canvasContext,
           10,
-          "black"
+          null,
+          'round'
         ).draw();
       }
     }

@@ -37,7 +37,7 @@ class GridCell {
       this.gridCoordinates.fillColor = "#d5d5d5";
       this.gridCoordinates.draw();
     } else {
-      this.gridCoordinates.fillColor = "red";
+      this.gridCoordinates.fillColor = "#966F33";
       this.gridCoordinates.draw();
     }
   }

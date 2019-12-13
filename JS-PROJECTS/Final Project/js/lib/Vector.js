@@ -17,4 +17,8 @@ class Vector {
     }
     return true;
   }
+
+  distanceTo(aVect) {
+    return Math.sqrt(Math.pow((aVect.coX - this.coX), 2) + Math.pow((aVect.coY - this.coY), 2));
+  }
 }

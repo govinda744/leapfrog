@@ -2,15 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d261a140-2098-49f7-83f6-98e9bb4bbe2f" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.vscode/settings.json" beforeDir="false" afterPath="$PROJECT_DIR$/.vscode/settings.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/js/Canvas.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/Canvas.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/js/CreateMap.js" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/js/GridCell.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/GridCell.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/js/Map.js" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/js/Player.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/Player.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/RandomizeGrid.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/RandomizeGrid.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/lib/AstarSearch.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/lib/AstarSearch.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/lib/Line.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/lib/Line.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/lib/Rect.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/lib/Rect.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -63,15 +61,10 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/Canvas.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="225">
-              <caret line="161" column="3" selection-start-line="161" selection-start-column="3" selection-end-line="161" selection-end-column="3" />
+            <state relative-caret-position="143">
+              <caret line="204" column="3" selection-start-line="204" selection-start-column="3" selection-end-line="204" selection-end-column="3" />
             </state>
           </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/js/RandomizeGrid.js">
-          <provider selected="true" editor-type-id="text-editor" />
         </entry>
       </file>
     </leaf>
@@ -93,6 +86,7 @@
         <option value="$PROJECT_DIR$/js/lib/CreateMap.js" />
         <option value="$PROJECT_DIR$/js/lib/RayCast.js" />
         <option value="$PROJECT_DIR$/js/Canvas.js" />
+        <option value="$PROJECT_DIR$/js/CreateMap.js" />
       </list>
     </option>
   </component>
@@ -197,16 +191,15 @@
       <workItem from="1575694982261" duration="512000" />
       <workItem from="1575695525254" duration="3698000" />
       <workItem from="1576127135604" duration="27000" />
-      <workItem from="1576127375048" duration="173000" />
+      <workItem from="1576127375048" duration="880000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="4410000" />
+    <option name="totallyTimeSpent" value="5117000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="26" width="1366" height="742" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.26096824" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -275,13 +268,13 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/RandomizeGrid.js">
+    <entry file="file://$PROJECT_DIR$/js/CreateMap.js">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/js/Canvas.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="161" column="3" selection-start-line="161" selection-start-column="3" selection-end-line="161" selection-end-column="3" />
+        <state relative-caret-position="143">
+          <caret line="204" column="3" selection-start-line="204" selection-start-column="3" selection-end-line="204" selection-end-column="3" />
         </state>
       </provider>
     </entry>

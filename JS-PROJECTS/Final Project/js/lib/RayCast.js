@@ -38,33 +38,31 @@ class RayCast {
       this.parentClass.width,
       this.parentClass.height
     );
-    let angleToCast = angleToCastOn - angleOfSearchLight;
-    let id = setInterval(
-      function () {
-        this.canvasContext.beginPath();
-        this.canvasContext.moveTo(
-          this.centerOfCircle.coX,
-          this.centerOfCircle.coY
-        );
-        this.canvasContext.lineTo(
-          Math.cos(angleToCast * this.degToRadian) * this.circleRadius +
-          this.centerOfCircle.coX,
-          Math.sin(angleToCast * this.degToRadian) * this.circleRadius +
-          this.centerOfCircle.coY
-        );
-        this.canvasContext.lineWidth = 5;
-        this.canvasContext.globalAlpha = 0.2;
-        this.canvasContext.strokeStyle = "white";
-        this.canvasContext.stroke();
-        this.canvasContext.closePath();
-        this.canvasContext.globalAlpha = 1;
-        angleToCast += 1;
-        if (angleToCast === angleToCastOn + angleOfSearchLight) {
-          clearInterval(id);
-        }
-      }.bind(this)
-    );
-    this.canvasContext.globalAlpha = 1;
     this.parentClass.drawGrid();
+    let angleToCast = angleToCastOn - angleOfSearchLight;
+    let beginAt = new Vector(
+      this.centerOfCircle.coX,
+      this.centerOfCircle.coY
+    );
+    while (angleToCast <= angleToCastOn + angleOfSearchLight) {
+      let endAt = new Vector(
+        Math.cos(angleToCast * this.degToRadian) * this.circleRadius +
+        this.centerOfCircle.coX,
+        Math.sin(angleToCast * this.degToRadian) * this.circleRadius +
+        this.centerOfCircle.coY
+      );
+      let ray = new Line(beginAt, endAt, this.canvasContext, 1, 'rgb(255, 255, 255, 0.2)', 'butt');
+      for (let rowGrid of this.parentClass.grids) {
+        for (let columnGrid of rowGrid) {
+          if (columnGrid.isObstacle) {
+            if (columnGrid.gridCoordinates.isCollidingWith(ray)) {
+              ray.setEndAt(columnGrid.gridCoordinates.getCollidingPoint(ray));
+            }
+          }
+        }
+      }
+      ray.draw();
+      angleToCast += 0.1;
+    }
   }
 }

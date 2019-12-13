@@ -1,5 +1,5 @@
 class Player {
-  playerMoveInterval = 300;
+  playerMoveInterval = 200;
 
   constructor(parentClass, beginX, beginY, width, height, context) {
     this.parentClass = parentClass;
@@ -8,6 +8,7 @@ class Player {
     this.width = width;
     this.height = height;
     this.context = context;
+    this.playerImage = './images/wood_box.png';
     this.init();
   }
 
@@ -18,7 +19,7 @@ class Player {
       this.width,
       this.height,
       this.context,
-      "green"
+      'green'
     );
     this.draw();
   }
@@ -27,15 +28,8 @@ class Player {
     this.context.clearRect(this.beginX, this.beginY, this.width, this.height);
     this.beginX = grid.beginX;
     this.beginY = grid.beginY;
-    delete this.playerCoordinates;
-    this.playerCoordinates = new Rect(
-      grid.beginX,
-      grid.beginY,
-      this.width,
-      this.height,
-      this.context,
-      "green"
-    );
+    this.playerCoordinates.beginX = this.beginX;
+    this.playerCoordinates.beginY = this.beginY;
     this.draw();
   }
 
