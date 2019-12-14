@@ -19,13 +19,11 @@ class Player {
       this.width,
       this.height,
       this.context,
-      'green'
     );
     this.draw();
   }
 
   moveTo(grid) {
-    this.context.clearRect(this.beginX, this.beginY, this.width, this.height);
     this.beginX = grid.beginX;
     this.beginY = grid.beginY;
     this.playerCoordinates.beginX = this.beginX;
