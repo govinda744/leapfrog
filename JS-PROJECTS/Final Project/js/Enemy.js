@@ -113,7 +113,7 @@ class Enemy {
   }
 
   initRayCast(context) {
-    if (this.pathToMove) {
+    if (this.pathToMove && this.pathToMove.length) {
       this.rayCast.castSearchLightTowards(this, this.pathToMove[0].beginX, this.pathToMove[0].beginY, context);
     }
   }
