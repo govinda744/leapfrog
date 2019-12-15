@@ -52,10 +52,6 @@ class Rect {
     return false;
   }
 
-  // isCollidingWith(rect) {
-    
-  // }
-
   getCollidingPoint(line) {
     let beginPoint = new Vector(line.beginX, line.beginY);
     let endPoint = new Vector(line.endX, line.endY);

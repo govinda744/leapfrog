@@ -74,9 +74,7 @@ class Canvas {
 
   gameLoop() {
     window.requestAnimationFrame(this.gameLoop.bind(this));
-    // setInterval(function() {
-      this.renderGrid();
-    // }.bind(this), 35);
+    this.renderGrid();
   }
 
   initGrids() {

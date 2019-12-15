@@ -22,6 +22,10 @@ class Line {
     this.endY = endvector.coY;
   }
 
+  getMidPoint() {
+    return new Vector((this.beginX + this.endX) / 2, (this.beginY + this.endY) / 2);
+  }
+
   draw(context) {
     context.beginPath();
     context.lineWidth = this.size;

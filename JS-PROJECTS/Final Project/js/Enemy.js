@@ -14,6 +14,12 @@ class Enemy {
 
   pathToMove;
 
+  searchLightRadius = 100;
+
+  lightRays = [];
+
+  enemyCoordinates;
+
   constructor(gridCell) {
     this.parentClass = gridCell.parentClass;
     this.beginX = gridCell.beginX;
@@ -21,7 +27,9 @@ class Enemy {
     this.width = gridCell.gridWidth;
     this.height = gridCell.gridHeight;
     this.playerImage = './images/wood_box.png';
-    this.rayCast = new RayCast(this.parentClass, this);
+
+    this.rayCast = new RayCast(this.parentClass, this.searchLightRadius);
+
     this.initCoordinates();
   }
 
@@ -112,9 +120,22 @@ class Enemy {
     this.enemyCoordinates = new Rect(this.beginX, this.beginY, this.width, this.height, 'red');
   }
 
-  initRayCast(context) {
-    if (this.pathToMove && this.pathToMove.length) {
-      this.rayCast.castSearchLightTowards(this, this.pathToMove[0].beginX, this.pathToMove[0].beginY, context);
+  initRays() {
+    this.lightRays = this.rayCast.castSearchLightTowards(this, this.beginX + 1, this.beginY);
+  }
+
+  drawRays(context) {
+    this.adjustRays();
+    this.lightRays.forEach(ray => ray.draw(context));
+  }
+
+  adjustRays() {
+    this.rayCast.maintainRaysOf(this, this.beginX + 1, this.beginY);
+  }
+
+  collidingRays() {
+    for (let i = 0; i < this.lightRays.length; i++) {
+      
     }
   }
 
@@ -123,6 +144,11 @@ class Enemy {
     if (!this.moving) {
       this.initRandomMove();
     }
-    this.initRayCast(context);
+    
+    if (this.lightRays.length === 0) {
+      console.log('init rays');
+      this.initRays();
+    }
+    this.drawRays(context);
   }
 }

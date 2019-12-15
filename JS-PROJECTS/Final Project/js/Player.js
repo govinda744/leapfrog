@@ -93,7 +93,7 @@ class Player {
       let inGrid = this.pathToMove[0];
       this.beginX = inGrid.beginX;
       this.beginY = inGrid.beginY;
-      this.initCoordinates()
+      this.initCoordinates();
     }
   }
 

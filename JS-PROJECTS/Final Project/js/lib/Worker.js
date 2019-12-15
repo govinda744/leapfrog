@@ -15,15 +15,15 @@ function castSearchLight(angleToCastOn, angleOfSearchLight, centerOfCircle, circ
   while (angleToCast <= angleToCastOn + angleOfSearchLight) {
     let endAt = new Vector(Math.cos(angleToCast * degToRadian) * circleRadius + centerOfCircle.coX, Math.sin(angleToCast * degToRadian) * circleRadius + centerOfCircle.coY);
     let ray = new Line(beginAt, endAt, 1, 'rgb(255, 255, 255, 0.7)', 'butt');
-    // for (let rowGrid of this.parentClass.grids) {
-    //   for (let columnGrid of rowGrid) {
-    //     if (columnGrid.whatIs === MapComponenets.OBSTACLE) {
-    //       if (columnGrid.gridCoordinates.isCollidingWith(ray)) {
-    //         ray.setEndAt(columnGrid.gridCoordinates.getCollidingPoint(ray));
-    //       }
-    //     }
-    //   }
-    // }
+    for (let rowGrid of this.parentClass.grids) {
+      for (let columnGrid of rowGrid) {
+        if (columnGrid.whatIs === MapComponenets.OBSTACLE) {
+          if (columnGrid.gridCoordinates.isCollidingWith(ray)) {
+            ray.setEndAt(columnGrid.gridCoordinates.getCollidingPoint(ray));
+          }
+        }
+      }
+    }
     rays.push(ray);
     angleToCast += 1;
   }
