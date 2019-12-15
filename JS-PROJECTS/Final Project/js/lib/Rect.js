@@ -1,11 +1,10 @@
 class Rect {
   coordinates = [];
-  constructor(beginX, beginY, width, height, context, fillColor, img) {
+  constructor(beginX, beginY, width, height, fillColor, img) {
     this.beginX = beginX;
     this.beginY = beginY;
     this.height = height;
     this.width = width;
-    this.context = context;
     this.leftLine = new Line(new Vector(beginX, beginY), new Vector(beginX, beginY + height));
     this.bottomLine = new Line(new Vector(beginX, beginY + height), new Vector(beginX + width, beginY + height));
     this.rightLine = new Line(new Vector(beginX + width, beginY + height), new Vector(beginX + width, beginY));
@@ -14,22 +13,26 @@ class Rect {
     this.img = img || null;
   }
 
-  draw() {
+  draw(context, beginAt) {
     if (this.fillColor !== null) {
-      this.context.beginPath();
-      this.context.rect(this.beginX, this.beginY, this.width, this.height);
-      this.context.fillStyle = this.fillColor;
-      this.context.fill();
+      context.beginPath();
+      if (beginAt === 0) {
+        context.rect(beginAt, beginAt, this.width, this.height);
+      } else {
+        context.rect(this.beginX, this.beginY, this.width, this.height);
+      }      
+      context.fillStyle = this.fillColor;
+      context.fill();
     } else if (this.img !== null) {
       let image = new Image();
       image.src = this.img;
       image.onload = function() {
-        this.context.drawImage(image, this.beginX, this.beginY, this.width, this.height);
+        context.drawImage(image, this.beginX, this.beginY, this.width, this.height);
       }.bind(this);
     } else {
-      this.context.beginPath();
-      this.context.rect(this.beginX, this.beginY, this.width, this.height);
-      this.context.stroke();
+      context.beginPath();
+      context.rect(this.beginX, this.beginY, this.width, this.height);
+      context.stroke();
     }
   }
 
@@ -48,6 +51,10 @@ class Rect {
     }
     return false;
   }
+
+  // isCollidingWith(rect) {
+    
+  // }
 
   getCollidingPoint(line) {
     let beginPoint = new Vector(line.beginX, line.beginY);
