@@ -41,11 +41,11 @@ class RayCast {
       let endAt = new Vector(Math.cos(angleToCast * this.degToRadian) * this.circleRadius + this.centerOfCircle.coX, Math.sin(angleToCast * this.degToRadian) * this.circleRadius + this.centerOfCircle.coY
       );
       let ray = new Line(beginAt, endAt, 1, 'rgb(255, 255, 255, 0.8)', 'butt');
-      // for (let obstacle of this.parentClass.obstacles) {
-      //   if (obstacle.gridCoordinates.isCollidingWith(ray)) {
-      //     ray.setEndAt(obstacle.gridCoordinates.getCollidingPoint(ray));
-      //   }
-      // }
+      for (let obstacle of this.parentClass.obstacles) {
+        if (obstacle.gridCoordinates.isCollidingWith(ray)) {
+          ray.setEndAt(obstacle.gridCoordinates.getCollidingPoint(ray));
+        }
+      }
       ray.draw(context);
       angleToCast += 1;
     }
