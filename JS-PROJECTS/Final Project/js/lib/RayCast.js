@@ -1,7 +1,7 @@
 class RayCast {
   constructor(parentClass, npc) {
     this.npc = npc;
-    
+
     this.parentClass = parentClass;
 
     this.angleOfSearchLight = 20;
@@ -30,15 +30,6 @@ class RayCast {
       let endAt = new Vector(Math.cos(angleToCast * this.degToRadian) * this.circleRadius + this.centerOfCircle.coX, Math.sin(angleToCast * this.degToRadian) * this.circleRadius + this.centerOfCircle.coY
       );
       let ray = new Line(beginAt, endAt, 1, 'rgb(255, 255, 255, 0.8)', 'butt');
-      for (let rowGrid of this.parentClass.grids) {
-        for (let columnGrid of rowGrid) {
-          if (columnGrid.whatIs === MapComponenets.OBSTACLE) {
-            if (columnGrid.gridCoordinates.isCollidingWith(ray)) {
-              ray.setEndAt(columnGrid.gridCoordinates.getCollidingPoint(ray));
-            }
-          }
-        }
-      }
       rays.push(ray);
       angleToCast += 1;
     }
@@ -56,15 +47,6 @@ class RayCast {
       ray.setBeginAt(this.centerOfCircle);
       let endAt = new Vector(Math.cos(angleToCast * this.degToRadian) * this.circleRadius + this.centerOfCircle.coX, Math.sin(angleToCast * this.degToRadian) * this.circleRadius + this.centerOfCircle.coY);
       ray.setEndAt(endAt);
-      for (let rowGrid of this.parentClass.grids) {
-        for (let columnGrid of rowGrid) {
-          if (columnGrid.whatIs === MapComponenets.OBSTACLE) {
-            if (columnGrid.gridCoordinates.isCollidingWith(ray)) {
-              ray.setEndAt(columnGrid.gridCoordinates.getCollidingPoint(ray));
-            }
-          }
-        }
-      }
       angleToCast += 1;
     });
   }

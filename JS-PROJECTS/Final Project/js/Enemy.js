@@ -122,10 +122,12 @@ class Enemy {
 
   initRays() {
     this.lightRays = this.rayCast.castSearchLightTowards(this, this.beginX + 1, this.beginY);
+    this.collidingRays();
   }
 
   drawRays(context) {
     this.adjustRays();
+    this.collidingRays();
     this.lightRays.forEach(ray => ray.draw(context));
   }
 
@@ -134,8 +136,12 @@ class Enemy {
   }
 
   collidingRays() {
-    for (let i = 0; i < this.lightRays.length; i++) {
-      
+    for (let ray of this.lightRays) {
+      for (let obstacle of this.parentClass.obstacles) {
+        if (obstacle.gridCoordinates.isCollidingWith(ray)) {
+          ray.setEndAt(obstacle.gridCoordinates.getCollidingPoint(ray));
+        }
+      }
     }
   }
 
@@ -144,9 +150,8 @@ class Enemy {
     if (!this.moving) {
       this.initRandomMove();
     }
-    
+
     if (this.lightRays.length === 0) {
-      console.log('init rays');
       this.initRays();
     }
     this.drawRays(context);
