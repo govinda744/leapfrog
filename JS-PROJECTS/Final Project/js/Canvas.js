@@ -8,6 +8,7 @@ class Canvas {
 
   player;
   enimies = [];
+  obstacles = [];
 
   gridLength = 20; //minimum 20
   generateAgain = true;
@@ -73,10 +74,10 @@ class Canvas {
   }
 
   gameLoop() {
-    window.requestAnimationFrame(this.gameLoop.bind(this));
-    // setInterval(function() {
+    // window.requestAnimationFrame(this.gameLoop.bind(this));
+    setInterval(function() {
       this.renderGrid();
-    // }.bind(this), 35);
+    }.bind(this), 35);
   }
 
   initGrids() {
@@ -96,6 +97,8 @@ class Canvas {
         } else if (isThis === MapComponenets.ENEMY) {
           columnsGrid[columns].whatIs = MapComponenets.PATH;
           this.initEnemy(columnsGrid[columns]);
+        } else if (isThis === MapComponenets.OBSTACLE) {
+          this.obstacles.push(columnsGrid[columns]);
         }
       }
       this.grids.push(columnsGrid);

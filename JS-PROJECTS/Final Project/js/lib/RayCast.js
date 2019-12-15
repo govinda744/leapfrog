@@ -12,7 +12,7 @@ class RayCast {
     this.circleRadius = 100;
   }
 
-  castSearchLightTowards(npc ,coX, coY, context) {
+  castSearchLightTowards(npc, coX, coY, context) {
     // this.worker = new Worker('./js/lib/Worker.js');
 
     this.centerOfCircle = new Vector(npc.beginX + npc.width / 2, npc.beginY + npc.height / 2);
@@ -41,13 +41,9 @@ class RayCast {
       let endAt = new Vector(Math.cos(angleToCast * this.degToRadian) * this.circleRadius + this.centerOfCircle.coX, Math.sin(angleToCast * this.degToRadian) * this.circleRadius + this.centerOfCircle.coY
       );
       let ray = new Line(beginAt, endAt, 1, 'rgb(255, 255, 255, 0.8)', 'butt');
-      for (let rowGrid of this.parentClass.grids) {
-        for (let columnGrid of rowGrid) {
-          if (columnGrid.whatIs === MapComponenets.OBSTACLE) {
-            if (columnGrid.gridCoordinates.isCollidingWith(ray)) {
-              ray.setEndAt(columnGrid.gridCoordinates.getCollidingPoint(ray));
-            }
-          }
+      for (let obstacle of this.parentClass.obstacles) {
+        if (obstacle.gridCoordinates.isCollidingWith(ray)) {
+          ray.setEndAt(obstacle.gridCoordinates.getCollidingPoint(ray));
         }
       }
       ray.draw(context);
