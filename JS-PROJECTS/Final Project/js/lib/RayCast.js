@@ -1,68 +1,57 @@
 class RayCast {
-  constructor(parentClass, canvasContext) {
-    this.canvasContext = canvasContext;
+  constructor(parentClass) {
     this.parentClass = parentClass;
 
-    this.angleOfSearchLight = 30;
+    this.angleOfSearchLight = 20;
     this.degToRadian = Math.PI / 180;
     this.radToDeg = 180 / Math.PI;
 
+    this.worker;
+
     this.centerOfCircle = null;
-    this.circleRadius = 150;
+    this.circleRadius = 100;
   }
 
-  castSearchLightTowards(coX, coY) {
-    this.centerOfCircle = new Vector(
-      coX + this.parentClass.playerClass.width / 2,
-      coY + this.parentClass.playerClass.height / 2
-    );
+  castSearchLightTowards(npc ,coX, coY, context) {
+    // this.worker = new Worker('./js/lib/Worker.js');
 
-    let angleToCastOn =
-      Math.atan(
-        (coY - this.parentClass.playerClass.beginY) /
-        (coX - this.parentClass.playerClass.beginX)
-      ) * this.radToDeg;
+    this.centerOfCircle = new Vector(npc.beginX + npc.width / 2, npc.beginY + npc.height / 2);
 
-    angleToCastOn =
-      Math.sign(coX - this.parentClass.playerClass.beginX) === -1
-        ? 180
-        : angleToCastOn;
+    let angleToCastOn = Math.atan((coY - npc.beginY) / (coX - npc.beginX)) * this.radToDeg;
 
-    this.castSearchLight(angleToCastOn, this.angleOfSearchLight);
+    angleToCastOn = Math.sign(coX - npc.beginX) === -1 ? 180 : angleToCastOn;
+
+    this.castSearchLight(angleToCastOn, this.angleOfSearchLight, context);
+
+    // this.worker.postMessage({'angleToCast' : angleToCastOn, 'angleOfSearchLight' : this.angleOfSearchLight, 'centerOfCircle' : this.centerOfCircle, 'circleRadius' : this.circleRadius});
+
+    // this.worker.addEventListener('message', function(event) {
+    //   let rays = event.data;
+    //   rays.forEach(element => {
+    //     new Line(new Vector(element.beginX, element.beginY), new Vector(element.endX, element.endY), element.size, element.color, element.cap).draw(context);
+    //   });
+    //   this.terminate();
+    // })
   }
 
-  castSearchLight(angleToCastOn, angleOfSearchLight) {
-    this.canvasContext.clearRect(
-      0,
-      0,
-      this.parentClass.width,
-      this.parentClass.height
-    );
-    this.parentClass.drawGrid();
+  castSearchLight(angleToCastOn, angleOfSearchLight, context) {
     let angleToCast = angleToCastOn - angleOfSearchLight;
-    let beginAt = new Vector(
-      this.centerOfCircle.coX,
-      this.centerOfCircle.coY
-    );
+    let beginAt = new Vector(this.centerOfCircle.coX, this.centerOfCircle.coY);
     while (angleToCast <= angleToCastOn + angleOfSearchLight) {
-      let endAt = new Vector(
-        Math.cos(angleToCast * this.degToRadian) * this.circleRadius +
-        this.centerOfCircle.coX,
-        Math.sin(angleToCast * this.degToRadian) * this.circleRadius +
-        this.centerOfCircle.coY
+      let endAt = new Vector(Math.cos(angleToCast * this.degToRadian) * this.circleRadius + this.centerOfCircle.coX, Math.sin(angleToCast * this.degToRadian) * this.circleRadius + this.centerOfCircle.coY
       );
-      let ray = new Line(beginAt, endAt, this.canvasContext, 1, 'rgb(255, 255, 255, 0.2)', 'butt');
+      let ray = new Line(beginAt, endAt, 1, 'rgb(255, 255, 255, 0.8)', 'butt');
       for (let rowGrid of this.parentClass.grids) {
         for (let columnGrid of rowGrid) {
-          if (columnGrid.isObstacle) {
+          if (columnGrid.whatIs === MapComponenets.OBSTACLE) {
             if (columnGrid.gridCoordinates.isCollidingWith(ray)) {
               ray.setEndAt(columnGrid.gridCoordinates.getCollidingPoint(ray));
             }
           }
         }
       }
-      ray.draw();
-      angleToCast += 0.1;
+      ray.draw(context);
+      angleToCast += 1;
     }
   }
 }

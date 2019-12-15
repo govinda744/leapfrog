@@ -5,40 +5,32 @@ class GridCell {
   visited;
   closed;
   parent;
-  isObstacle = true;
+  whatIs;
 
-  constructor(parentClass, beginX, beginY, gridWidth, gridHeight, context) {
+  constructor(parentClass, beginX, beginY, gridWidth, gridHeight) {
     this.parentClass = parentClass;
     this.beginX = beginX;
     this.beginY = beginY;
     this.gridWidth = gridWidth;
     this.gridHeight = gridHeight;
-    this.context = context;
     this.init();
   }
 
   init() {
-    this.isObstacle = true;
-    this.gridCoordinates = new Rect(
-      this.beginX,
-      this.beginY,
-      this.gridWidth,
-      this.gridHeight,
-      this.context
-    );
+    this.gridCoordinates = new Rect( this.beginX, this.beginY, this.gridWidth, this.gridHeight);
   }
 
   isWall() {
-    return this.isObstacle;
+    return this.whatIs;
   }
 
-  draw() {
-    if (!this.isObstacle) {
+  draw(context) {
+    if (this.whatIs === MapComponenets.PATH) {
       this.gridCoordinates.fillColor = "#d5d5d5";
-      this.gridCoordinates.draw();
-    } else {
+      this.gridCoordinates.draw(context);
+    } else if (this.whatIs === MapComponenets.OBSTACLE){
       this.gridCoordinates.fillColor = "#966F33";
-      this.gridCoordinates.draw();
+      this.gridCoordinates.draw(context);
     }
   }
 

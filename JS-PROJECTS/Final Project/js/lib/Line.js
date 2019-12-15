@@ -1,12 +1,10 @@
 class Line {
-  constructor(beginVector, endvector, context, size, color, cap) {
+  constructor(beginVector, endvector, size, color, cap) {
     this.beginX = beginVector.coX;
     this.beginY = beginVector.coY;
 
     this.endX = endvector.coX;
     this.endY = endvector.coY;
-
-    this.context = context;
 
     this.size = size;
 
@@ -24,20 +22,20 @@ class Line {
     this.endY = endvector.coY;
   }
 
-  draw() {
-    this.context.beginPath();
-    this.context.lineWidth = this.size;
-    this.context.lineCap = this.cap;
+  draw(context) {
+    context.beginPath();
+    context.lineWidth = this.size;
+    context.lineCap = this.cap;
     if (this.color === null) {
-      this.context.strokeStyle = "#" + ((1 << 24) * Math.random() | 0).toString(16);
-      this.context.stroke();
+      context.strokeStyle = "#" + ((1 << 24) * Math.random() | 0).toString(16);
+      context.stroke();
     } else {
-      this.context.strokeStyle = this.color;
+      context.strokeStyle = this.color;
     }
-    this.context.moveTo(this.beginX, this.beginY);
-    this.context.lineTo(this.endX, this.endY);
-    this.context.stroke();
-    this.context.closePath();
+    context.moveTo(this.beginX, this.beginY);
+    context.lineTo(this.endX, this.endY);
+    context.stroke();
+    context.closePath();
   }
 
   intersects(line) {
