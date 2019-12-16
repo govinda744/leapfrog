@@ -73,11 +73,17 @@ class Canvas {
     this.drawEnemies();
   }
 
+  update() {
+    this.player.update();
+    this.enimies.forEach(enemy => enemy.update());
+  }
+
   gameLoop() {
-    // window.requestAnimationFrame(this.gameLoop.bind(this));
-    setInterval(function() {
-      this.renderGrid();
-    }.bind(this), 35);
+    window.requestAnimationFrame(this.gameLoop.bind(this));
+    // setInterval(function() {
+    this.renderGrid();
+    // this.update();
+    // }.bind(this), 35);
   }
 
   initGrids() {
@@ -124,11 +130,21 @@ class Canvas {
   initMouseEvent() {
     this.canvasElement.addEventListener("mousedown", event => {
       let mouseInGrid = this.getMouseGrid(new Vector(event.offsetX, event.offsetY));
-      if (this.player.movingId) {
-        clearInterval(this.player.movingId);
-        this.player.fixToGrid();
+      if (mouseInGrid.whatIs !== MapComponenets.OBSTACLE) {
+        if (this.player.movingId) {
+          clearInterval(this.player.movingId);
+          this.player.fixToGrid();
+        }
+        for (let i = 0; i < this.enimies.length; i++) {
+          if (mouseInGrid.includes(new Vector(this.enimies[i].beginX, this.enimies[i].beginY)) || mouseInGrid.includes(new Vector(this.enimies[i].beginX + this.enimies[i].width, this.enimies[i].beginY + this.enimies[i].height))) {
+            this.player.follow(this.enimies[i]);
+            return;
+          }
+        }
+        if (mouseInGrid.whatIs === MapComponenets.PATH) {
+          this.player.moveTo(mouseInGrid);
+        }
       }
-      this.player.moveTo(mouseInGrid);
     });
   }
 

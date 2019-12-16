@@ -13,7 +13,6 @@ class RayCast {
   }
 
   castSearchLightTowards(npc, coX, coY, context) {
-    // this.worker = new Worker('./js/lib/Worker.js');
 
     this.centerOfCircle = new Vector(npc.beginX + npc.width / 2, npc.beginY + npc.height / 2);
 
@@ -22,16 +21,6 @@ class RayCast {
     angleToCastOn = Math.sign(coX - npc.beginX) === -1 ? 180 : angleToCastOn;
 
     this.castSearchLight(angleToCastOn, this.angleOfSearchLight, context);
-
-    // this.worker.postMessage({'angleToCast' : angleToCastOn, 'angleOfSearchLight' : this.angleOfSearchLight, 'centerOfCircle' : this.centerOfCircle, 'circleRadius' : this.circleRadius});
-
-    // this.worker.addEventListener('message', function(event) {
-    //   let rays = event.data;
-    //   rays.forEach(element => {
-    //     new Line(new Vector(element.beginX, element.beginY), new Vector(element.endX, element.endY), element.size, element.color, element.cap).draw(context);
-    //   });
-    //   this.terminate();
-    // })
   }
 
   castSearchLight(angleToCastOn, angleOfSearchLight, context) {
@@ -40,10 +29,12 @@ class RayCast {
     while (angleToCast <= angleToCastOn + angleOfSearchLight) {
       let endAt = new Vector(Math.cos(angleToCast * this.degToRadian) * this.circleRadius + this.centerOfCircle.coX, Math.sin(angleToCast * this.degToRadian) * this.circleRadius + this.centerOfCircle.coY
       );
-      let ray = new Line(beginAt, endAt, 1, 'rgb(255, 255, 255, 0.8)', 'butt');
+      let ray = new Line(beginAt, endAt, 1, 'rgb(255, 255, 255, 0.5)', 'butt');
       for (let obstacle of this.parentClass.obstacles) {
-        if (obstacle.gridCoordinates.isCollidingWith(ray)) {
-          ray.setEndAt(obstacle.gridCoordinates.getCollidingPoint(ray));
+        if (new Vector(obstacle.beginX, obstacle.beginY).distanceTo(this.centerOfCircle) < this.circleRadius || new Vector(obstacle.beginX + obstacle.gridWidth, obstacle.beginY + obstacle.gridHeight).distanceTo(this.centerOfCircle) < this.circleRadius) {
+          if (obstacle.gridCoordinates.isCollidingWith(ray)) {
+            ray.setEndAt(obstacle.gridCoordinates.getCollidingPoint(ray));
+          }
         }
       }
       ray.draw(context);
