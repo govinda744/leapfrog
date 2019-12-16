@@ -8,7 +8,7 @@ class Enemy {
   enemyMoveInterval = 10;
 
   moving = false;
-  enemySpeed = 0.5;
+  enemySpeed = 0.6;
 
   movingId;
 

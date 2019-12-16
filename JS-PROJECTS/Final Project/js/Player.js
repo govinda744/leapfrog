@@ -25,6 +25,13 @@ class Player {
     this.playerCoordinates = new Rect(this.beginX, this.beginY, this.width, this.height, 'green');
   }
 
+  follow(enemy) {
+    if (enemy) {
+      this.pathToMove = AstarSearch.findPath(this.parentClass.grids, this.getPlayerGrid(), this.getEnemyGrid(enemy));
+      this.animateMove();
+    }
+  }
+
   moveTo(grid) {
     this.pathToMove = AstarSearch.findPath(this.parentClass.grids, this.getPlayerGrid(), grid);
     this.animateMove();
@@ -101,6 +108,19 @@ class Player {
     for (let rowGrid of this.parentClass.grids) {
       for (let columnGrid of rowGrid) {
         if (columnGrid.equals(this)) {
+          return columnGrid;
+        }
+      }
+    }
+  }
+
+  getEnemyGrid(enemy) {
+    let beginX = this.parentClass.gridLength * Math.round(enemy.beginX / this.parentClass.gridLength);
+    let beginY = this.parentClass.gridLength * Math.round(enemy.beginY / this.parentClass.gridLength);
+    let enemyInGrid = new GridCell(this.parentClass, beginX, beginY);
+    for (let rowGrid of this.parentClass.grids) {
+      for (let columnGrid of rowGrid) {
+        if (columnGrid.equals(enemyInGrid)) {
           return columnGrid;
         }
       }
