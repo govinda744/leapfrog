@@ -220,29 +220,11 @@ class Player {
   }
 
   getPlayerGrid() {
-    let beginX = this.parentClass.gridLength * Math.round(this.beginX / this.parentClass.gridLength);
-    let beginY = this.parentClass.gridLength * Math.round(this.beginY / this.parentClass.gridLength);
-    let playerInGrid = new GridCell(null, beginX, beginY);
-    for (let rowGrid of this.parentClass.grids) {
-      for (let columnGrid of rowGrid) {
-        if (columnGrid.equals(playerInGrid)) {
-          return columnGrid;
-        }
-      }
-    }
+    return this.parentClass.grids[Math.floor(this.beginX / this.width)][Math.floor(this.beginY / this.height)];
   }
 
   getEnemyGrid(enemy) {
-    let beginX = this.parentClass.gridLength * Math.round(enemy.beginX / this.parentClass.gridLength);
-    let beginY = this.parentClass.gridLength * Math.round(enemy.beginY / this.parentClass.gridLength);
-    let enemyInGrid = new GridCell(this.parentClass, beginX, beginY);
-    for (let rowGrid of this.parentClass.grids) {
-      for (let columnGrid of rowGrid) {
-        if (columnGrid.equals(enemyInGrid)) {
-          return columnGrid;
-        }
-      }
-    }
+    return this.parentClass.grids[Math.floor(enemy.beginX / enemy.width)][Math.floor(enemy.beginY / enemy.height)];
   }
 
   collidingWithEnemy() {

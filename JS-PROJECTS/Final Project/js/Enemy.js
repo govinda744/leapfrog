@@ -210,13 +210,7 @@ class Enemy {
   }
 
   getEnemyGrid() {
-    for (let rowGrid of this.parentClass.grids) {
-      for (let columnGrid of rowGrid) {
-        if (columnGrid.equals(this)) {
-          return columnGrid;
-        }
-      }
-    }
+    return this.parentClass.grids[Math.floor(this.beginX / this.width)][Math.floor(this.beginY / this.height)];
   }
 
   fixToGrid() {
