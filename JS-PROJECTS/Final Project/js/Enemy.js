@@ -6,7 +6,11 @@ function getRandomNumber(min, max) {
 
 class Enemy {
   moving = false;
+  halt = false;
+
   enemySpeed = 0.6;
+
+  shootingBullet;
 
   movingId;
 
@@ -64,7 +68,7 @@ class Enemy {
 
   update() {
     if (this.pathToMove && this.pathToMove.length) {
-      this.spriteCounter --;
+      this.spriteCounter--;
       if (this.spriteCounter < 0) {
         this.sx += this.spriteImageOffset;
         this.sx = this.sx > this.spriteImageNumbers * this.spriteImageOffset ? 0 : this.sx;
@@ -88,8 +92,12 @@ class Enemy {
   }
 
   shootAtPlayer() {
-    this.pathToMove = undefined;
-    this.lineOfFire = new Line(new Vector(this.lightRays[0].beginX, this.lightRays[0].beginY), new Vector(this.parentClass.player.beginX, this.parentClass.player.beginY), 5, 'black', 'butt');
+    if (this.pathToMove !== undefined) {
+      this.fixToGrid();
+      this.pathToMove = undefined;
+      this.halt = true;
+    }
+    this.lineOfFire = new Line(new Vector(this.lightRays[0].beginX, this.lightRays[0].beginY), new Vector(this.parentClass.player.beginX + (this.width / 2), this.parentClass.player.beginY + (this.height / 2)), 1, 'black', 'butt');
   }
 
   moveByIncrement() {
@@ -106,7 +114,7 @@ class Enemy {
       this.pathToMove.shift();
       if (this.pathToMove.length) {
         this.update();
-      } else if (this.pathToMove.length === 0) {
+      } else if (this.pathToMove.length === 0 && !this.halt) {
         this.moving = false;
       }
     }
@@ -127,7 +135,7 @@ class Enemy {
       this.pathToMove.shift();
       if (this.pathToMove.length) {
         this.update();
-      } else if (this.pathToMove.length === 0) {
+      } else if (this.pathToMove.length === 0 && !this.halt) {
         this.moving = false;
       }
     }
@@ -137,63 +145,63 @@ class Enemy {
   setRotationDegree(inCase) {
     switch (inCase) {
       case 'yIncreasing':
-        if (this.rotate === 0) {
+        if (this.rotate >= 0 && this.rotate < 90) {
           this.rotationDegree = 90;
-        } else if (this.rotate === 90) {
+        } else if (this.rotate >= 90 && this.rotate < 180) {
           this.rotationDegree = 90;
-        } else if (this.rotate === 180) {
+        } else if (this.rotate >= 180 && this.rotate < 270) {
           this.rotationDegree = 90;
-        } else if (this.rotate === 270) {
+        } else if (this.rotate >= 270 && this.rotate < 360) {
           this.rotate = 90;
           this.rotationDegree = 90;
-        } else if (this.rotate === 360) {
+        } else if (this.rotate >= 360 && this.rotate < 450) {
           this.rotate = 0;
           this.rotationDegree = 90;
         }
         break;
       case 'xIncreasing':
-        if (this.rotate === 0) {
+        if (this.rotate >= 0 && this.rotate < 90) {
           this.rotate = 0;
           this.rotationDegree = 0;
-        } else if (this.rotate === 90) {
+        } else if (this.rotate >= 90 && this.rotate < 180) {
           this.rotationDegree = 0;
-        } else if (this.rotate === 180) {
+        } else if (this.rotate >= 180 && this.rotate < 270) {
           this.rotate = 0;
           this.rotationDegree = 0;
-        } else if (this.rotate === 270) {
+        } else if (this.rotate >= 270 && this.rotate < 360) {
           this.rotationDegree = 360;
-        } else if (this.rotate === 360) {
+        } else if (this.rotate >= 360 && this.rotate < 450) {
           this.rotate = 0;
           this.rotationDegree = 0;
         }
         break;
       case 'yDecreasing':
-        if (this.rotate === 0) {
+        if (this.rotate >= 0 && this.rotate < 90) {
           this.rotate = 360;
           this.rotationDegree = 270;
-        } else if (this.rotate === 90) {
+        } else if (this.rotate >= 90 && this.rotate < 180) {
           this.rotate = 270;
           this.rotationDegree = 270;
-        } else if (this.rotate === 180) {
+        } else if (this.rotate >= 180 && this.rotate < 270) {
           this.rotationDegree = 270;
-        } else if (this.rotate === 270) {
+        } else if (this.rotate >= 270 && this.rotate < 360) {
           this.rotationDegree = 270;
-        } else if (this.rotate === 360) {
+        } else if (this.rotate >= 360 && this.rotate < 450) {
           this.rotationDegree = 270;
         }
         break;
       case 'xDecreasing':
-        if (this.rotate === 0) {
+        if (this.rotate >= 0 && this.rotate < 90) {
           this.rotate = 180;
           this.rotationDegree = 180;
-        } else if (this.rotate === 90) {
+        } else if (this.rotate >= 90 && this.rotate < 180) {
           this.rotationDegree = 180;
-        } else if (this.rotate === 180) {
+        } else if (this.rotate >= 180 && this.rotate < 270) {
           this.rotate = 180;
           this.rotationDegree = 180;
-        } else if (this.rotate === 270) {
+        } else if (this.rotate >= 270 && this.rotate < 360) {
           this.rotationDegree = 180;
-        } else if (this.rotate === 360) {
+        } else if (this.rotate >= 360 && this.rotate < 450) {
           this.rotate = 180;
           this.rotationDegree = 180;
         }
@@ -245,17 +253,29 @@ class Enemy {
     this.enemyGrid.setRotation(this.rotate);
     this.enemyGrid.setPosition(this.beginX, this.beginY);
     this.enemyGrid.draw();
-    if (!this.moving) {
+    if (!this.moving && !this.halt) {
       this.initRandomMove();
     }
     if (this.lineOfFire !== undefined) {
-      this.lineOfFire.draw(context);
-      for(let i = 0; i < this.parentClass.obstacles.length; i++) {
+      for (let i = 0; i < this.parentClass.obstacles.length; i++) {
         if (this.parentClass.obstacles[i].gridCoordinates.isCollidingWith(this.lineOfFire)) {
           this.lineOfFire = undefined;
-          this.initRandomMove();
+          this.halt = false;
+          this.moving = false;
           break;
         } else {
+          let angle = Math.atan2((this.lineOfFire.endY - this.lineOfFire.beginY), (this.lineOfFire.endX - this.lineOfFire.beginX));
+          this.rotationDegree = angle * (180 / Math.PI);
+          this.rotationDegree = (this.rotationDegree + 360) % 360;
+          if (this.shootingBullet === undefined) {
+            this.shootingBullet = new Bullet(this.parentClass, this.lineOfFire.beginX, this.lineOfFire.beginY, this.lineOfFire.endX, this.lineOfFire.endY, this.rotationDegree);
+            this.shootingBullet.shoot(context);
+          } else {
+            this.shootingBullet.shoot(context);
+            if (this.shootingBullet.circleRadius > 500) {
+              this.shootingBullet = undefined;
+            }
+          }
           this.shootAtPlayer();
         }
       }

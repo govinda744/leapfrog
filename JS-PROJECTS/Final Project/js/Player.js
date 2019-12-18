@@ -16,7 +16,7 @@ class Player {
   constructor(gridCell) {
     this.sx = 0;
     this.sy = 0;
-    
+
     this.parentClass = gridCell.parentClass;
     this.beginX = gridCell.beginX;
     this.beginY = gridCell.beginY;
