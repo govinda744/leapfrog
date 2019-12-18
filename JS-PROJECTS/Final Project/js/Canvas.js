@@ -32,10 +32,13 @@ class Canvas {
     this.canvasElement.style.position = 'absolute';
     this.canvasElement.style.zIndex = 1;
 
+    this.canvasElement.style.boxShadow = '0px 0px 10px #888888';
+    this.canvasElement.style.borderRadius = 25 + 'px';
+
     this.canvasElement.height = this.height;
     this.canvasElement.width = this.width;
 
-    this.canvasElement.style.background = "#d5d5d5";
+    // this.canvasElement.style.background = "#d5d5d5";
 
     this.getJsonData(this.setMapData.bind(this));
 
