@@ -38,8 +38,6 @@ class Canvas {
     this.canvasElement.height = this.height;
     this.canvasElement.width = this.width;
 
-    // this.canvasElement.style.background = "#d5d5d5";
-
     this.getJsonData(this.setMapData.bind(this));
 
     return this.canvasElement;
@@ -135,7 +133,9 @@ class Canvas {
 
   initMouseEvent() {
     this.canvasElement.addEventListener("mousedown", event => {
-      let mouseInGrid = this.getMouseGrid(new Vector(event.offsetX, event.offsetY));
+      let row = Math.floor(event.offsetX / this.gridLength);
+      let column = Math.floor(event.offsetY / this.gridLength);
+      let mouseInGrid = this.grids[row][column];
       if (mouseInGrid.whatIs !== MapComponenets.OBSTACLE) {
         if (this.player.movingId) {
           clearInterval(this.player.movingId);
@@ -153,16 +153,6 @@ class Canvas {
         }
       }
     });
-  }
-
-  getMouseGrid(mouseVect) {
-    for (let rowGrid of this.grids) {
-      for (let columnGrid of rowGrid) {
-        if (columnGrid.includes(mouseVect)) {
-          return columnGrid;
-        }
-      }
-    }
   }
 
   deleteEnemy(enemy) {
