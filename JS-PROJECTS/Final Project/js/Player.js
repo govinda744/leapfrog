@@ -1,18 +1,17 @@
 class Player {
-  playerSpeed = 1;
+  playerSpeed = 4;
   pathToMove;
 
   followingEnemy;
 
+  playerGrid;
+  playerGridContext;
+
   sx = 0;
   sy = 0;
 
-  translationVector;
   rotationDegree;
   rotate = 0;
-
-  radToDeg = (180 / Math.PI);
-  degToRad = (Math.PI / 180);
 
   constructor(gridCell) {
     this.parentClass = gridCell.parentClass;
@@ -25,6 +24,12 @@ class Player {
     this.playerImage.onload = () => { };
 
     this.initCoordinates();
+    this.initPlayerGrid();
+  }
+
+  initPlayerGrid() {
+    this.playerGrid = new GridCanvas(this.parentClass, this.beginX, this.beginY, this.width, this.height, this.playerImage);
+    this.playerGridContext = this.playerGrid.init();
   }
 
   setPlayerSpeed(speed) {
@@ -75,11 +80,11 @@ class Player {
   moveByIncrement() {
     if (this.beginX < this.pathToMove[0].beginX) {
       this.beginX += this.playerSpeed;
-      this.rotationDegree = 0;
+      this.setRotationDegree('xIncreasing');
 
     } else if (this.beginY < this.pathToMove[0].beginY) {
       this.beginY += this.playerSpeed;
-      this.rotationDegree = 90;
+      this.setRotationDegree('yIncreasing');
     }
     this.translationVector = new Vector(this.beginX + this.width, this.beginY);
     let collidingEnemy = this.collidingWithEnemy();
@@ -99,10 +104,10 @@ class Player {
   moveByDecrement() {
     if (this.beginX > this.pathToMove[0].beginX) {
       this.beginX -= this.playerSpeed;
-      this.rotationDegree = 180;
+      this.setRotationDegree('xDecreasing');
     } else if (this.beginY > this.pathToMove[0].beginY) {
       this.beginY -= this.playerSpeed;
-      this.rotationDegree = 270;
+      this.setRotationDegree('yDecreasing');
     }
     this.translationVector = new Vector(this.beginX, this.beginY + this.height);
     let collidingEnemy = this.collidingWithEnemy();
@@ -117,6 +122,73 @@ class Player {
       }
     }
     this.initCoordinates();
+  }
+
+  setRotationDegree(inCase) {
+    switch (inCase) {
+      case 'yIncreasing':
+        if (this.rotate === 0) {
+          this.rotationDegree = 90;
+        } else if (this.rotate === 90) {
+          this.rotationDegree = 90;
+        } else if (this.rotate === 180) {
+          this.rotationDegree = 90;
+        } else if (this.rotate === 270) {
+          this.rotate = 90;
+          this.rotationDegree = 90;
+        } else if (this.rotate === 360) {
+          this.rotate = 0;
+          this.rotationDegree = 90;
+        }
+        break;
+      case 'xIncreasing':
+        if (this.rotate === 0) {
+          this.rotate = 0;
+          this.rotationDegree = 0;
+        } else if (this.rotate === 90) {
+          this.rotationDegree = 0;
+        } else if (this.rotate === 180) {
+          this.rotate = 0;
+          this.rotationDegree = 0;
+        } else if (this.rotate === 270) {
+          this.rotationDegree = 360;
+        } else if (this.rotate === 360) {
+          this.rotate = 0;
+          this.rotationDegree = 0;
+        }
+        break;
+      case 'yDecreasing':
+        if (this.rotate === 0) {
+          this.rotate = 360;
+          this.rotationDegree = 270;
+        } else if (this.rotate === 90) {
+          this.rotate = 270;
+          this.rotationDegree = 270;
+        } else if (this.rotate === 180) {
+          this.rotationDegree = 270;
+        } else if (this.rotate === 270) {
+          this.rotationDegree = 270;
+        } else if (this.rotate === 360) {
+          this.rotationDegree = 270;
+        }
+        break;
+      case 'xDecreasing':
+        if (this.rotate === 0) {
+          this.rotate = 180;
+          this.rotationDegree = 180;
+        } else if (this.rotate === 90) {
+          this.rotationDegree = 180;
+        } else if (this.rotate === 180) {
+          this.rotate = 180;
+          this.rotationDegree = 180;
+        } else if (this.rotate === 270) {
+          this.rotationDegree = 180;
+        } else if (this.rotate === 360) {
+          this.rotate = 180;
+          this.rotationDegree = 180;
+        }
+        break;
+    }
   }
 
   drawpath(context) {
@@ -175,20 +247,14 @@ class Player {
   }
 
   draw(context) {
-    if (this.pathToMove && this.pathToMove.length) {
-      context.save();
-      context.translate(this.translationVector.coX, this.translationVector.coY);
-      context.rotate((this.rotationDegree * this.degToRad));
-      // context.fillStyle = 'red';
-      // context.fillRect(0, 0, this.parentClass.width, this.parentClass.height);
-      this.playerCoordinates.draw(context, this.sx, this.sy);
-      context.restore();
-    } else {
-      context.save();
-      context.translate(this.beginX, this.beginY);
-      this.playerCoordinates.draw(context, this.sx, this.sy);
-      context.restore();
+    if (this.rotate < this.rotationDegree) {
+      this.rotate += 10;
+    } else if (this.rotate > this.rotationDegree) {
+      this.rotate -= 10;
     }
+    this.playerGrid.setRotation(this.rotate);
+    this.playerGrid.setPosition(this.beginX, this.beginY);
+    this.playerGrid.draw();
     if (this.pathToMove) {
       this.drawpath(context);
     }

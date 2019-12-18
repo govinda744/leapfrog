@@ -14,12 +14,10 @@ class RayCast {
     this.circleRadius = 100;
   }
 
-  castSearchLightTowards(npc, coX, coY) {
+  castSearchLightTowards(npc, coX, coY, angleToCastOn) {
 
-    this.centerOfCircle = npc.enemyCoordinates.rightLine.getMidPoint();
+    this.centerOfCircle = new Vector(npc.beginX + npc.width / 2, npc.beginY + npc.height / 2);
     this.centerOfCircle.coY += this.offSetToBottom;
-
-    let angleToCastOn = Math.atan((coY - npc.beginY) / (coX - npc.beginX)) * this.radToDeg;
 
     angleToCastOn = Math.sign(coX - npc.beginX) === -1 ? 180 : angleToCastOn;
 

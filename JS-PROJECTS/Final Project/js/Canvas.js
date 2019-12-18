@@ -29,6 +29,9 @@ class Canvas {
     this.canvasElement = document.createElement("canvas");
     this.canvasContext = this.canvasElement.getContext("2d");
 
+    this.canvasElement.style.position = 'absolute';
+    this.canvasElement.style.zIndex = 1;
+
     this.canvasElement.height = this.height;
     this.canvasElement.width = this.width;
 
