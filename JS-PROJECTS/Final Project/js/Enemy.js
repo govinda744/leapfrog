@@ -5,8 +5,6 @@ function getRandomNumber(min, max) {
 }
 
 class Enemy {
-  enemyMoveInterval = 10;
-
   moving = false;
   enemySpeed = 0.6;
 
@@ -17,6 +15,10 @@ class Enemy {
   enemyGrid;
   enemyGridContext;
 
+  spriteImageOffset = 100;
+  spriteImageNumbers = 6;
+  spriteCounter = 7;
+
   lightRays;
 
   rotationDegree;
@@ -25,6 +27,7 @@ class Enemy {
   constructor(gridCell) {
     this.sx = 0;
     this.sy = 300;
+
     this.parentClass = gridCell.parentClass;
     this.beginX = gridCell.beginX;
     this.beginY = gridCell.beginY;
@@ -41,7 +44,7 @@ class Enemy {
   }
 
   initEnemyGrid() {
-    this.enemyGrid = new GridCanvas(this.parentClass, this.beginX, this.beginY, this.width, this.height, this.enemyImage);
+    this.enemyGrid = new GridCanvas(this.parentClass, this, this.sx, this.sy, this.beginX, this.beginY, this.width, this.height, this.enemyImage);
     this.enemyGridContext = this.enemyGrid.init();
   }
 
@@ -61,12 +64,32 @@ class Enemy {
 
   update() {
     if (this.pathToMove && this.pathToMove.length) {
+      this.spriteCounter --;
+      if (this.spriteCounter < 0) {
+        this.sx += this.spriteImageOffset;
+        this.sx = this.sx > this.spriteImageNumbers * this.spriteImageOffset ? 0 : this.sx;
+        this.enemyGrid.setSpriteX(this.sx);
+        this.spriteCounter = 7;
+      }
       if (this.beginX < this.pathToMove[0].beginX || this.beginY < this.pathToMove[0].beginY) {
         this.moveByIncrement();
       } else if (this.beginX > this.pathToMove[0].beginX || this.beginY > this.pathToMove[0].beginY) {
         this.moveByDecrement();
       }
+      if (this.lightRays) {
+        for (let i = 0; i < this.lightRays.length; i++) {
+          if (this.parentClass.player.playerCoordinates.isCollidingWith(this.lightRays[i])) {
+            this.shootAtPlayer();
+            break;
+          }
+        }
+      }
     }
+  }
+
+  shootAtPlayer() {
+    this.pathToMove = undefined;
+    this.lineOfFire = new Line(new Vector(this.lightRays[0].beginX, this.lightRays[0].beginY), new Vector(this.parentClass.player.beginX, this.parentClass.player.beginY), 5, 'black', 'butt');
   }
 
   moveByIncrement() {
@@ -198,7 +221,7 @@ class Enemy {
   }
 
   initCoordinates() {
-    this.enemyCoordinates = new Rect(this.beginX, this.beginY, this.width, this.height, null, this.enemyImage, this.sx, this.sy);
+    this.enemyCoordinates = new Rect(this.beginX, this.beginY, this.width, this.height);
   }
 
   initRayCast() {
@@ -224,6 +247,18 @@ class Enemy {
     this.enemyGrid.draw();
     if (!this.moving) {
       this.initRandomMove();
+    }
+    if (this.lineOfFire !== undefined) {
+      this.lineOfFire.draw(context);
+      for(let i = 0; i < this.parentClass.obstacles.length; i++) {
+        if (this.parentClass.obstacles[i].gridCoordinates.isCollidingWith(this.lineOfFire)) {
+          this.lineOfFire = undefined;
+          this.initRandomMove();
+          break;
+        } else {
+          this.shootAtPlayer();
+        }
+      }
     }
     this.initRayCast(context);
     this.drawRays(context);

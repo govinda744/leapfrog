@@ -16,7 +16,7 @@ class RayCast {
 
   castSearchLightTowards(npc, coX, coY, angleToCastOn) {
 
-    this.centerOfCircle = new Vector(npc.beginX + npc.width / 2, npc.beginY + npc.height / 2);
+    this.centerOfCircle = new Vector(npc.beginX + npc.width / 3, npc.beginY + npc.height / 3);
     this.centerOfCircle.coY += this.offSetToBottom;
 
     angleToCastOn = Math.sign(coX - npc.beginX) === -1 ? 180 : angleToCastOn;

@@ -1,5 +1,5 @@
 class Player {
-  playerSpeed = 4;
+  playerSpeed = 3;
   pathToMove;
 
   followingEnemy;
@@ -7,13 +7,16 @@ class Player {
   playerGrid;
   playerGridContext;
 
-  sx = 0;
-  sy = 0;
+  spriteImageOffset = 100;
+  spriteImageNumbers = 6;
 
   rotationDegree;
   rotate = 0;
 
   constructor(gridCell) {
+    this.sx = 0;
+    this.sy = 0;
+    
     this.parentClass = gridCell.parentClass;
     this.beginX = gridCell.beginX;
     this.beginY = gridCell.beginY;
@@ -28,7 +31,7 @@ class Player {
   }
 
   initPlayerGrid() {
-    this.playerGrid = new GridCanvas(this.parentClass, this.beginX, this.beginY, this.width, this.height, this.playerImage);
+    this.playerGrid = new GridCanvas(this.parentClass, this, this.sx, this.sy, this.beginX, this.beginY, this.width, this.height, this.playerImage);
     this.playerGridContext = this.playerGrid.init();
   }
 
@@ -37,7 +40,7 @@ class Player {
   }
 
   initCoordinates() {
-    this.playerCoordinates = new Rect(this.beginX, this.beginY, this.width, this.height, null, this.playerImage, this.sx, this.sy);
+    this.playerCoordinates = new Rect(this.beginX, this.beginY, this.width, this.height);
   }
 
   follow(enemy) {
@@ -65,6 +68,9 @@ class Player {
       }
     }
     if (this.pathToMove && this.pathToMove.length) {
+      this.sx += this.spriteImageOffset;
+      this.sx = this.sx > this.spriteImageNumbers * this.spriteImageOffset ? 0 : this.sx;
+      this.playerGrid.setSpriteX(this.sx);
       if (this.beginX < this.pathToMove[0].beginX || this.beginY < this.pathToMove[0].beginY) {
         this.moveByIncrement();
       } else if (this.beginX > this.pathToMove[0].beginX || this.beginY > this.pathToMove[0].beginY) {
@@ -75,6 +81,7 @@ class Player {
 
   killEnemy(enemy) {
     this.parentClass.deleteEnemy(enemy);
+    this.parentClass.gameContainerClass.gameContainerElement.removeChild(enemy.enemyGrid.gridCanvas);
   }
 
   moveByIncrement() {

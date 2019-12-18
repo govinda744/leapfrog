@@ -167,6 +167,7 @@ class Canvas {
       for (let i = 0; i < this.enimies.length; i++) {
         if (this.enimies[i] === enemy) {
           delete this.enimies[i];
+          this.player.followingEnemy = undefined;
           this.enimies.splice(i, 1);
           break;
         }
