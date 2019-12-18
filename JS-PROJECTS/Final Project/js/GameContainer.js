@@ -24,6 +24,8 @@ class GameContainer {
 
         this.gameContainerElement.style.margin = '0 auto';
 
+        this.gameContainerElement.style.position = 'relative';
+
         this.initCanvas();
 
         return this.gameContainerElement;
