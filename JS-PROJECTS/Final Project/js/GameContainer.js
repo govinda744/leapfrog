@@ -20,9 +20,9 @@ class GameContainer {
         this.gameContainerElement.style.height = this.height + 'px';
         this.gameContainerElement.style.width = this.width + 'px';
 
-        this.gameContainerElement.style.background = 'red';
-
         this.gameContainerElement.style.margin = '0 auto';
+
+        this.gameContainerElement.style.position = 'relative';
 
         this.initCanvas();
 

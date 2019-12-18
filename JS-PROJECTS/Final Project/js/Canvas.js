@@ -29,10 +29,16 @@ class Canvas {
     this.canvasElement = document.createElement("canvas");
     this.canvasContext = this.canvasElement.getContext("2d");
 
+    this.canvasElement.style.position = 'absolute';
+    this.canvasElement.style.zIndex = 1;
+
+    this.canvasElement.style.boxShadow = '0px 0px 10px #888888';
+    this.canvasElement.style.borderRadius = 25 + 'px';
+
     this.canvasElement.height = this.height;
     this.canvasElement.width = this.width;
 
-    this.canvasElement.style.background = "#d5d5d5";
+    // this.canvasElement.style.background = "#d5d5d5";
 
     this.getJsonData(this.setMapData.bind(this));
 
@@ -82,7 +88,7 @@ class Canvas {
     window.requestAnimationFrame(this.gameLoop.bind(this));
     // setInterval(function() {
     this.renderGrid();
-    // this.update();
+    this.update();
     // }.bind(this), 35);
   }
 
@@ -142,6 +148,7 @@ class Canvas {
           }
         }
         if (mouseInGrid.whatIs === MapComponenets.PATH) {
+          this.player.followingEnemy = undefined;
           this.player.moveTo(mouseInGrid);
         }
       }
@@ -153,6 +160,19 @@ class Canvas {
       for (let columnGrid of rowGrid) {
         if (columnGrid.includes(mouseVect)) {
           return columnGrid;
+        }
+      }
+    }
+  }
+
+  deleteEnemy(enemy) {
+    if (enemy instanceof Enemy) {
+      for (let i = 0; i < this.enimies.length; i++) {
+        if (this.enimies[i] === enemy) {
+          delete this.enimies[i];
+          this.player.followingEnemy = undefined;
+          this.enimies.splice(i, 1);
+          break;
         }
       }
     }

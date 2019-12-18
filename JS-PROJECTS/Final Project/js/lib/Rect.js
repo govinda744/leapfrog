@@ -1,6 +1,9 @@
 class Rect {
   coordinates = [];
   constructor(beginX, beginY, width, height, fillColor, img) {
+    this.sWidth = 100;
+    this.sHeight = 100;
+    this.sOffset = 10;
     this.beginX = beginX;
     this.beginY = beginY;
     this.height = height;
@@ -13,22 +16,19 @@ class Rect {
     this.img = img || null;
   }
 
-  draw(context, beginAt) {
+  draw(context, sx, sy) {
     if (this.fillColor !== null) {
       context.beginPath();
-      if (beginAt === 0) {
-        context.rect(beginAt, beginAt, this.width, this.height);
-      } else {
-        context.rect(this.beginX, this.beginY, this.width, this.height);
-      }      
       context.fillStyle = this.fillColor;
       context.fill();
     } else if (this.img !== null) {
-      let image = new Image();
-      image.src = this.img;
-      image.onload = function() {
-        context.drawImage(image, this.beginX, this.beginY, this.width, this.height);
-      }.bind(this);
+      if (this.img.complete) {
+        if (sx !== undefined && sy !== undefined) {
+          context.drawImage(this.img, sx, sy, this.sWidth, this.sHeight, 0, 0, this.width, this.height);
+        } else {
+          context.drawImage(this.img, this.beginX, this.beginY, this.width, this.height);
+        }
+      }
     } else {
       context.beginPath();
       context.rect(this.beginX, this.beginY, this.width, this.height);
@@ -36,25 +36,39 @@ class Rect {
     }
   }
 
-  isCollidingWith(line) {
-    if (this.leftLine.intersects(line)) {
-      return true;
-    }
-    if (this.bottomLine.intersects(line)) {
-      return true;
-    }
-    if (this.rightLine.intersects(line)) {
-      return true;
-    }
-    if (this.topLine.intersects(line)) {
-      return true;
-    }
-    return false;
-  }
+  isCollidingWith(something) {
+    if (something instanceof Line) {
+      if (this.leftLine.intersects(something)) {
+        return true;
+      }
+      if (this.bottomLine.intersects(something)) {
+        return true;
+      }
+      if (this.rightLine.intersects(something)) {
+        return true;
+      }
+      if (this.topLine.intersects(something)) {
+        return true;
+      }
 
-  // isCollidingWith(rect) {
-    
-  // }
+      return false;
+    } else if (something instanceof Rect) {
+      if (something.isCollidingWith(this.leftLine)) {
+        return true;
+      }
+      if (something.isCollidingWith(this.bottomLine)) {
+        return true;
+      }
+      if (something.isCollidingWith(this.rightLine)) {
+        return true;
+      }
+      if (something.isCollidingWith(this.topLine)) {
+        return true;
+      }
+
+      return false;
+    }
+  }
 
   getCollidingPoint(line) {
     let beginPoint = new Vector(line.beginX, line.beginY);
