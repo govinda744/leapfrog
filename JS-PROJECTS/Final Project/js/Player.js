@@ -1,10 +1,18 @@
 class Player {
-  playerMoveInterval = 10;
-
-  playerSpeed = 4;
-
+  playerSpeed = 1;
   pathToMove;
-  movingId;
+
+  followingEnemy;
+
+  sx = 0;
+  sy = 0;
+
+  translationVector;
+  rotationDegree;
+  rotate = 0;
+
+  radToDeg = (180 / Math.PI);
+  degToRad = (Math.PI / 180);
 
   constructor(gridCell) {
     this.parentClass = gridCell.parentClass;
@@ -12,7 +20,9 @@ class Player {
     this.beginY = gridCell.beginY;
     this.width = gridCell.gridWidth;
     this.height = gridCell.gridHeight;
-    this.playerImage = './images/wood_box.png';
+    this.playerImage = new Image();
+    this.playerImage.src = './images/sprite.png';
+    this.playerImage.onload = () => { };
 
     this.initCoordinates();
   }
@@ -22,45 +32,65 @@ class Player {
   }
 
   initCoordinates() {
-    this.playerCoordinates = new Rect(this.beginX, this.beginY, this.width, this.height, 'green');
+    this.playerCoordinates = new Rect(this.beginX, this.beginY, this.width, this.height, null, this.playerImage, this.sx, this.sy);
   }
 
   follow(enemy) {
-    if (enemy) {
-      this.pathToMove = AstarSearch.findPath(this.parentClass.grids, this.getPlayerGrid(), this.getEnemyGrid(enemy));
-      this.animateMove();
+    this.followingEnemy = enemy;
+    if (this.followingEnemy) {
+      this.pathToMove = AstarSearch.findPath(this.parentClass.grids, this.getPlayerGrid(), this.getEnemyGrid(this.followingEnemy));
+      this.update();
     }
   }
 
   moveTo(grid) {
     this.pathToMove = AstarSearch.findPath(this.parentClass.grids, this.getPlayerGrid(), grid);
-    this.animateMove();
+    this.update();
   }
 
-  animateMove() {
-    this.movingId = setInterval(() => {
-      if (this.pathToMove.length) {
-        if (this.beginX < this.pathToMove[0].beginX || this.beginY < this.pathToMove[0].beginY) {
-          this.moveByIncrement();
-        } else if (this.beginX > this.pathToMove[0].beginX || this.beginY > this.pathToMove[0].beginY) {
-          this.moveByDecrement();
+  update() {
+    if (this.followingEnemy) {
+      if (this.playerCoordinates.isCollidingWith(this.followingEnemy.enemyCoordinates)) {
+        this.killEnemy(this.followingEnemy);
+      } else {
+        if (this.beginX % this.parentClass.gridLength !== 0 && this.beginY % this.parentClass.gridLength !== 0) {
+          this.fixToGrid();
         }
+        this.pathToMove = AstarSearch.findPath(this.parentClass.grids, this.getPlayerGrid(), this.getEnemyGrid(this.followingEnemy));
       }
-    }, this.playerMoveInterval);
+    }
+    if (this.pathToMove && this.pathToMove.length) {
+      if (this.beginX < this.pathToMove[0].beginX || this.beginY < this.pathToMove[0].beginY) {
+        this.moveByIncrement();
+      } else if (this.beginX > this.pathToMove[0].beginX || this.beginY > this.pathToMove[0].beginY) {
+        this.moveByDecrement();
+      }
+    }
+  }
+
+  killEnemy(enemy) {
+    this.parentClass.deleteEnemy(enemy);
   }
 
   moveByIncrement() {
     if (this.beginX < this.pathToMove[0].beginX) {
       this.beginX += this.playerSpeed;
+      this.rotationDegree = 0;
+
     } else if (this.beginY < this.pathToMove[0].beginY) {
       this.beginY += this.playerSpeed;
+      this.rotationDegree = 90;
+    }
+    this.translationVector = new Vector(this.beginX + this.width, this.beginY);
+    let collidingEnemy = this.collidingWithEnemy();
+    if (collidingEnemy) {
+      this.killEnemy(collidingEnemy);
     }
     if (this.beginX >= this.pathToMove[0].beginX && this.beginY >= this.pathToMove[0].beginY) {
       this.fixToGrid();
       this.pathToMove.shift();
-      clearInterval(this.movingId);
       if (this.pathToMove.length) {
-        this.animateMove();
+        this.update();
       }
     }
     this.initCoordinates();
@@ -69,15 +99,21 @@ class Player {
   moveByDecrement() {
     if (this.beginX > this.pathToMove[0].beginX) {
       this.beginX -= this.playerSpeed;
+      this.rotationDegree = 180;
     } else if (this.beginY > this.pathToMove[0].beginY) {
       this.beginY -= this.playerSpeed;
+      this.rotationDegree = 270;
+    }
+    this.translationVector = new Vector(this.beginX, this.beginY + this.height);
+    let collidingEnemy = this.collidingWithEnemy();
+    if (collidingEnemy) {
+      this.killEnemy(collidingEnemy);
     }
     if (this.beginX <= this.pathToMove[0].beginX && this.beginY <= this.pathToMove[0].beginY) {
       this.fixToGrid();
       this.pathToMove.shift();
-      clearInterval(this.movingId);
       if (this.pathToMove.length) {
-        this.animateMove();
+        this.update();
       }
     }
     this.initCoordinates();
@@ -100,14 +136,17 @@ class Player {
       let inGrid = this.pathToMove[0];
       this.beginX = inGrid.beginX;
       this.beginY = inGrid.beginY;
-      this.initCoordinates()
+      this.initCoordinates();
     }
   }
 
   getPlayerGrid() {
+    let beginX = this.parentClass.gridLength * Math.round(this.beginX / this.parentClass.gridLength);
+    let beginY = this.parentClass.gridLength * Math.round(this.beginY / this.parentClass.gridLength);
+    let playerInGrid = new GridCell(null, beginX, beginY);
     for (let rowGrid of this.parentClass.grids) {
       for (let columnGrid of rowGrid) {
-        if (columnGrid.equals(this)) {
+        if (columnGrid.equals(playerInGrid)) {
           return columnGrid;
         }
       }
@@ -127,18 +166,29 @@ class Player {
     }
   }
 
+  collidingWithEnemy() {
+    for (let i = 0; i < this.parentClass.enimies.length; i++) {
+      if (this.playerCoordinates.isCollidingWith(this.parentClass.enimies[i].enemyCoordinates)) {
+        return this.parentClass.enimies[i];
+      }
+    }
+  }
+
   draw(context) {
-    // if (this.pathToMove && this.pathToMove.length >= 2) {
-    //   context.save();
-    //   context.translate(this.beginX, this.beginY);
-    //   let rotateAngle = (this.pathToMove[0].beginY - this.pathToMove[1].beginY) / (this.pathToMove[0].beginX - this.pathToMove[1].beginX);
-    //   console.log(rotateAngle);
-    //   context.rotate(rotateAngle - 1);
-    //   this.playerCoordinates.draw(context, 0);
-    //   context.restore();
-    // } else {
-    this.playerCoordinates.draw(context);
-    // }
+    if (this.pathToMove && this.pathToMove.length) {
+      context.save();
+      context.translate(this.translationVector.coX, this.translationVector.coY);
+      context.rotate((this.rotationDegree * this.degToRad));
+      // context.fillStyle = 'red';
+      // context.fillRect(0, 0, this.parentClass.width, this.parentClass.height);
+      this.playerCoordinates.draw(context, this.sx, this.sy);
+      context.restore();
+    } else {
+      context.save();
+      context.translate(this.beginX, this.beginY);
+      this.playerCoordinates.draw(context, this.sx, this.sy);
+      context.restore();
+    }
     if (this.pathToMove) {
       this.drawpath(context);
     }

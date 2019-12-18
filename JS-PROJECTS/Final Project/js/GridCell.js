@@ -13,6 +13,10 @@ class GridCell {
     this.beginY = beginY;
     this.gridWidth = gridWidth;
     this.gridHeight = gridHeight;
+
+    this.obstacleImage = new Image();
+    this.obstacleImage.src = './images/wood_box.png';
+    this.obstacleImage.onload = ()=>{};
     this.init();
   }
 
@@ -29,7 +33,7 @@ class GridCell {
       this.gridCoordinates.fillColor = "#d5d5d5";
       this.gridCoordinates.draw(context);
     } else if (this.whatIs === MapComponenets.OBSTACLE){
-      this.gridCoordinates.fillColor = "#966F33";
+      this.gridCoordinates.img = this.obstacleImage;
       this.gridCoordinates.draw(context);
     }
   }

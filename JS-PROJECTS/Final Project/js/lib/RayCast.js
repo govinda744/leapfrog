@@ -2,6 +2,8 @@ class RayCast {
   constructor(parentClass) {
     this.parentClass = parentClass;
 
+    this.offSetToBottom = 5;
+
     this.angleOfSearchLight = 20;
     this.degToRadian = Math.PI / 180;
     this.radToDeg = 180 / Math.PI;
@@ -12,18 +14,20 @@ class RayCast {
     this.circleRadius = 100;
   }
 
-  castSearchLightTowards(npc, coX, coY, context) {
+  castSearchLightTowards(npc, coX, coY) {
 
-    this.centerOfCircle = new Vector(npc.beginX + npc.width / 2, npc.beginY + npc.height / 2);
+    this.centerOfCircle = npc.enemyCoordinates.rightLine.getMidPoint();
+    this.centerOfCircle.coY += this.offSetToBottom;
 
     let angleToCastOn = Math.atan((coY - npc.beginY) / (coX - npc.beginX)) * this.radToDeg;
 
     angleToCastOn = Math.sign(coX - npc.beginX) === -1 ? 180 : angleToCastOn;
 
-    this.castSearchLight(angleToCastOn, this.angleOfSearchLight, context);
+    return this.castSearchLight(angleToCastOn, this.angleOfSearchLight);
   }
 
-  castSearchLight(angleToCastOn, angleOfSearchLight, context) {
+  castSearchLight(angleToCastOn, angleOfSearchLight) {
+    let rays = [];
     let angleToCast = angleToCastOn - angleOfSearchLight;
     let beginAt = new Vector(this.centerOfCircle.coX, this.centerOfCircle.coY);
     while (angleToCast <= angleToCastOn + angleOfSearchLight) {
@@ -37,8 +41,9 @@ class RayCast {
           }
         }
       }
-      ray.draw(context);
+      rays.push(ray);
       angleToCast += 1;
     }
+    return rays;
   }
 }

@@ -82,7 +82,7 @@ class Canvas {
     window.requestAnimationFrame(this.gameLoop.bind(this));
     // setInterval(function() {
     this.renderGrid();
-    // this.update();
+    this.update();
     // }.bind(this), 35);
   }
 
@@ -142,6 +142,7 @@ class Canvas {
           }
         }
         if (mouseInGrid.whatIs === MapComponenets.PATH) {
+          this.player.followingEnemy = undefined;
           this.player.moveTo(mouseInGrid);
         }
       }
@@ -153,6 +154,18 @@ class Canvas {
       for (let columnGrid of rowGrid) {
         if (columnGrid.includes(mouseVect)) {
           return columnGrid;
+        }
+      }
+    }
+  }
+
+  deleteEnemy(enemy) {
+    if (enemy instanceof Enemy) {
+      for (let i = 0; i < this.enimies.length; i++) {
+        if (this.enimies[i] === enemy) {
+          delete this.enimies[i];
+          this.enimies.splice(i, 1);
+          break;
         }
       }
     }
