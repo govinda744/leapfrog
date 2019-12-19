@@ -7,46 +7,46 @@ class Start {
   }
 
   init() {
-    this.startElement = document.createElement('div');
+    let startElement = document.createElement('div');
 
-    this.startElement.style.height = this.height + 'px';
-    this.startElement.style.width = this.width + 'px';
-    this.startElement.style.margin = '0 auto';
-    this.startElement.style.borderRadius = 10 + 'px';
-    this.startElement.style.backgroundImage = 'url(./images/game_logo.png)';
-    this.startElement.style.backgroundSize = '30% 60%';
-    this.startElement.style.backgroundPosition = 'top center';
-    this.startElement.style.backgroundRepeat = 'no-repeat';
-    this.startElement.style.backgroundColor = 'gray';
-    this.startElement.style.position = 'relative';
+    startElement.style.height = this.height + 'px';
+    startElement.style.width = this.width + 'px';
+    startElement.style.margin = '0 auto';
+    startElement.style.borderRadius = 10 + 'px';
+    startElement.style.backgroundImage = 'url(./images/game_logo.png)';
+    startElement.style.backgroundSize = '30% 60%';
+    startElement.style.backgroundPosition = 'top center';
+    startElement.style.backgroundRepeat = 'no-repeat';
+    startElement.style.backgroundColor = 'gray';
+    startElement.style.position = 'relative';
 
-    this.startButton = document.createElement('div');
+    let startButton = document.createElement('div');
 
-    this.startButton.style.lineHeight = 50 + 'px';
-    this.startButton.style.width = 200 + 'px';
-    this.startButton.style.backgroundColor = '#d5d5d5';
-    this.startButton.style.position = 'absolute';
-    this.startButton.style.top = 300 + 'px';
-    this.startButton.style.left = 400 + 'px';
-    this.startButton.style.borderRadius = 10 + 'px';
-    this.startButton.innerHTML = 'START GAME';
-    this.startButton.style.textAlign = 'center';
-    this.startButton.style.boxShadow = '0px 0px 10px black';
+    startButton.style.lineHeight = 50 + 'px';
+    startButton.style.width = 200 + 'px';
+    startButton.style.backgroundColor = '#d5d5d5';
+    startButton.style.position = 'absolute';
+    startButton.style.top = 300 + 'px';
+    startButton.style.left = 400 + 'px';
+    startButton.style.borderRadius = 10 + 'px';
+    startButton.innerHTML = 'START GAME';
+    startButton.style.textAlign = 'center';
+    startButton.style.boxShadow = '0px 0px 10px black';
 
-    this.startButton.onmouseover = () => {
-      this.startButton.style.backgroundColor = 'gray';
-      this.startButton.style.cursor = 'pointer';
+    startButton.onmouseover = () => {
+      startButton.style.backgroundColor = 'gray';
+      startButton.style.cursor = 'pointer';
     }
-    this.startButton.onmouseout = () => {
-      this.startButton.style.backgroundColor = '#d5d5d5';
+    startButton.onmouseout = () => {
+      startButton.style.backgroundColor = '#d5d5d5';
     }
-    this.startButton.onclick = () => {
-      this.appElement.removeChild(this.startElement);
+    startButton.onclick = () => {
+      this.appElement.removeChild(startElement);
       this.appElement.appendChild(new GameConfig(width, height, this.appElement).init());
     }
 
-    this.startElement.appendChild(this.startButton);
+    startElement.appendChild(startButton);
 
-    return this.startElement;
+    return startElement;
   }
 }

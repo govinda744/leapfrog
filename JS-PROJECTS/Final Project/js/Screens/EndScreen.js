@@ -64,7 +64,7 @@ class EndScreen {
     }
     this.endButton.onclick = () => {
       this.appElement.removeChild(this.endScreen);
-      this.appElement.appendChild(new Start(this.width, this.height, this.appElement).init());
+      this.appElement.appendChild(new GameConfig(this.width, this.height, this.appElement).init());
     }
 
     this.endScreen.appendChild(this.endButton);

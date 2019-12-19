@@ -4,14 +4,14 @@ class RayCast {
 
     this.offSetToBottom = 5;
 
-    this.angleOfSearchLight = 20;
+    this.angleOfSearchLight = 30;
     this.degToRadian = Math.PI / 180;
     this.radToDeg = 180 / Math.PI;
 
     this.worker;
 
     this.centerOfCircle = null;
-    this.circleRadius = 100;
+    this.circleRadius = 150;
   }
 
   castSearchLightTowards(npc, coX, coY, angleToCastOn) {

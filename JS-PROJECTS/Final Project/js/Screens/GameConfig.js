@@ -75,6 +75,10 @@ class GameConfig {
     this.levelSelector.style.float = 'left';
     this.levelSelector.style.borderRadius = 10 + 'px';
     this.levelSelector.style.boxShadow = '0px 0px 10px black';
+    this.levelSelector.style.textAlign = 'center';
+
+    this.levelSelector.style.fontSize = 24 + 'px';
+    this.levelSelector.innerHTML = 'If ever in tight spot press \'ESC\'.';
 
     this.gameConfigElement.appendChild(this.levelSelector);
 

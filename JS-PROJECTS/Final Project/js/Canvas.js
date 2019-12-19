@@ -3,6 +3,8 @@ class Canvas {
   width;
   gameContainerClass;
 
+  paused = false;
+
   grids = [];
   maps;
 
@@ -23,6 +25,8 @@ class Canvas {
   constructor(width, height, maps, level, playerConfig, enemyConfig, gameContainerClass) {
     this.height = height;
     this.width = width;
+
+    this.totalPlayerlife = playerConfig.life;
 
     this.maps = maps;
     this.level = level;
@@ -61,6 +65,7 @@ class Canvas {
   initGame() {
     this.initGrids();
     this.initMouseEvent();
+    this.initKeyBoardEvent();
   }
 
   renderGrid() {
@@ -72,6 +77,28 @@ class Canvas {
     }
     this.drawPlayer();
     this.drawEnemies();
+    this.drawScore();
+    this.drawLife();
+  }
+
+  drawScore() {
+    this.canvasContext.font = "20px Arial";
+    this.canvasContext.fillStyle = '#2B2D42';
+    this.canvasContext.fillText(this.score, this.width / 2, 15);
+  }
+
+  drawLife() {
+    this.canvasContext.fillStyle = 'green';
+    this.canvasContext.font = "10px Arial";
+    this.canvasContext.fillText('LIFE:', this.width * 0.78, 15);
+    this.canvasContext.beginPath();
+    this.canvasContext.fillRect((this.width * 0.78) + 30, 7, this.player.playerLife * 30, 10);
+    for (let i = 1; i <= this.totalPlayerlife; i++) {
+      this.canvasContext.strokeStyle = 'black';
+      this.canvasContext.beginPath();
+      this.canvasContext.strokeRect((this.width * 0.78) + (i * 30), 7, 30, 10);
+      this.canvasContext.closePath();
+    }
   }
 
   update() {
@@ -150,6 +177,24 @@ class Canvas {
     });
   }
 
+  initKeyBoardEvent() {
+    document.addEventListener('keyup', (event) => {
+      if (event.code === 'Escape') {
+        if (!this.paused) {
+          window.cancelAnimationFrame(this.requestId);
+          this.canvasContext.beginPath();
+          this.canvasContext.fillStyle = 'rgba(0,0,0,0.5)';
+          this.canvasContext.font = "100px Arial";
+          this.canvasContext.fillText('PAUSED', this.width * 0.3, this.height * 0.5);
+          this.paused = true;
+        } else if (this.paused) {
+          this.gameLoop();
+          this.paused = false;
+        }
+      }
+    })
+  }
+
   deleteEnemy(enemy) {
     this.score += 10;
     let enemyGrid = this.getEnemyGrid(enemy);
@@ -169,7 +214,7 @@ class Canvas {
     }
     if (this.enimies.length <= 0) {
       this.gameContainerClass.appElement.removeChild(this.gameContainerClass.gameContainerElement);
-      this.gameContainerClass.appElement.appendChild(new EndScreen(this.width, this.height, this, this.gameContainerClass.appElement, 'CONSGRATULATION!!!').init());
+      this.gameContainerClass.appElement.appendChild(new EndScreen(this.width, this.height, this, this.gameContainerClass.appElement, 'CONGRATULATION!!!').init());
       window.cancelAnimationFrame(this.requestId);
     }
   }

@@ -1,6 +1,6 @@
 class Bullet {
 
-  SHOOTDELAY = 1000;
+  SHOOTDELAY = 5000;
 
   constructor(parentClass, lineOfFire, atAngle) {
     this.parentClass = parentClass;
@@ -19,7 +19,7 @@ class Bullet {
 
     this.circleRadius = 0.1;
 
-    this.bulletRadius = 5;
+    this.bulletRadius = 2;
 
     this.shootTime = 1;
   }
@@ -44,7 +44,7 @@ class Bullet {
       context.arc(this.bulletToX, this.bulletToY, this.bulletRadius, 0, 2 * Math.PI);
       context.fill();
       context.closePath();
-      this.circleRadius += 0.05;
+      this.circleRadius += 0.04;
     } else {
       this.shootTime++;
     }

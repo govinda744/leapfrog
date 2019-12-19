@@ -297,6 +297,8 @@ class Enemy {
           if (this.shootingBullet === undefined) {
             this.shootingBullet = new Bullet(this.parentClass, this.lineOfFire, this.rotationDegree);
             this.shootingBullet.shoot(context);
+            this.initRayCast(context);
+            this.drawRays(context);
           } else {
             this.shootingBullet.shoot(context);
             if (this.shootingBullet.circleRadius > 500) {
