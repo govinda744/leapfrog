@@ -19,7 +19,8 @@ class Rect {
   draw(context, sx, sy) {
     if (this.fillColor !== null) {
       context.beginPath();
-      context.fillStyle = this.fillColor;
+      context.rect(this.beginX, this.beginY, this.width, this.height);
+      context.fillStyle = '#ffffff00';
       context.fill();
     } else if (this.img !== null) {
       if (this.img.complete) {
@@ -32,7 +33,8 @@ class Rect {
     } else {
       context.beginPath();
       context.rect(this.beginX, this.beginY, this.width, this.height);
-      context.stroke();
+      context.fillStyle = '#ffffff00';
+      context.fill();
     }
   }
 

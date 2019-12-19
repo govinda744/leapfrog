@@ -16,6 +16,8 @@ class Canvas {
   canvasElement;
   canvasContext;
 
+  requestId;
+
   constructor(width, height, gameContainerClass) {
     this.height = height;
     this.width = width;
@@ -33,8 +35,14 @@ class Canvas {
     this.canvasElement.style.zIndex = 1;
 
     this.canvasElement.style.boxShadow = '0px 0px 10px #888888';
-    this.canvasElement.style.borderRadius = 25 + 'px';
+    this.canvasElement.style.borderRadius = 10 + 'px';
 
+    this.canvasElement.style.background = '#c0c0c0';
+
+    this.canvasElement.style.backgroundImage = 'repeating-linear-gradient(120deg, rgba(255,255,255,.1), rgba(255,255,255,.1) 1px, transparent 1px, transparent 60px), repeating-linear-gradient(60deg, rgba(255,255,255,.1), rgba(255,255,255,.1) 1px, transparent 1px, transparent 60px), linear-gradient(60deg, rgba(0,0,0,.1) 25%, transparent 25%, transparent 75%, rgba(0,0,0,.1) 75%, rgba(0,0,0,.1)), linear-gradient(120deg, rgba(0,0,0,.1) 25%, transparent 25%, transparent 75%, rgba(0,0,0,.1) 75%, rgba(0,0,0,.1))';
+
+    this.canvasElement.style.backgroundSize = '70px 120px';
+    
     this.canvasElement.height = this.height;
     this.canvasElement.width = this.width;
 
@@ -83,11 +91,9 @@ class Canvas {
   }
 
   gameLoop() {
-    window.requestAnimationFrame(this.gameLoop.bind(this));
-    // setInterval(function() {
+    this.requestId = window.requestAnimationFrame(this.gameLoop.bind(this));
     this.renderGrid();
     this.update();
-    // }.bind(this), 35);
   }
 
   initGrids() {
@@ -156,15 +162,34 @@ class Canvas {
   }
 
   deleteEnemy(enemy) {
+    let enemyGrid = this.getEnemyGrid(enemy);
     if (enemy instanceof Enemy) {
       for (let i = 0; i < this.enimies.length; i++) {
         if (this.enimies[i] === enemy) {
           delete this.enimies[i];
           this.player.followingEnemy = undefined;
           this.enimies.splice(i, 1);
-          break;
+        } else {
+          if (Math.max(Math.abs(enemy.beginX - this.enimies[i].beginX),Math.abs(enemy.beginY - this.enimies[i].beginY)) < enemy.proximityTo) {
+            this.enimies[i].increaseSpeed();
+            this.enimies[i].rushTo(enemyGrid);
+          }
         }
       }
+    }
+  }
+
+  getEnemyGrid(enemy) {
+    return this.grids[Math.floor(enemy.beginX / this.gridLength)][Math.floor(enemy.beginY / this.gridLength)];
+  }
+
+  killPlayer() {
+    if (this.player.playerLife <= 0) {
+      this.gameContainerClass.appElement.appendChild(new Start(this.width, this.height, this.gameContainerClass.appElement).init());
+      window.cancelAnimationFrame(this.requestId);
+      this.gameContainerClass.appElement.removeChild(this.gameContainerClass.gameContainerElement);
+    } else {
+      this.player.playerLife --;
     }
   }
 }
