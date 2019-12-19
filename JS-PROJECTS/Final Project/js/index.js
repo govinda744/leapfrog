@@ -5,6 +5,6 @@ window.onload = function() {
     width = 1000;
 
     for(let i = 0; i < apps.length; i++) {
-        apps.item(i).appendChild(new GameContainer(width, height, apps.item(i)).init());
+        apps.item(i).appendChild(new Start(width, height, apps.item(i)).init());
     }
 }

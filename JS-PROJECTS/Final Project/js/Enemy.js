@@ -7,6 +7,9 @@ function getRandomNumber(min, max) {
 class Enemy {
   moving = false;
   halt = false;
+  followingPlayer = false;
+
+  ENEMY_ABSOLUTE_SPEED = 0.6;
 
   enemySpeed = 0.6;
 
@@ -24,9 +27,13 @@ class Enemy {
   spriteCounter = 7;
 
   lightRays;
+  lightCollidedAtOffsetX;
+  lightCollidedAtOffsetY;
 
   rotationDegree;
   rotate = 0;
+
+  proximityTo = 500;
 
   constructor(gridCell) {
     this.sx = 0;
@@ -47,21 +54,42 @@ class Enemy {
     this.initRayCast();
   }
 
+  resetSpeed() {
+    this.enemySpeed = 0.6;
+  }
+
+  increaseSpeed() {
+    this.enemySpeed *= 2;
+    this.enemySpeed = this.enemySpeed > (2 * this.ENEMY_ABSOLUTE_SPEED) ? (2 * this.ENEMY_ABSOLUTE_SPEED) : this.enemySpeed;
+  }
+
   initEnemyGrid() {
     this.enemyGrid = new GridCanvas(this.parentClass, this, this.sx, this.sy, this.beginX, this.beginY, this.width, this.height, this.enemyImage);
     this.enemyGridContext = this.enemyGrid.init();
   }
 
   initRandomMove() {
-    let row = getRandomNumber(1, this.parentClass.grids.length - 1);
-    let column = getRandomNumber(1, this.parentClass.grids[row].length - 1);
-    if (this.parentClass.grids[row][column].whatIs === MapComponenets.PATH) {
+    if (!this.followingPlayer) {
+      let row = getRandomNumber(1, this.parentClass.grids.length - 1);
+      let column = getRandomNumber(1, this.parentClass.grids[row].length - 1);
+      if (this.parentClass.grids[row][column].whatIs === MapComponenets.PATH) {
+        this.moving = true;
+        this.moveTo(this.parentClass.grids[row][column]);
+      }
+    } else if (this.followingPlayer) {
+      this.increaseSpeed();
+      this.rushTo(this.parentClass.player.getPlayerGrid());
       this.moving = true;
-      this.moveTo(this.parentClass.grids[row][column]);
+      this.followingPlayer = false;
     }
   }
 
   moveTo(grid) {
+    this.pathToMove = AstarSearch.findPath(this.parentClass.grids, this.getEnemyGrid(), grid);
+    this.update();
+  }
+
+  rushTo(grid) {
     this.pathToMove = AstarSearch.findPath(this.parentClass.grids, this.getEnemyGrid(), grid);
     this.update();
   }
@@ -83,7 +111,10 @@ class Enemy {
       if (this.lightRays) {
         for (let i = 0; i < this.lightRays.length; i++) {
           if (this.parentClass.player.playerCoordinates.isCollidingWith(this.lightRays[i])) {
-            this.shootAtPlayer();
+            let collidedAt = this.parentClass.player.playerCoordinates.getCollidingPoint(this.lightRays[i]);
+            this.lightCollidedAtOffsetX = collidedAt.coX - this.parentClass.player.beginX;
+            this.lightCollidedAtOffsetY = collidedAt.coY - this.parentClass.player.beginY;
+            this.shootAtPlayer(collidedAt);
             break;
           }
         }
@@ -96,8 +127,9 @@ class Enemy {
       this.fixToGrid();
       this.pathToMove = undefined;
       this.halt = true;
+      this.followingPlayer = true;
     }
-    this.lineOfFire = new Line(new Vector(this.lightRays[0].beginX, this.lightRays[0].beginY), new Vector(this.parentClass.player.beginX + (this.width / 2), this.parentClass.player.beginY + (this.height / 2)), 1, 'black', 'butt');
+    this.lineOfFire = new Line(new Vector(this.lightRays[0].beginX, this.lightRays[0].beginY), new Vector(this.parentClass.player.beginX + this.lightCollidedAtOffsetX, this.parentClass.player.beginY + this.lightCollidedAtOffsetY), 1, 'black', 'butt');
   }
 
   moveByIncrement() {
@@ -115,6 +147,7 @@ class Enemy {
       if (this.pathToMove.length) {
         this.update();
       } else if (this.pathToMove.length === 0 && !this.halt) {
+        this.resetSpeed();
         this.moving = false;
       }
     }
@@ -136,6 +169,7 @@ class Enemy {
       if (this.pathToMove.length) {
         this.update();
       } else if (this.pathToMove.length === 0 && !this.halt) {
+        this.resetSpeed();
         this.moving = false;
       }
     }
@@ -262,7 +296,7 @@ class Enemy {
           this.rotationDegree = angle * (180 / Math.PI);
           this.rotationDegree = (this.rotationDegree + 360) % 360;
           if (this.shootingBullet === undefined) {
-            this.shootingBullet = new Bullet(this.parentClass, this.lineOfFire.beginX, this.lineOfFire.beginY, this.lineOfFire.endX, this.lineOfFire.endY, this.rotationDegree);
+            this.shootingBullet = new Bullet(this.parentClass, this.lineOfFire, this.rotationDegree);
             this.shootingBullet.shoot(context);
           } else {
             this.shootingBullet.shoot(context);

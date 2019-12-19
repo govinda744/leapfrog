@@ -1,8 +1,10 @@
 class Player {
-  playerSpeed = 3;
+  playerSpeed = 4;
   pathToMove;
 
   followingEnemy;
+
+  playerLife = 7;
 
   playerGrid;
   playerGridContext;

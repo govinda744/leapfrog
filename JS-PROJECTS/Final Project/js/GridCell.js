@@ -18,10 +18,6 @@ class GridCell {
     this.obstacleImage.src = './images/wood_box.png';
     this.obstacleImage.onload = ()=>{};
 
-    this.tileImage = new Image();
-    this.tileImage.src = './images/tile-new.png';
-    this.tileImage.onload = () => {};
-
     this.init();
   }
 
@@ -35,7 +31,6 @@ class GridCell {
 
   draw(context) {
     if (this.whatIs === MapComponenets.PATH) {
-      this.gridCoordinates.img = this.tileImage;
       this.gridCoordinates.draw(context);
     } else if (this.whatIs === MapComponenets.OBSTACLE){
       this.gridCoordinates.img = this.obstacleImage;
