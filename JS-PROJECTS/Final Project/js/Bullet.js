@@ -1,6 +1,6 @@
 class Bullet {
 
-  SHOOTDELAY = 10000;
+  SHOOTDELAY = 1000;
 
   constructor(parentClass, lineOfFire, atAngle) {
     this.parentClass = parentClass;

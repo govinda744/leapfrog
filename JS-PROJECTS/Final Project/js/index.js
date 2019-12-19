@@ -6,5 +6,6 @@ window.onload = function() {
 
     for(let i = 0; i < apps.length; i++) {
         apps.item(i).appendChild(new Start(width, height, apps.item(i)).init());
+        // apps.item(i).appendChild(new EndScreen(this.width, this.height, apps.item(i)).init());
     }
 }
