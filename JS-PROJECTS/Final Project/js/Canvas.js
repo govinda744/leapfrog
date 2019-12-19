@@ -18,15 +18,21 @@ class Canvas {
 
   requestId;
 
-  constructor(width, height, gameContainerClass) {
+  score = 0;
+
+  constructor(width, height, maps, level, playerConfig, enemyConfig, gameContainerClass) {
     this.height = height;
     this.width = width;
+
+    this.maps = maps;
+    this.level = level;
+    this.playerConfig = playerConfig;
+    this.enemyConfig = enemyConfig;
+
     this.gameContainerClass = gameContainerClass;
   }
 
   init() {
-
-    this.level = 1;
 
     this.canvasElement = document.createElement("canvas");
     this.canvasContext = this.canvasElement.getContext("2d");
@@ -42,31 +48,14 @@ class Canvas {
     this.canvasElement.style.backgroundImage = 'repeating-linear-gradient(120deg, rgba(255,255,255,.1), rgba(255,255,255,.1) 1px, transparent 1px, transparent 60px), repeating-linear-gradient(60deg, rgba(255,255,255,.1), rgba(255,255,255,.1) 1px, transparent 1px, transparent 60px), linear-gradient(60deg, rgba(0,0,0,.1) 25%, transparent 25%, transparent 75%, rgba(0,0,0,.1) 75%, rgba(0,0,0,.1)), linear-gradient(120deg, rgba(0,0,0,.1) 25%, transparent 25%, transparent 75%, rgba(0,0,0,.1) 75%, rgba(0,0,0,.1))';
 
     this.canvasElement.style.backgroundSize = '70px 120px';
-    
+
     this.canvasElement.height = this.height;
     this.canvasElement.width = this.width;
 
-    this.getJsonData(this.setMapData.bind(this));
-
-    return this.canvasElement;
-  }
-
-  getJsonData(callBack) {
-    let request = new XMLHttpRequest();
-    request.open('GET', './js/Levels/levels.json', true);
-    request.send();
-    request.onload = function () {
-      if (request.status === 200) {
-        let mapData = JSON.parse(request.responseText);
-        callBack(mapData);
-      }
-    }
-  }
-
-  setMapData(mapData) {
-    this.maps = mapData;
     this.initGame();
     this.gameLoop();
+
+    return this.canvasElement;
   }
 
   initGame() {
@@ -98,14 +87,14 @@ class Canvas {
 
   initGrids() {
     let upperLeftX = -this.gridLength;
-    for (let rows = 0; rows < this.maps[this.level][0].length; rows++) {
+    for (let rows = 0; rows < this.maps[0].length; rows++) {
       upperLeftX += this.gridLength;
       let upperLeftY = -this.gridLength;
       let columnsGrid = [];
-      for (let columns = 0; columns < this.maps[this.level].length; columns++) {
+      for (let columns = 0; columns < this.maps.length; columns++) {
         upperLeftY += this.gridLength;
         columnsGrid[columns] = new GridCell(this, upperLeftX, upperLeftY, this.gridLength, this.gridLength);
-        let isThis = this.maps[this.level][columns][rows];
+        let isThis = this.maps[columns][rows];
         columnsGrid[columns].whatIs = isThis;
         if (isThis === MapComponenets.PLAYER) {
           columnsGrid[columns].whatIs = MapComponenets.PATH;
@@ -122,11 +111,11 @@ class Canvas {
   }
 
   initEnemy(gridCell) {
-    this.enimies.push(new Enemy(gridCell));
+    this.enimies.push(new Enemy(gridCell, this.enemyConfig));
   }
 
   initPlayer(gridCell) {
-    this.player = new Player(gridCell);
+    this.player = new Player(gridCell, this.playerConfig);
   }
 
   drawPlayer() {
@@ -162,6 +151,7 @@ class Canvas {
   }
 
   deleteEnemy(enemy) {
+    this.score += 10;
     let enemyGrid = this.getEnemyGrid(enemy);
     if (enemy instanceof Enemy) {
       for (let i = 0; i < this.enimies.length; i++) {
@@ -170,12 +160,17 @@ class Canvas {
           this.player.followingEnemy = undefined;
           this.enimies.splice(i, 1);
         } else {
-          if (Math.max(Math.abs(enemy.beginX - this.enimies[i].beginX),Math.abs(enemy.beginY - this.enimies[i].beginY)) < enemy.proximityTo) {
+          if (Math.max(Math.abs(enemy.beginX - this.enimies[i].beginX), Math.abs(enemy.beginY - this.enimies[i].beginY)) < enemy.proximityTo) {
             this.enimies[i].increaseSpeed();
             this.enimies[i].rushTo(enemyGrid);
           }
         }
       }
+    }
+    if (this.enimies.length <= 0) {
+      this.gameContainerClass.appElement.removeChild(this.gameContainerClass.gameContainerElement);
+      this.gameContainerClass.appElement.appendChild(new EndScreen(this.width, this.height, this, this.gameContainerClass.appElement, 'CONSGRATULATION!!!').init());
+      window.cancelAnimationFrame(this.requestId);
     }
   }
 
@@ -185,11 +180,11 @@ class Canvas {
 
   killPlayer() {
     if (this.player.playerLife <= 0) {
-      this.gameContainerClass.appElement.appendChild(new Start(this.width, this.height, this.gameContainerClass.appElement).init());
-      window.cancelAnimationFrame(this.requestId);
       this.gameContainerClass.appElement.removeChild(this.gameContainerClass.gameContainerElement);
+      this.gameContainerClass.appElement.appendChild(new EndScreen(this.width, this.height, this, this.gameContainerClass.appElement, 'GAME OVER').init());
+      window.cancelAnimationFrame(this.requestId);
     } else {
-      this.player.playerLife --;
+      this.player.playerLife--;
     }
   }
 }
