@@ -9,10 +9,6 @@ class Enemy {
   halt = false;
   followingPlayer = false;
 
-  ENEMY_ABSOLUTE_SPEED = 0.6;
-
-  enemySpeed = 0.6;
-
   shootingBullet;
 
   movingId;
@@ -33,11 +29,14 @@ class Enemy {
   rotationDegree;
   rotate = 0;
 
-  proximityTo = 500;
-
-  constructor(gridCell) {
+  constructor(gridCell, enemyConfig) {
     this.sx = 0;
     this.sy = 300;
+
+    this.ENEMY_ABSOLUTE_SPEED = enemyConfig.speed;
+    this.enemySpeed = this.ENEMY_ABSOLUTE_SPEED;
+
+    this.proximityTo = enemyConfig.proximity;
 
     this.parentClass = gridCell.parentClass;
     this.beginX = gridCell.beginX;

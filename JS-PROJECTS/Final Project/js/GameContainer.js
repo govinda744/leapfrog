@@ -8,9 +8,15 @@ class GameContainer {
 
     gameContainerElement;
 
-    constructor(width, height, appElement) {
+    constructor(width, height, maps, level, playerConfig, enemyConfig, appElement) {
         this.height = height;
         this.width = width;
+
+        this.maps = maps;
+        this.level = level;
+        this.playerConfig = playerConfig;
+        this.enemyConfig = enemyConfig;
+
         this.appElement = appElement;
     }
 
@@ -30,6 +36,6 @@ class GameContainer {
     }
 
     initCanvas() {
-        this.gameContainerElement.appendChild(new Canvas(this.canvasWidth, this.canvasHeight, this).init());
+        this.gameContainerElement.appendChild(new Canvas(this.canvasWidth, this.canvasHeight, this.maps, this.level, this.playerConfig, this.enemyConfig, this).init());
     }
 }

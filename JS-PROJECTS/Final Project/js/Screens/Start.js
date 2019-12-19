@@ -42,7 +42,7 @@ class Start {
     }
     this.startButton.onclick = () => {
       this.appElement.removeChild(this.startElement);
-      this.appElement.appendChild(new GameContainer(width, height, this.appElement).init());
+      this.appElement.appendChild(new GameConfig(width, height, this.appElement).init());
     }
 
     this.startElement.appendChild(this.startButton);

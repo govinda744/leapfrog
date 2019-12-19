@@ -1,10 +1,7 @@
 class Player {
-  playerSpeed = 4;
   pathToMove;
 
   followingEnemy;
-
-  playerLife = 7;
 
   playerGrid;
   playerGridContext;
@@ -15,9 +12,12 @@ class Player {
   rotationDegree;
   rotate = 0;
 
-  constructor(gridCell) {
-    this.sx = 0;
-    this.sy = 0;
+  constructor(gridCell, playerConfig) {
+    this.sx = playerConfig.sx;
+    this.sy = playerConfig.sy;
+
+    this.playerSpeed = playerConfig.speed;
+    this.playerLife = playerConfig.life;
 
     this.parentClass = gridCell.parentClass;
     this.beginX = gridCell.beginX;
